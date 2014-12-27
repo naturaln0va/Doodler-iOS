@@ -15,7 +15,6 @@ protocol SphereMenuDelegate{
 
 class SphereMenu:UIView, UICollisionBehaviorDelegate{
     
-
     let kItemInitTag:Int = 1001
     let kAngleOffset:CGFloat = CGFloat(M_PI_2) / 2.25
     let kSphereLength:CGFloat = 80

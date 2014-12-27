@@ -56,6 +56,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4880D4691A4F74430077E68B /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				48B06CE51A1A7A8D00536308 /* SphereMenu.swift */,
+				48B38C591A16C4110040DE29 /* UtilExtensions.swift */,
+			);
+			name = Util;
+			sourceTree = "<group>";
+		};
+		4880D46A1A4F74620077E68B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				48B38C551A16C4110040DE29 /* DrawView.swift */,
+				48B38C571A16C4110040DE29 /* PreView.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		4880D46B1A4F749C0077E68B /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				48B38C5A1A16C4110040DE29 /* ViewController.swift */,
+				48B38C581A16C4110040DE29 /* SettingsViewController.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
 		48FA2EC11A0C100F002CE8B9 = {
 			isa = PBXGroup;
 			children = (
@@ -76,13 +103,9 @@
 		48FA2ECC1A0C100F002CE8B9 /* DrawingApp */ = {
 			isa = PBXGroup;
 			children = (
-				48B38C541A16C4110040DE29 /* AppDelegate.swift */,
-				48B38C5A1A16C4110040DE29 /* ViewController.swift */,
-				48B38C581A16C4110040DE29 /* SettingsViewController.swift */,
-				48B06CE51A1A7A8D00536308 /* SphereMenu.swift */,
-				48B38C551A16C4110040DE29 /* DrawView.swift */,
-				48B38C571A16C4110040DE29 /* PreView.swift */,
-				48B38C591A16C4110040DE29 /* UtilExtensions.swift */,
+				4880D46B1A4F749C0077E68B /* Controllers */,
+				4880D46A1A4F74620077E68B /* Views */,
+				4880D4691A4F74430077E68B /* Util */,
 				48B38C681A16C42F0040DE29 /* Images.xcassets */,
 				48FA2ECD1A0C100F002CE8B9 /* Supporting Files */,
 			);
@@ -92,6 +115,7 @@
 		48FA2ECD1A0C100F002CE8B9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				48B38C541A16C4110040DE29 /* AppDelegate.swift */,
 				486E62861A30071B00E5A47F /* Doodler.png */,
 				486E62871A30071B00E5A47F /* music_marimba_chord.wav */,
 				486E62881A30071B00E5A47F /* short_whoosh1.wav */,
@@ -294,7 +318,7 @@
 				INFOPLIST_FILE = Doodler/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -305,7 +329,7 @@
 				INFOPLIST_FILE = Doodler/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
