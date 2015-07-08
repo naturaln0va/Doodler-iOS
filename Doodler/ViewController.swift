@@ -10,7 +10,7 @@ import UIKit
 import MultipeerConnectivity
 import AssetsLibrary
 
-class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessionDelegate, UIScrollViewDelegate, RANewDocumentControllerDelegate {
+class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessionDelegate, UIScrollViewDelegate, RANewDocumentControllerDelegate, UIGestureRecognizerDelegate {
 
     var drawingCanvas: DrawableView!
     var whiteView: UIView!
@@ -18,6 +18,8 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
     
     var drawingScale: CGFloat = 1.0
     var previousScale: CGFloat = 0.0
+    
+    var panningCoord: CGPoint?
     
     let notificationCenter = NSNotificationCenter.defaultCenter()
     
@@ -38,12 +40,15 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
     @IBOutlet weak var strokeSizeSlider: UISlider!
     
     private lazy var pinchGesture: UIPinchGestureRecognizer = {
-        return UIPinchGestureRecognizer(target: self, action: "handlePinch:")
+        let pinch = UIPinchGestureRecognizer(target: self, action: "handlePinch:")
+        pinch.delegate = self
+        return pinch
     }()
     
     private lazy var panGesture: UIPanGestureRecognizer = {
         let pan = UIPanGestureRecognizer(target: self, action: "handlePan:")
         pan.minimumNumberOfTouches = 2
+        pan.delegate = self
         return pan
     }()
     
@@ -205,14 +210,19 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
     
     func handlePan(gesture: UIPanGestureRecognizer)
     {
-        /*
-        CGPoint translation = [gestureRecognizer translationInView:[piece superview]];
-        
-        [piece setCenter:CGPointMake([piece center].x + translation.x, [piece center].y + translation.y)];
-        */
-        let translation = gesture.translationInView(drawingCanvas.superview!)
-        
-        drawingCanvas.center = CGPoint(x: drawingCanvas.center.x + translation.x, y: drawingCanvas.center.y + translation.y)
+        if let gestureView = gesture.view {
+            if gesture.state == .Began {
+                panningCoord = gesture.locationInView(gestureView)
+            }
+            
+            if let panCoord = panningCoord {
+                let newCoord = gesture.locationInView(gestureView)
+                let dx = (newCoord.x - panCoord.x) * 0.25
+                let dy = (newCoord.y - panCoord.y) * 0.25
+                
+                gestureView.frame = CGRect(x: gestureView.frame.origin.x + dx, y: gestureView.frame.origin.y + dy, width: gestureView.frame.size.width, height: gestureView.frame.size.height)
+            }
+        }
     }
     
     func handlePinch(gesture: UIPinchGestureRecognizer)
@@ -232,6 +242,21 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
                 drawingScale = currScale
             }
         }
+    }
+    
+    //MARK: - UIGestureRecognizer Delegate
+    
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        
+        if gestureRecognizer.isKindOfClass(UIPinchGestureRecognizer.self) || otherGestureRecognizer.isKindOfClass(UIPinchGestureRecognizer.self) {
+            return true
+        }
+        
+        if gestureRecognizer.isKindOfClass(UIPanGestureRecognizer.self) || otherGestureRecognizer.isKindOfClass(UIPanGestureRecognizer.self) {
+            return true
+        }
+        
+        return false
     }
     
     //MARK: - Helper Functions
