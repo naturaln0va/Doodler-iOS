@@ -9,12 +9,7 @@
 import UIKit
 
 class SettingsViewController: UIViewController {
-
-    @IBOutlet weak var lineWidthSlider: UISlider!
-    @IBOutlet weak var lineLabel: UILabel!
-    @IBOutlet weak var lineView: PreView!
     
-    let defaults = NSUserDefaults.standardUserDefaults()
     @IBOutlet weak var rgbView: UIView!
     @IBOutlet weak var redSlider: UISlider!
     @IBOutlet weak var greenSlider: UISlider!
@@ -24,20 +19,10 @@ class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        lineWidthSlider.setValue(Float(defaults.objectForKey("lineWidth") as CGFloat), animated: true)
-        hexToRGBSliders(defaults.objectForKey("color") as Int)
+        setUpColorSlidersForColor(SettingsController.sharedController.currentStrokeColor())
         colorLabel.text = "Color: #\(componentToHex(Int(redSlider.value)))\(componentToHex(Int(greenSlider.value)))\(componentToHex(Int(blueSlider.value)))"
         rgbView.layer.cornerRadius = 11.0
         rgbView.backgroundColor = colorFromSliders()
-        lineView.drawColor = colorFromSliders()
-        lineView.lineWidth = CGFloat(lineWidthSlider.value)
-        lineView.setNeedsDisplay()
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        defaults.synchronize()
     }
     
     override func prefersStatusBarHidden() -> Bool {
@@ -46,58 +31,45 @@ class SettingsViewController: UIViewController {
     
     @IBAction func redChange(sender: AnyObject) {
         rgbView.backgroundColor = colorFromSliders()
-        lineView.drawColor = colorFromSliders()
         colorLabel.text = "Color: #\(componentToHex(Int(redSlider.value)))\(componentToHex(Int(greenSlider.value)))\(componentToHex(Int(blueSlider.value)))"
-        lineView.setNeedsDisplay()
     }
     
     @IBAction func greenChange(sender: AnyObject) {
         rgbView.backgroundColor = colorFromSliders()
-        lineView.drawColor = colorFromSliders()
         colorLabel.text = "Color: #\(componentToHex(Int(redSlider.value)))\(componentToHex(Int(greenSlider.value)))\(componentToHex(Int(blueSlider.value)))"
-        lineView.setNeedsDisplay()
     }
     
     @IBAction func blueChange(sender: AnyObject) {
         rgbView.backgroundColor = colorFromSliders()
-        lineView.drawColor = colorFromSliders()
         colorLabel.text = "Color: #\(componentToHex(Int(redSlider.value)))\(componentToHex(Int(greenSlider.value)))\(componentToHex(Int(blueSlider.value)))"
-        lineView.setNeedsDisplay()
-    }
-    
-    @IBAction func strokeWidthAction(sender: AnyObject) {
-        lineView.lineWidth = CGFloat(lineWidthSlider.value)
-        lineView.setNeedsDisplay()
     }
     
     @IBAction func cancelSettings() {
+        RAAudioEngine.sharedEngine.play(SoundEffect.TapSoundEffect)
         self.dismissViewControllerAnimated(true, completion: { () -> Void in
         })
     }
     
     @IBAction func saveSettings() {
-        defaults.setObject(rgbToHex(componentToHex(Int(redSlider.value)), g: componentToHex(Int(greenSlider.value)), b: componentToHex(Int(blueSlider.value))), forKey: "color")
-        defaults.setObject(CGFloat(lineWidthSlider.value), forKey: "lineWidth")
-        defaults.synchronize()
-        self.dismissViewControllerAnimated(true, completion: { () -> Void in
-        })
+        RAAudioEngine.sharedEngine.play(SoundEffect.TapSoundEffect)
+        SettingsController.sharedController.setStrokeColor(UIColor(hex: rgbToHex(componentToHex(Int(redSlider.value)), g: componentToHex(Int(greenSlider.value)), b: componentToHex(Int(blueSlider.value)))))
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    func hexToRGBSliders(hex: Int) {
-        let red = Float((hex & 0xFF0000) >> 16)
-        let green = Float((hex & 0xFF00) >> 8)
-        let blue = Float(hex & 0xFF)
-        
-        redSlider.setValue(red, animated: true)
-        greenSlider.setValue(green, animated: true)
-        blueSlider.setValue(blue, animated: true)
+    private func setUpColorSlidersForColor(color: UIColor)
+    {
+        if let components = color.rgb() {
+            redSlider.setValue(components[0] * 255.0, animated: true)
+            greenSlider.setValue(components[1] * 255.0, animated: true)
+            blueSlider.setValue(components[2] * 255.0, animated: true)
+        }
     }
     
     func componentToHex(component: Int) -> String {
         if component == 0 {
             return "00"
         } else {
-            return NSString(format: "%2X", component)
+            return NSString(format: "%2X", component) as String
         }
     }
     
@@ -113,5 +85,4 @@ class SettingsViewController: UIViewController {
         
         return UIColor(red: r, green: g, blue: b, alpha: 1.0)
     }
-
 }

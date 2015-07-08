@@ -9,18 +9,17 @@
 import UIKit
 import MultipeerConnectivity
 import AssetsLibrary
-import AudioToolbox
 
-class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessionDelegate, SphereMenuDelegate {
+class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessionDelegate, UIScrollViewDelegate, RANewDocumentControllerDelegate {
 
-    var drawView: DrawView!
-    var menu: SphereMenu!
-    let notificationCenter = NSNotificationCenter.defaultCenter()
-    let defaults = NSUserDefaults.standardUserDefaults()
+    var drawingCanvas: DrawableView!
+    var whiteView: UIView!
+    var logoImageView: UIImageView!
     
-    var tapAudioEffect: SystemSoundID = 0
-    var saveAudioEffect: SystemSoundID = 0
-    var clearAudioEffect: SystemSoundID = 0
+    var drawingScale: CGFloat = 1.0
+    var previousScale: CGFloat = 0.0
+    
+    let notificationCenter = NSNotificationCenter.defaultCenter()
     
     let service = "drawing"
     
@@ -29,97 +28,96 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
     var session: MCSession!
     var peerID: MCPeerID!
     
+    //Outlets
+    @IBOutlet weak var controlBar: UIView!
+    @IBOutlet weak var colorButton: UIView!
+    @IBOutlet weak var pencilButton: UIButton!
+    @IBOutlet weak var eraserButton: UIButton!
+    @IBOutlet weak var shareButton: UIButton!
+    @IBOutlet weak var connectButton: UIButton!
+    @IBOutlet weak var strokeSizeSlider: UISlider!
+    
+    private lazy var pinchGesture: UIPinchGestureRecognizer = {
+        return UIPinchGestureRecognizer(target: self, action: "handlePinch:")
+    }()
+    
+    private lazy var panGesture: UIPanGestureRecognizer = {
+        let pan = UIPanGestureRecognizer(target: self, action: "handlePan:")
+        pan.minimumNumberOfTouches = 2
+        return pan
+    }()
+    
+    //MARK: - VC Delegate
+    
+    override func canBecomeFirstResponder() -> Bool {
+        return true
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let w = UIScreen.mainScreen().nativeBounds.width / UIScreen.mainScreen().scale
-        let h = UIScreen.mainScreen().nativeBounds.height / UIScreen.mainScreen().scale
-        let heightForView = round(h - 69)
+        view.insertSubview(GridView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)), belowSubview: controlBar)
         
-        drawView = DrawView(frame: CGRect(x: 0, y: 0, width: w, height: h))
-        drawView.contentScaleFactor = UIScreen.mainScreen().scale
-        drawView.backgroundColor = UIColor.whiteColor()
-        drawView.userInteractionEnabled = true
-        view.addSubview(drawView)
-        
-        let start = UIImage(named: "StartButton")
-        let settingsButton = UIImage(named: "SettingsButton")
-        let saveButton = UIImage(named: "SaveButton")
-        let clearButton = UIImage(named: "TrashButton")
-        let connectButton = UIImage(named: "ConnectButton")
-        var images: [UIImage] = [settingsButton!, saveButton!, clearButton!, connectButton!]
-        menu = SphereMenu(startPoint: CGPoint(x: (start!.size.width / 2) + 15, y: CGRectGetMaxY(self.view.frame) - (start!.size.height / 2) - 15), startImage: start!, submenuImages: images)
-        menu.delegate = self
-        self.view.addSubview(menu)
-        
-        var tapSoundPath = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("woody_click", ofType: "wav")!)
-        var saveSoundPath = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("music_marimba_chord", ofType: "wav")!)
-        var clearSoundPath = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("short_whoosh1", ofType: "wav")!)
-        
-        AudioServicesCreateSystemSoundID(tapSoundPath! as CFURLRef, &tapAudioEffect)
-        AudioServicesCreateSystemSoundID(saveSoundPath! as CFURLRef, &saveAudioEffect)
-        AudioServicesCreateSystemSoundID(clearSoundPath! as CFURLRef, &clearAudioEffect)
-        
-        self.peerID = MCPeerID(displayName: UIDevice.currentDevice().name)
-        self.session = MCSession(peer: peerID)
-        self.session.delegate = self
+        peerID = MCPeerID(displayName: UIDevice.currentDevice().name)
+        session = MCSession(peer: peerID)
+        session.delegate = self
         
         //Creation of the browser controller
-        self.browser = MCBrowserViewController(serviceType: service, session: self.session)
-        self.browser.delegate = self
+        browser = MCBrowserViewController(serviceType: service, session: session)
+        browser.delegate = self
         
-        self.assistant = MCAdvertiserAssistant(serviceType: service, discoveryInfo: nil, session: self.session)
+        assistant = MCAdvertiserAssistant(serviceType: service, discoveryInfo: nil, session: session)
+        assistant.start()
         
-        self.assistant.start()
-        
-        notificationCenter.addObserver(self, selector: Selector("lineToSend"), name: "NOTIFICATION_LINE_TO_SEND", object: drawView)
+        notificationCenter.addObserver(self, selector: Selector("lineToSend"), name: "NOTIFICATION_LINE_TO_SEND", object: nil)
         notificationCenter.addObserver(self, selector: Selector("shutDownAdvertiser"), name: "NOTIFICATION_SHUT_DOWN_ADVERTISER", object: UIApplication.sharedApplication().delegate)
         notificationCenter.addObserver(self, selector: Selector("startAdvertiser"), name: "NOTIFICATION_START_ADVERTISER", object: UIApplication.sharedApplication().delegate)
         
-        defaults.setObject(10.0, forKey: "lineWidth")
-        defaults.setObject(0x000000, forKey: "color")
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        if defaults.objectForKey("lineWidth") as CGFloat > 0 {
-            drawView.lineWidth = defaults.objectForKey("lineWidth") as CGFloat
+        colorButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "colorButtonTapped"))
+        strokeSizeSlider.setValue(SettingsController.sharedController.currentStrokeWidth(), animated: false)
+        
+        delay(0.5) {
+            self.setUpWithSize(CGSize(width: 1024.0, height: 1024.0))
         }
     }
     
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        //AudioServicesDisposeSystemSoundID(tapAudioEffect)
-        //AudioServicesDisposeSystemSoundID(saveAudioEffect)
-        
-        defaults.synchronize()
-    }
-    
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        for touch: AnyObject in touches {
-            let location = touch.locationInView(self.view)
-            if CGRectContainsPoint(menu.frame, location) {
-                AudioServicesPlaySystemSound(tapAudioEffect)
-            }
+    func setUpWithSize(size: CGSize) {
+        if let canvas = drawingCanvas {
+            canvas.removeFromSuperview()
+            drawingCanvas = nil
         }
+        
+        drawingCanvas = DrawableView(frame: CGRect(x: 0, y: 0, width: size.width, height: size.height))
+        drawingCanvas.center = view.center
+        drawingCanvas.userInteractionEnabled = true
+        drawingCanvas.alpha = 0.0
+        
+        view.insertSubview(drawingCanvas, belowSubview: controlBar)
+        
+        drawingCanvas.addGestureRecognizer(pinchGesture)
+        drawingCanvas.addGestureRecognizer(panGesture)
+        
+        UIView.animateWithDuration(0.4, animations: {
+            self.drawingCanvas.alpha = 1.0
+        })
     }
     
     override func prefersStatusBarHidden() -> Bool {
         return true
     }
     
-    func clearTapped() {
+    //MARK: - Button Actions
+    
+    func clearScreen() {
         let alertController = UIAlertController(title: "Clear Screen?", message: "This cannot be undone.", preferredStyle: .Alert)
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { _ in
-            print("Crisis Averted :)")
         }
         alertController.addAction(cancelAction)
         
         let destroyAction = UIAlertAction(title: "Clear", style: .Destructive) { _ in
-            AudioServicesPlaySystemSound(self.clearAudioEffect)
-            self.drawView.image = nil
-            self.drawView.bufferImageView.image = nil
+            RAAudioEngine.sharedEngine.play(.ClearSoundEffect)
+            self.drawingCanvas.clear()
         }
         alertController.addAction(destroyAction)
         
@@ -128,18 +126,24 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
         }
     }
     
-    func saveTapped() {
-        UIGraphicsBeginImageContextWithOptions(self.drawView.frame.size, false, 0.0)
-        drawView.image?.drawInRect(CGRect(x: 0, y: 0, width: self.drawView.frame.size.width, height: self.drawView.frame.size.height))
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
+    func colorButtonTapped()
+    {
+        RAAudioEngine.sharedEngine.play(.TapSoundEffect)
+        
+        performSegueWithIdentifier("settings", sender: self)
+    }
+    
+    @IBAction func saveTapped() {
+        RAAudioEngine.sharedEngine.play(.TapSoundEffect)
+        
+        let image = drawingCanvas.imageByCapturing()
         let authStatus = ALAssetsLibrary.authorizationStatus()
         if authStatus == .Authorized {
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 UIImageWriteToSavedPhotosAlbum(image, self, Selector("image:didFinishSavingWithError:contextInfo:"), nil)
             })
         } else if authStatus == .Denied {
-            showMessageBannerWithText("Photo Access Blocked", color: UIColor.redColor())
+            showMessageBannerWithText("Photo Access Blocked", color: UIColor.redColor(), completion: nil)
         } else if authStatus == .NotDetermined {
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 UIImageWriteToSavedPhotosAlbum(image, self, Selector("image:didFinishSavingWithError:contextInfo:"), nil)
@@ -150,18 +154,90 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
     
     func image(image: UIImage, didFinishSavingWithError error: NSError!, contextInfo:UnsafePointer<Void>) {
         if error != nil {
-            showMessageBannerWithText("Error Saving Image", color: UIColor(hex: 0xc0392b))
+            showMessageBannerWithText("Error Saving Image", color: UIColor(hex: 0xc0392b), completion: nil)
         }
-        AudioServicesPlaySystemSound(saveAudioEffect)
-        showMessageBannerWithText("Image Saved", color: UIColor(hex: 0x27ae60))
+        RAAudioEngine.sharedEngine.play(.SaveSoundEffect)
+        showMessageBannerWithText("Image Saved", color: UIColor(hex: 0x27ae60), completion: {
+            if self.session.connectedPeers.count == 0 {
+                let alertController = UIAlertController(title: "New Document", message: "Would you like to create a new document?", preferredStyle: .Alert)
+                
+                let cancelAction = UIAlertAction(title: "No, thanks", style: .Cancel) { _ in
+                }
+                alertController.addAction(cancelAction)
+                
+                let destroyAction = UIAlertAction(title: "Yes, please", style: .Default) { _ in
+                    self.delay(0.2) {
+                        self.setUpWithSize(CGSize(width: 1024.0, height: 1024.0))
+                    }
+                }
+                alertController.addAction(destroyAction)
+                
+                self.presentViewController(alertController, animated: true) {
+                    // ...
+                }
+            }
+        })
     }
     
-    func showBrowser() {
+    @IBAction func strokeSliderUpdated(sender: UISlider) {
+        SettingsController.sharedController.setStrokeWidth(sender.value)
+    }
+    
+    @IBAction func showBrowser() {
+        RAAudioEngine.sharedEngine.play(.TapSoundEffect)
+        
         self.presentViewController(browser, animated: true, completion: nil)
     }
     
-    func showSettings() {
-        performSegueWithIdentifier("settings", sender: self)
+    @IBAction func eraserButtonTapped(sender: AnyObject) {
+        RAAudioEngine.sharedEngine.play(.TapSoundEffect)
+        
+        //drawingCanvas.eraserEnabled = true
+    }
+    
+    @IBAction func pencilButtonTapped(sender: AnyObject) {
+        RAAudioEngine.sharedEngine.play(.TapSoundEffect)
+        
+        //drawingCanvas.eraserEnabled = false
+    }
+    
+    //MARK: - Gestures
+    
+    func handlePan(gesture: UIPanGestureRecognizer)
+    {
+        /*
+        CGPoint translation = [gestureRecognizer translationInView:[piece superview]];
+        
+        [piece setCenter:CGPointMake([piece center].x + translation.x, [piece center].y + translation.y)];
+        */
+        let translation = gesture.translationInView(drawingCanvas.superview!)
+        
+        drawingCanvas.center = CGPoint(x: drawingCanvas.center.x + translation.x, y: drawingCanvas.center.y + translation.y)
+    }
+    
+    func handlePinch(gesture: UIPinchGestureRecognizer)
+    {
+        if let canvas = drawingCanvas {
+            if gesture.state == .Began {
+                previousScale = drawingScale
+            }
+            let currScale = max(min(gesture.scale * drawingScale, 10.0), 0.25)
+            let scaleStep = currScale / previousScale
+            
+            drawingCanvas.transform = CGAffineTransformScale(drawingCanvas.transform, scaleStep, scaleStep)
+            
+            previousScale = currScale
+            
+            if gesture.state == .Ended || gesture.state == .Cancelled || gesture.state == .Failed {
+                drawingScale = currScale
+            }
+        }
+    }
+    
+    //MARK: - Helper Functions
+    
+    func setBrushToErase() {
+        SettingsController.sharedController.setStrokeColor(UIColor.whiteColor())
     }
     
     func lineToSend() {
@@ -170,7 +246,7 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
         }
     }
     
-    func showMessageBannerWithText(text: String, color: UIColor) {
+    func showMessageBannerWithText(text: String, color: UIColor, completion: (() -> Void)?) {
         let bannerHeight: CGFloat = 54.0
         var banner = UIView(frame: CGRect(x: 0, y: -bannerHeight - 25, width: self.view.frame.size.width, height: bannerHeight * 2))
         banner.backgroundColor = color
@@ -189,6 +265,7 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
             UIView.animateWithDuration(0.93, delay: 0.69, usingSpringWithDamping: 0.7, initialSpringVelocity: 4.0, options: .CurveEaseIn, animations: { () -> Void in
                 banner.center = CGPoint(x: b.origin.x + b.size.width/2, y: -bannerHeight)
                 }) { _ in
+                    completion!()
                     banner.removeFromSuperview()
             }
         }
@@ -203,32 +280,32 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
     }
     
     func sendLine() {
-        let hexIntColor = defaults.objectForKey("color") as Int
-        let color = UIColor(hex: hexIntColor)
-        let components = CGColorGetComponents(color.CGColor)
-        let red = Float(components[0]) * 255
-        let green = Float(components[1]) * 255
-        let blue = Float(components[2]) * 255
-        
-        let hexColor: Int = rgbToHex(componentToHex(Int(red)), g: componentToHex(Int(green)), b: componentToHex(Int(blue)))
-        
-        let width = defaults.objectForKey("lineWidth") as CGFloat
-        
-        var error: NSError?
-        
-        if drawView.moving {
-            let msg = "\(Int(drawView.newPoint.x)),\(Int(drawView.newPoint.y)),\(Int(drawView.lastPoint.x)),\(Int(drawView.lastPoint.y)),\(Int(hexColor)),\(Int(width))".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
-            
-            self.session.sendData(msg, toPeers: self.session.connectedPeers, withMode: .Reliable, error: &error)
-        } else {
-            let msg = "\(Int(drawView.lastPoint.x)),\(Int(drawView.lastPoint.y)),\(Int(drawView.lastPoint.x)),\(Int(drawView.lastPoint.y)),\(Int(hexColor)),\(Int(width))".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
-            
-            self.session.sendData(msg, toPeers: self.session.connectedPeers, withMode: .Reliable, error: &error)
-        }
-        
-        if error != nil {
-            println("Error sending data: \(error?.localizedDescription)")
-        }
+//        let hexIntColor = defaults.objectForKey("color") as Int
+//        let color = UIColor(hex: hexIntColor)
+//        let components = CGColorGetComponents(color.CGColor)
+//        let red = Float(components[0]) * 255
+//        let green = Float(components[1]) * 255
+//        let blue = Float(components[2]) * 255
+//        
+//        let hexColor: Int = rgbToHex(componentToHex(Int(red)), g: componentToHex(Int(green)), b: componentToHex(Int(blue)))
+//        
+//        let width = defaults.objectForKey("lineWidth") as CGFloat
+//        
+//        var error: NSError?
+//        
+//        if drawingCanvas.moving {
+//            let msg = "\(Int(glDrawView.location.x)),\(Int(glDrawView.location.y)),\(Int(glDrawView.previousLocation.x)),\(Int(glDrawView.previousLocation.y)),\(Int(hexColor)),\(Int(width))".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
+//            
+//            self.session.sendData(msg, toPeers: self.session.connectedPeers, withMode: .Reliable, error: &error)
+//        } else {
+//            let msg = "\(Int(glDrawView.location.x)),\(Int(glDrawView.location.y)),\(Int(glDrawView.location.x)),\(Int(glDrawView.location.y)),\(Int(hexColor)),\(Int(width))".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
+//            
+//            self.session.sendData(msg, toPeers: self.session.connectedPeers, withMode: .Reliable, error: &error)
+//        }
+//        
+//        if error != nil {
+//            println("Error sending data: \(error?.localizedDescription)")
+//        }
     }
     
     func updateDrawViewForMessage(msg: String) {
@@ -240,60 +317,56 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
         let startPoint = CGPoint(x: startX, y: startY)
         let endPoint = CGPoint(x: endX, y: endY)
         let color = UIColor(hex: lineComponents[4].toInt()!)
-        let width: Int = lineComponents[5].toInt()!
+        let size: Int = lineComponents[5].toInt()!
         
-        drawView.setUpAndDraw(CGFloat(width), color: color, lastX: startPoint.x, lastY: startPoint.y, x: endPoint.x, y: endPoint.y)
-        
+//        glDrawView.renderLineFromPoint(startPoint, toPoint: endPoint)
     }
     
-    func componentToHex(component: Int) -> String {
-        if component == 0 {
-            return "00"
-        } else {
-            return NSString(format: "%2X", component)
+    func imageFromView(view: UIView) -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(view.bounds.size, view.opaque, 0.0)
+        view.drawViewHierarchyInRect(view.bounds, afterScreenUpdates: false)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "newDocument" {
+            let newDocVC: RANewDocumentViewController = segue.destinationViewController as! RANewDocumentViewController
+            newDocVC.delegate = self
         }
     }
     
-    func rgbToHex(r: String, g: String, b: String) -> Int {
-        let charArray = "0x\(r)\(g)\(b)"
-        return Int(strtol(charArray, nil, 0))
+    func delay(delay:Double, closure:()->()) {
+        dispatch_after(
+            dispatch_time(
+                DISPATCH_TIME_NOW,
+                Int64(delay * Double(NSEC_PER_SEC))
+            ),
+            dispatch_get_main_queue(), closure)
     }
     
-    //MARK: - SphereMenu Delegate
+    //MARK: - New Document Delegate
+    func newDocumentControllerDidCancel(controller: RANewDocumentViewController) {
+        // nothing for now
+    }
     
-    func sphereDidSelected(index: Int) {
-        switch index {
-        case 0:
-            showSettings()
-            AudioServicesPlaySystemSound(tapAudioEffect)
-        case 1:
-            saveTapped()
-            AudioServicesPlaySystemSound(tapAudioEffect)
-        case 2:
-            clearTapped()
-            AudioServicesPlaySystemSound(tapAudioEffect)
-        case 3:
-            showBrowser()
-            AudioServicesPlaySystemSound(tapAudioEffect)
-        default:
-            println("\(index)")
-        }
-        
+    func newDocumentControllerDidFinish(controller: RANewDocumentViewController, size: CGSize) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+        self.setUpWithSize(size)
     }
     
     //MARK: - Browser Delegate
     
     func browserViewControllerDidFinish(browserViewController: MCBrowserViewController!) {
         
-        self.dismissViewControllerAnimated(true, completion: { () -> Void in
-            
+        self.dismissViewControllerAnimated(true, completion: {
         })
     }
     
     func browserViewControllerWasCancelled(browserViewController: MCBrowserViewController!) {
         
-        self.dismissViewControllerAnimated(true, completion: { () -> Void in
-            
+        self.dismissViewControllerAnimated(true, completion: {
         })
     }
     
@@ -302,10 +375,8 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
     func session(session: MCSession!, didReceiveData data: NSData!, fromPeer peerID: MCPeerID!) {
         
         dispatch_async(dispatch_get_main_queue()) {
-            
-            var msg = NSString(data: data, encoding: NSUTF8StringEncoding)
-            
-            self.updateDrawViewForMessage(msg!)
+            var msg = NSString(data: data, encoding: NSUTF8StringEncoding) as! String
+            self.updateDrawViewForMessage(msg)
         }
     }
     
@@ -324,7 +395,13 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
     func session(session: MCSession!, peer peerID: MCPeerID!, didChangeState state: MCSessionState) {
         
     }
-
-
+    
+    //MARK: - Motion Event Delegate
+    
+    override func motionEnded(motion: UIEventSubtype, withEvent event: UIEvent) {
+        if motion == .MotionShake {
+            clearScreen()
+        }
+    }
 }
 

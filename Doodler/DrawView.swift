@@ -12,8 +12,8 @@ class DrawView: UIImageView {
     
     var lastPoint: CGPoint!
     var newPoint: CGPoint!
-    var opacityForBuffer: CGFloat!
     var moving: Bool = false
+    var eraserEnabled: Bool = false
     var lineWidth: CGFloat = 10.0
     var bufferImageView: UIImageView!
     let notificationCenter = NSNotificationCenter.defaultCenter()
@@ -31,60 +31,76 @@ class DrawView: UIImageView {
         bufferImageView.contentScaleFactor = 2.0
         self.contentMode = UIViewContentMode.ScaleAspectFit
         bufferImageView.contentMode = self.contentMode
-        opacityForBuffer = 1.0
         
         drawableSize = CGSize(width: self.frame.size.width * contentScaleFactor, height: self.frame.size.height * contentScaleFactor)
-        
         self.addSubview(bufferImageView)
+        
+        layer.magnificationFilter = kCAFilterNearest
+        layer.shouldRasterize = true
     }
     
-    func setUpAndDraw(width: CGFloat, color: UIColor, lastX: CGFloat, lastY: CGFloat, x: CGFloat, y: CGFloat) {
+    func setUpAndDraw(width: Float, color: UIColor, lastX: CGFloat, lastY: CGFloat, x: CGFloat, y: CGFloat) {
         UIGraphicsBeginImageContext(drawableSize)
-        var context = UIGraphicsGetCurrentContext()
+        var ctx = UIGraphicsGetCurrentContext()
         bufferImageView.image?.drawInRect(CGRect(origin: CGPoint(x: 0, y: 0), size: drawableSize))
-        CGContextMoveToPoint(context, lastX, lastY)
-        CGContextAddLineToPoint(context, x, y)
-        CGContextSetLineJoin(context, kCGLineJoinRound)
-        CGContextSetShouldAntialias(context, true)
-        CGContextSetLineCap(context, kCGLineCapRound)
-        CGContextSetStrokeColorWithColor(context, color.CGColor)
-        CGContextSetLineWidth(context, width)
-        CGContextSetBlendMode(context, kCGBlendModeNormal)
-        CGContextSetShouldAntialias(context, true)
-        CGContextSetInterpolationQuality(context, kCGInterpolationHigh)
-        CGContextStrokePath(context)
+        CGContextMoveToPoint(ctx, lastX, lastY)
+        CGContextAddLineToPoint(ctx, x, y)
+        CGContextSetLineJoin(ctx, kCGLineJoinRound)
+        CGContextSetLineCap(ctx, kCGLineCapRound)
+        if eraserEnabled {
+            CGContextSetStrokeColorWithColor(ctx, UIColor.whiteColor().CGColor)
+        } else {
+            CGContextSetStrokeColorWithColor(ctx, color.CGColor)
+        }
+        CGContextSetLineWidth(ctx, CGFloat(width))
+        CGContextSetBlendMode(ctx, kCGBlendModeNormal)
+        CGContextSetShouldAntialias(ctx, true)
+        CGContextSetInterpolationQuality(ctx, kCGInterpolationHigh)
+        CGContextStrokePath(ctx)
         if !moving {
-            CGContextFlush(context)
+            CGContextFlush(ctx)
         }
         bufferImageView.image = UIGraphicsGetImageFromCurrentImageContext()
-        bufferImageView.alpha = opacityForBuffer
         UIGraphicsEndImageContext()
     }
     
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+        if event.allTouches()?.count > 1 {
+            return
+        }
+        
         moving = false
         
-        let touchPoint = touches.anyObject()!.locationInView(self)
-        lastPoint = CGPoint(x: touchPoint.x * 2, y: touchPoint.y * 2)
+        let touch = touches.first as! UITouch
+        let location = touch.locationInView(self)
+        lastPoint = CGPoint(x: location.x * 2, y: location.y * 2)
     }
     
-    override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent) {
+        if event.allTouches()?.count > 1 {
+            return
+        }
+        
         moving = true
-        let touchPoint = touches.anyObject()!.locationInView(self)
-        newPoint = CGPoint(x: touchPoint.x * 2, y: touchPoint.y * 2)
-        notificationCenter.postNotificationName("NOTIFICATION_LINE_TO_SEND", object: self)
-        var colorForDrawing = UIColor(hex: defaults.objectForKey("color") as Int)
-        var widthForDrawing = defaults.objectForKey("lineWidth") as CGFloat
+        let touch = touches.first as! UITouch
+        let location = touch.locationInView(self)
+        newPoint = CGPoint(x: location.x * 2, y: location.y * 2)
+        //notificationCenter.postNotificationName("NOTIFICATION_LINE_TO_SEND", object: self)
+        var colorForDrawing = SettingsController.sharedController.currentStrokeColor()
+        var widthForDrawing = SettingsController.sharedController.currentStrokeWidth()
         
         setUpAndDraw(widthForDrawing, color: colorForDrawing, lastX: lastPoint.x, lastY: lastPoint.y, x: newPoint.x, y: newPoint.y)
-        
         lastPoint = newPoint
     }
     
-    override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
-        notificationCenter.postNotificationName("NOTIFICATION_LINE_TO_SEND", object: self)
-        var colorForDrawing = UIColor(hex: defaults.objectForKey("color") as Int)
-        var widthForDrawing = defaults.objectForKey("lineWidth") as CGFloat
+    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
+        if event.allTouches()?.count > 1 {
+            return
+        }
+        
+        //notificationCenter.postNotificationName("NOTIFICATION_LINE_TO_SEND", object: self)
+        var colorForDrawing = SettingsController.sharedController.currentStrokeColor()
+        var widthForDrawing = SettingsController.sharedController.currentStrokeWidth()
         
         if !moving {
             setUpAndDraw(widthForDrawing, color: colorForDrawing, lastX: lastPoint.x, lastY: lastPoint.y, x: lastPoint.x, y: lastPoint.y)
