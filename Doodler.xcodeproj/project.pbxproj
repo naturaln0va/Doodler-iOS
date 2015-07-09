@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		48333C8E1A97F34300403A91 /* fancy_toast.wav in Resources */ = {isa = PBXBuildFile; fileRef = 48333C8D1A97F34300403A91 /* fancy_toast.wav */; };
 		48333C901A97F3F200403A91 /* RAAudioEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48333C8F1A97F3F200403A91 /* RAAudioEngine.swift */; };
+		483B752D1B4DFC16004A8BC8 /* RAScrollingHuePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483B752C1B4DFC16004A8BC8 /* RAScrollingHuePickerView.swift */; };
 		48452F581B4CA5A7002FE406 /* DrawableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48452F571B4CA5A7002FE406 /* DrawableView.swift */; };
 		48452F5A1B4CB749002FE406 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48452F591B4CB749002FE406 /* UIViewExtension.swift */; };
 		485C65601A1B191E003FA399 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 485C655F1A1B191E003FA399 /* AudioToolbox.framework */; };
@@ -35,6 +36,7 @@
 /* Begin PBXFileReference section */
 		48333C8D1A97F34300403A91 /* fancy_toast.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = fancy_toast.wav; sourceTree = SOURCE_ROOT; };
 		48333C8F1A97F3F200403A91 /* RAAudioEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RAAudioEngine.swift; sourceTree = SOURCE_ROOT; };
+		483B752C1B4DFC16004A8BC8 /* RAScrollingHuePickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RAScrollingHuePickerView.swift; sourceTree = SOURCE_ROOT; };
 		48452F571B4CA5A7002FE406 /* DrawableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawableView.swift; sourceTree = SOURCE_ROOT; };
 		48452F591B4CB749002FE406 /* UIViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = SOURCE_ROOT; };
 		485C655F1A1B191E003FA399 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -92,6 +94,7 @@
 				48B38C571A16C4110040DE29 /* PreView.swift */,
 				48B864BA1B44E6410065E92E /* GridView.swift */,
 				48452F571B4CA5A7002FE406 /* DrawableView.swift */,
+				483B752C1B4DFC16004A8BC8 /* RAScrollingHuePickerView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -246,6 +249,7 @@
 				48452F581B4CA5A7002FE406 /* DrawableView.swift in Sources */,
 				489F4B891A96A02B002984BE /* RANewDocumentControllerDelegate.swift in Sources */,
 				48D5F4371B2C9E7A003B8B96 /* UIColorUtility.swift in Sources */,
+				483B752D1B4DFC16004A8BC8 /* RAScrollingHuePickerView.swift in Sources */,
 				48333C901A97F3F200403A91 /* RAAudioEngine.swift in Sources */,
 				48452F5A1B4CB749002FE406 /* UIViewExtension.swift in Sources */,
 				48B38C5F1A16C4110040DE29 /* SettingsViewController.swift in Sources */,
