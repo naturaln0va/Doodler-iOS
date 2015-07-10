@@ -403,10 +403,10 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="byl-T4-nES" customClass="RAScrollingHuePickerView" customModule="Doodler" customModuleProvider="target">
-                                <rect key="frame" x="16" y="626" width="343" height="33"/>
+                                <rect key="frame" x="16" y="619" width="343" height="40"/>
                                 <color key="backgroundColor" red="0.18039215689999999" green="0.80000000000000004" blue="0.4431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="33" id="Geg-fF-p6y"/>
+                                    <constraint firstAttribute="height" constant="40" id="Geg-fF-p6y"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -448,7 +448,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5d-OB-Jm4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="596.5" y="303.5"/>
+            <point key="canvasLocation" x="594.5" y="324.5"/>
         </scene>
     </scenes>
     <resources>
