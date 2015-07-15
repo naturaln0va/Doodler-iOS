@@ -10,15 +10,12 @@ import UIKit
 import MultipeerConnectivity
 import AssetsLibrary
 
-class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessionDelegate, UIScrollViewDelegate, RANewDocumentControllerDelegate, UIGestureRecognizerDelegate {
-
+class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessionDelegate, UIScrollViewDelegate, RANewDocumentControllerDelegate, UIGestureRecognizerDelegate
+{
     var drawingCanvas: DrawableView!
-    var whiteView: UIView!
-    var logoImageView: UIImageView!
     
     var drawingScale: CGFloat = 1.0
     var previousScale: CGFloat = 0.0
-    
     var panningCoord: CGPoint?
     
     let notificationCenter = NSNotificationCenter.defaultCenter()
@@ -38,6 +35,7 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
     @IBOutlet weak var shareButton: UIButton!
     @IBOutlet weak var connectButton: UIButton!
     @IBOutlet weak var strokeSizeSlider: UISlider!
+    @IBOutlet var bottomToolbarConstraint: NSLayoutConstraint!
     
     private lazy var pinchGesture: UIPinchGestureRecognizer = {
         let pinch = UIPinchGestureRecognizer(target: self, action: "handlePinch:")
@@ -75,8 +73,8 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
         assistant.start()
         
         notificationCenter.addObserver(self, selector: Selector("lineToSend"), name: "NOTIFICATION_LINE_TO_SEND", object: nil)
-        notificationCenter.addObserver(self, selector: Selector("shutDownAdvertiser"), name: "NOTIFICATION_SHUT_DOWN_ADVERTISER", object: UIApplication.sharedApplication().delegate)
-        notificationCenter.addObserver(self, selector: Selector("startAdvertiser"), name: "NOTIFICATION_START_ADVERTISER", object: UIApplication.sharedApplication().delegate)
+        notificationCenter.addObserver(self, selector: Selector("shutDownAdvertiser"), name: "NOTIFICATION_SHUT_DOWN_ADVERTISER", object: nil)
+        notificationCenter.addObserver(self, selector: Selector("startAdvertiser"), name: "NOTIFICATION_START_ADVERTISER", object: nil)
         
         colorButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "colorButtonTapped"))
         strokeSizeSlider.setValue(SettingsController.sharedController.currentStrokeWidth(), animated: false)
@@ -84,6 +82,13 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
         delay(0.5) {
             self.setUpWithSize(CGSize(width: 1024.0, height: 1024.0))
         }
+    }
+    
+    override func viewDidAppear(animated: Bool)
+    {
+        super.viewDidAppear(animated)
+        
+        colorButton.backgroundColor = SettingsController.sharedController.currentStrokeColor()
     }
     
     func setUpWithSize(size: CGSize) {
@@ -134,8 +139,8 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
     func colorButtonTapped()
     {
         RAAudioEngine.sharedEngine.play(.TapSoundEffect)
-        
-        performSegueWithIdentifier("settings", sender: self)
+                
+        //performSegueWithIdentifier("settings", sender: self)
     }
     
     @IBAction func saveTapped() {
@@ -372,6 +377,7 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
     }
     
     //MARK: - New Document Delegate
+    
     func newDocumentControllerDidCancel(controller: RANewDocumentViewController) {
         // nothing for now
     }

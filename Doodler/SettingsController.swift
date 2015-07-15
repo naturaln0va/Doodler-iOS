@@ -5,6 +5,9 @@
 
 import UIKit
 
+let kSettingsControllerStrokeWidthDidChange: String = "kSettingsControllerStrokeWidthDidChange"
+let kSettingsControllerStrokeColorDidChange: String = "kSettingsControllerStrokeColorDidChange"
+
 class SettingsController: NSObject
 {
     // Singleton Instance
@@ -32,9 +35,11 @@ class SettingsController: NSObject
         return defaults.floatForKey("kStrokeWidthKey")
     }
     
-    func setStrokeWidth(width: Float) {
+    func setStrokeWidth(width: Float)
+    {
         defaults.setFloat(width, forKey: "kStrokeWidthKey")
         defaults.synchronize()
+        NSNotificationCenter.defaultCenter().postNotificationName(kSettingsControllerStrokeWidthDidChange, object: nil)
     }
     
     func currentStrokeColor() -> UIColor
@@ -43,9 +48,11 @@ class SettingsController: NSObject
         return UIColor(red: colorComponents[0], green: colorComponents[1], blue: colorComponents[2], alpha: 1.0)
     }
     
-    func setStrokeColor(color: UIColor) {
+    func setStrokeColor(color: UIColor)
+    {
         defaults.setObject(color.rgb(), forKey: "kStrokeColorKey")
         defaults.synchronize()
+        NSNotificationCenter.defaultCenter().postNotificationName(kSettingsControllerStrokeColorDidChange, object: nil)
     }
     
     // MARK: - Private

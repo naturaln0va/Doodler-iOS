@@ -5,24 +5,42 @@
 
 import UIKit
 
+struct DrawComponent
+{
+    var path: CGMutablePathRef
+    var width: CGFloat
+    var color: CGColorRef
+}
+
 class DrawableView: UIView
 {
-    //MARK: - Public Variables -
-    var lineWidth: CGFloat = CGFloat(10.0)
-    var lineColor: UIColor = UIColor.blackColor()
-
     //MARK: - Private Variables -
     private var currentPoint: CGPoint?
     private var previousPoint: CGPoint?
     private var previousPreviousPoint: CGPoint?
-    
-    private var path: CGMutablePathRef = CGPathCreateMutable()
+    private var drawingComponents = [DrawComponent]()
     
     //MARK: - Public API -
     func clear()
     {
-        path = CGPathCreateMutable()
+        drawingComponents.removeAll(keepCapacity: false)
         setNeedsDisplay()
+    }
+    
+    func setupAndDrawWithPoints(#points: [CGPoint], withColor color: CGColorRef, withWidth width: CGFloat)
+    {
+        let mid1 = midPoint(points[1], point2: points[2])
+        let mid2 = midPoint(points[0], point2: points[1])
+        
+        let subPath = CGPathCreateMutable()
+        CGPathMoveToPoint(subPath, nil, mid1.x, mid1.y)
+        CGPathAddQuadCurveToPoint(subPath, nil, points[1].x, points[1].y, mid2.x, mid2.y)
+        
+        let bounds = CGPathGetBoundingBox(subPath)
+        let drawBounds = CGRectInset(bounds, -5.0 * width, -5.0 * width)
+        
+        drawingComponents.append(DrawComponent(path: subPath, width: width, color: color))
+        setNeedsDisplayInRect(drawBounds)
     }
     
     //MARK: - Private API -
@@ -34,17 +52,21 @@ class DrawableView: UIView
     //MARK - UIView Lifecycle -
     override func drawRect(rect: CGRect)
     {
-        UIColor.whiteColor().set()
-        UIRectFill(rect)
-        
         let ctx = UIGraphicsGetCurrentContext()
         
-        CGContextAddPath(ctx, path)
-        CGContextSetLineCap(ctx, kCGLineCapRound)
-        CGContextSetLineWidth(ctx, CGFloat(SettingsController.sharedController.currentStrokeWidth()))
-        CGContextSetStrokeColorWithColor(ctx, SettingsController.sharedController.currentStrokeColor().CGColor)
+        CGContextSetFillColorWithColor(ctx, UIColor.whiteColor().CGColor)
+        UIRectFill(rect)
         
-        CGContextStrokePath(ctx)
+        CGContextSetLineCap(ctx, kCGLineCapRound)
+        
+        for comp in drawingComponents {
+            CGContextSetStrokeColorWithColor(ctx, comp.color)
+            CGContextSetLineWidth(ctx, comp.width)
+            
+            CGContextAddPath(ctx, comp.path)
+            
+            CGContextStrokePath(ctx)
+        }
     }
     
     //MARK: - UITouch Event Handling -
@@ -83,17 +105,26 @@ class DrawableView: UIView
         previousPoint = touch.previousLocationInView(self)
         currentPoint = touch.locationInView(self)
         
-        let mid1 = midPoint(previousPoint!, point2: previousPreviousPoint!)
-        let mid2 = midPoint(currentPoint!, point2: previousPoint!)
+        let drawColor = SettingsController.sharedController.currentStrokeColor().CGColor
+        let drawWidth = CGFloat(SettingsController.sharedController.currentStrokeWidth())
+        let points = [currentPoint!, previousPoint!, previousPreviousPoint!]
         
-        let subPath = CGPathCreateMutable()
-        CGPathMoveToPoint(subPath, nil, mid1.x, mid1.y)
-        CGPathAddQuadCurveToPoint(subPath, nil, previousPoint!.x, previousPoint!.y, mid2.x, mid2.y)
+        setupAndDrawWithPoints(points: points, withColor: drawColor, withWidth: drawWidth)
+    }
+    
+    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent)
+    {
+        let drawColor = SettingsController.sharedController.currentStrokeColor().CGColor
+        let drawWidth = CGFloat(SettingsController.sharedController.currentStrokeWidth())
+        let points = [currentPoint!, previousPoint!, previousPreviousPoint!]
         
-        let bounds = CGPathGetBoundingBox(subPath)
-        let drawBounds = CGRectInset(bounds, -2.0 * lineWidth, -2.0 * lineWidth)
-        
-        CGPathAddPath(path, nil, subPath)
-        setNeedsDisplayInRect(drawBounds)
+        setupAndDrawWithPoints(points: points, withColor: drawColor, withWidth: drawWidth)
+    }
+    
+    override func touchesCancelled(touches: Set<NSObject>!, withEvent event: UIEvent!)
+    {
+        currentPoint = nil
+        previousPoint = nil
+        previousPreviousPoint = nil
     }
 }
