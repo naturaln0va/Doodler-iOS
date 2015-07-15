@@ -18,7 +18,7 @@ class SettingsViewController: UIViewController
         super.viewDidLoad()
         
         setUpColorSlidersForColor(SettingsController.sharedController.currentStrokeColor())
-        colorLabel.text = "Color: \(colorFromSliders().hexString())"
+        colorLabel.text = "Color: \(colorFromSliders().hexString()!)"
         rgbView.layer.cornerRadius = 11.0
         rgbView.backgroundColor = colorFromSliders()
     }

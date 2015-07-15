@@ -140,7 +140,7 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
     {
         RAAudioEngine.sharedEngine.play(.TapSoundEffect)
                 
-        //performSegueWithIdentifier("settings", sender: self)
+        performSegueWithIdentifier("settings", sender: self)
     }
     
     @IBAction func saveTapped() {
