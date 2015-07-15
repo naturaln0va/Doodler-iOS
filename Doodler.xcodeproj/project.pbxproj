@@ -25,6 +25,8 @@
 		6903EAB31B56AB31001BEAEC /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6903EAB21B56AB31001BEAEC /* SettingsController.swift */; };
 		6903EAB51B56AB47001BEAEC /* RANewDocumentControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6903EAB41B56AB47001BEAEC /* RANewDocumentControllerDelegate.swift */; };
 		6903EAB71B56AB56001BEAEC /* RANewDocumentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6903EAB61B56AB56001BEAEC /* RANewDocumentViewController.swift */; };
+		693617BC1B5702A700F1CCF4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6903EAAA1B56AAD8001BEAEC /* Main.storyboard */; };
+		693617BD1B5702AC00F1CCF4 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6903EAA81B56AAD8001BEAEC /* LaunchScreen.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -214,6 +216,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				693617BD1B5702AC00F1CCF4 /* LaunchScreen.xib in Resources */,
+				693617BC1B5702A700F1CCF4 /* Main.storyboard in Resources */,
 				6903EA971B56AA3B001BEAEC /* Images.xcassets in Resources */,
 				6903EAA51B56AA8E001BEAEC /* woody_click.wav in Resources */,
 				6903EAA41B56AA8E001BEAEC /* short_whoosh1.wav in Resources */,
