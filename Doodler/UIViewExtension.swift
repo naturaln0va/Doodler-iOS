@@ -11,7 +11,7 @@ extension UIView
     {
         UIGraphicsBeginImageContextWithOptions(bounds.size, opaque, 0.0)
         
-        self.drawViewHierarchyInRect(CGRect(x: 0.0, y: 0.0, width: bounds.size.width, height: bounds.size.height), afterScreenUpdates: true)
+        self.drawViewHierarchyInRect(CGRect(x: 0.0, y: 0.0, width: bounds.size.width, height: bounds.size.height), afterScreenUpdates: false)
         
         let image = UIGraphicsGetImageFromCurrentImageContext()
         

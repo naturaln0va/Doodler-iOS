@@ -19,11 +19,13 @@ class DrawableView: UIView
     private var previousPoint: CGPoint?
     private var previousPreviousPoint: CGPoint?
     private var drawingComponents = [DrawComponent]()
+    private var bufferImage: UIImage?
     
     //MARK: - Public API -
     func clear()
     {
         drawingComponents.removeAll(keepCapacity: false)
+        bufferImage = nil
         setNeedsDisplay()
     }
     
@@ -49,15 +51,30 @@ class DrawableView: UIView
         return CGPoint(x: (point1.x + point2.x) * 0.5, y: (point1.y + point2.y) * 0.5)
     }
     
+    private func cleanUp()
+    {
+        println("Cleaning up")
+        bufferImage = self.imageByCapturing()
+        drawingComponents.removeAll(keepCapacity: false)
+        setNeedsDisplay()
+    }
+    
     //MARK - UIView Lifecycle -
     override func drawRect(rect: CGRect)
     {
         let ctx = UIGraphicsGetCurrentContext()
+        CGContextSetLineCap(ctx, kCGLineCapRound)
         
         CGContextSetFillColorWithColor(ctx, UIColor.whiteColor().CGColor)
         UIRectFill(rect)
         
-        CGContextSetLineCap(ctx, kCGLineCapRound)
+        if drawingComponents.count > 150 {
+            cleanUp()
+        }
+        
+        if let img = bufferImage {
+            img.drawAtPoint(CGPointZero)
+        }
         
         for comp in drawingComponents {
             CGContextSetStrokeColorWithColor(ctx, comp.color)
@@ -126,5 +143,7 @@ class DrawableView: UIView
         currentPoint = nil
         previousPoint = nil
         previousPreviousPoint = nil
+        
+        println("Touches cancelled")
     }
 }
