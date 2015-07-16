@@ -49,4 +49,44 @@ extension UIColor
         }
     }
     
+    func red() -> CGFloat
+    {
+        let comps = CGColorGetComponents(CGColor)
+        return comps[0]
+    }
+    
+    func green() -> CGFloat
+    {
+        let comps = CGColorGetComponents(CGColor)
+        return comps[1]
+    }
+    
+    func blue() -> CGFloat
+    {
+        let comps = CGColorGetComponents(CGColor)
+        return comps[2]
+    }
+    
+    func isDarkColor() -> Bool
+    {
+        let brightnessThreshold: Float = 125
+        let colorThreshold: Float = 500
+        
+        let fr = 255
+        let fg = 255
+        let fb = 255
+        
+        let br = Int(red() * 255)
+        let bg = Int(green() * 255)
+        let bb = Int(blue() * 255)
+        
+        let by = Float((br * 299) + (bg * 587) + (bb * 114)) / 1000
+        let fy = Float((255 * 299) + (255 * 587) + (255 * 114)) / 1000
+        let brightnessDifference = fabs(by - fy)
+        
+        let colorDifference = Float((max(fr, br) - min(fr, br)) + (max(fg, bg) - min(fg, bg)) + (max(fb, bb) - min(fb, bb)))
+        
+        return brightnessDifference >= brightnessThreshold || colorDifference >= colorThreshold
+    }
+    
 }

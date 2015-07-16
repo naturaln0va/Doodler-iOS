@@ -89,6 +89,14 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
         super.viewDidAppear(animated)
         
         colorButton.backgroundColor = SettingsController.sharedController.currentStrokeColor()
+        
+        if SettingsController.sharedController.currentStrokeColor().isDarkColor() {
+            colorButton.layer.borderWidth = 1
+            colorButton.layer.borderColor = UIColor.whiteColor().CGColor
+        } else {
+            colorButton.layer.borderWidth = 0
+            colorButton.layer.borderColor = UIColor.clearColor().CGColor
+        }
     }
     
     func setUpWithSize(size: CGSize) {
