@@ -51,9 +51,8 @@ class DrawableView: UIView
         return CGPoint(x: (point1.x + point2.x) * 0.5, y: (point1.y + point2.y) * 0.5)
     }
     
-    private func cleanUp()
+    private func renderDisplayToBuffer()
     {
-        println("Cleaning up")
         bufferImage = self.imageByCapturing()
         drawingComponents.removeAll(keepCapacity: false)
         setNeedsDisplay()
@@ -67,10 +66,6 @@ class DrawableView: UIView
         
         CGContextSetFillColorWithColor(ctx, UIColor.whiteColor().CGColor)
         UIRectFill(rect)
-        
-        if drawingComponents.count > 150 {
-            cleanUp()
-        }
         
         if let img = bufferImage {
             img.drawAtPoint(CGPointZero)
@@ -136,6 +131,8 @@ class DrawableView: UIView
         let points = [currentPoint!, previousPoint!, previousPreviousPoint!]
         
         setupAndDrawWithPoints(points: points, withColor: drawColor, withWidth: drawWidth)
+        
+        renderDisplayToBuffer()
     }
     
     override func touchesCancelled(touches: Set<NSObject>!, withEvent event: UIEvent!)

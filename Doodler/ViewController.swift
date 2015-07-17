@@ -152,6 +152,8 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
     }
     
     @IBAction func saveTapped() {
+        // add a thing for the user to edit share text
+        
         RAAudioEngine.sharedEngine.play(.TapSoundEffect)
         
         let image = drawingCanvas.imageByCapturing()
