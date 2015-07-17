@@ -13,10 +13,7 @@ import AssetsLibrary
 class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessionDelegate, UIScrollViewDelegate, RANewDocumentControllerDelegate, UIGestureRecognizerDelegate
 {
     var drawingCanvas: DrawableView!
-    
-    var drawingScale: CGFloat = 1.0
-    var previousScale: CGFloat = 0.0
-    var panningCoord: CGPoint?
+    var scrollView: UIScrollView!
     
     let notificationCenter = NSNotificationCenter.defaultCenter()
     
@@ -36,19 +33,6 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
     @IBOutlet weak var connectButton: UIButton!
     @IBOutlet weak var strokeSizeSlider: UISlider!
     @IBOutlet var bottomToolbarConstraint: NSLayoutConstraint!
-    
-    private lazy var pinchGesture: UIPinchGestureRecognizer = {
-        let pinch = UIPinchGestureRecognizer(target: self, action: "handlePinch:")
-        pinch.delegate = self
-        return pinch
-    }()
-    
-    private lazy var panGesture: UIPanGestureRecognizer = {
-        let pan = UIPanGestureRecognizer(target: self, action: "handlePan:")
-        pan.minimumNumberOfTouches = 2
-        pan.delegate = self
-        return pan
-    }()
     
     //MARK: - VC Delegate
     
@@ -78,6 +62,11 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
         
         colorButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "colorButtonTapped"))
         strokeSizeSlider.setValue(SettingsController.sharedController.currentStrokeWidth(), animated: false)
+        
+        scrollView = UIScrollView(frame: view.bounds)
+        scrollView.delegate = self
+        scrollView.panGestureRecognizer.minimumNumberOfTouches = 2
+        view.insertSubview(scrollView, belowSubview: controlBar)
         
         delay(0.5) {
             self.setUpWithSize(CGSize(width: 1024.0, height: 1024.0))
@@ -110,10 +99,19 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
         drawingCanvas.userInteractionEnabled = true
         drawingCanvas.alpha = 0.0
         
-        view.insertSubview(drawingCanvas, belowSubview: controlBar)
+        scrollView.addSubview(drawingCanvas)
+        scrollView.contentSize = drawingCanvas.bounds.size
         
-        drawingCanvas.addGestureRecognizer(pinchGesture)
-        drawingCanvas.addGestureRecognizer(panGesture)
+        let scrollViewFrame = scrollView.frame
+        let scaleWidth = scrollViewFrame.size.width / scrollView.contentSize.width
+        let scaleHeight = scrollViewFrame.size.height / scrollView.contentSize.height
+        let minScale = min(scaleWidth, scaleHeight);
+        scrollView.minimumZoomScale = minScale;
+        
+        scrollView.maximumZoomScale = 7.0
+        scrollView.zoomScale = minScale;
+        
+        centerScrollViewContents()
         
         UIView.animateWithDuration(0.4, animations: {
             self.drawingCanvas.alpha = 1.0
@@ -221,44 +219,6 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
         //drawingCanvas.eraserEnabled = false
     }
     
-    //MARK: - Gestures
-    
-    func handlePan(gesture: UIPanGestureRecognizer)
-    {
-        if let gestureView = gesture.view {
-            if gesture.state == .Began {
-                panningCoord = gesture.locationInView(gestureView)
-            }
-            
-            if let panCoord = panningCoord {
-                let newCoord = gesture.locationInView(gestureView)
-                let dx = (newCoord.x - panCoord.x) * 0.25
-                let dy = (newCoord.y - panCoord.y) * 0.25
-                
-                gestureView.frame = CGRect(x: gestureView.frame.origin.x + dx, y: gestureView.frame.origin.y + dy, width: gestureView.frame.size.width, height: gestureView.frame.size.height)
-            }
-        }
-    }
-    
-    func handlePinch(gesture: UIPinchGestureRecognizer)
-    {
-        if let canvas = drawingCanvas {
-            if gesture.state == .Began {
-                previousScale = drawingScale
-            }
-            let currScale = max(min(gesture.scale * drawingScale, 10.0), 0.25)
-            let scaleStep = currScale / previousScale
-            
-            drawingCanvas.transform = CGAffineTransformScale(drawingCanvas.transform, scaleStep, scaleStep)
-            
-            previousScale = currScale
-            
-            if gesture.state == .Ended || gesture.state == .Cancelled || gesture.state == .Failed {
-                drawingScale = currScale
-            }
-        }
-    }
-    
     //MARK: - UIGestureRecognizer Delegate
     
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
@@ -275,6 +235,26 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
     }
     
     //MARK: - Helper Functions
+    
+    func centerScrollViewContents()
+    {
+        let boundsSize = scrollView.bounds.size
+        var contentsFrame = drawingCanvas.frame
+        
+        if contentsFrame.size.width < boundsSize.width {
+            contentsFrame.origin.x = (boundsSize.width - contentsFrame.size.width) / 2.0
+        } else {
+            contentsFrame.origin.x = 0.0
+        }
+        
+        if contentsFrame.size.height < boundsSize.height {
+            contentsFrame.origin.y = (boundsSize.height - contentsFrame.size.height) / 2.0
+        } else {
+            contentsFrame.origin.y = 0.0
+        }
+        
+        drawingCanvas.frame = contentsFrame
+    }
     
     func setBrushToErase() {
         SettingsController.sharedController.setStrokeColor(UIColor.whiteColor())
@@ -384,6 +364,18 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
                 Int64(delay * Double(NSEC_PER_SEC))
             ),
             dispatch_get_main_queue(), closure)
+    }
+    
+    //MARK: - UIScrollViewDelegate
+
+    func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView?
+    {
+        return drawingCanvas
+    }
+    
+    func scrollViewDidZoom(scrollView: UIScrollView)
+    {
+        centerScrollViewContents()
     }
     
     //MARK: - New Document Delegate

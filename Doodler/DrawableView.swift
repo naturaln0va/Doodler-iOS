@@ -140,7 +140,5 @@ class DrawableView: UIView
         currentPoint = nil
         previousPoint = nil
         previousPreviousPoint = nil
-        
-        println("Touches cancelled")
     }
 }
