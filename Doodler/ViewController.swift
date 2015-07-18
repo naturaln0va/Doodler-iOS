@@ -1,7 +1,4 @@
 //
-//  ViewController.swift
-//  DrawingApp
-//
 //  Created by Ryan Ackermann on 11/6/14.
 //  Copyright (c) 2014 Ryan Ackermann. All rights reserved.
 //
@@ -10,7 +7,7 @@ import UIKit
 import MultipeerConnectivity
 import AssetsLibrary
 
-class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessionDelegate, UIScrollViewDelegate, RANewDocumentControllerDelegate, UIGestureRecognizerDelegate
+class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessionDelegate, UIScrollViewDelegate, RANewDocumentControllerDelegate, UIGestureRecognizerDelegate, RAScrollablePickerViewDelegate
 {
     var drawingCanvas: DrawableView!
     var scrollView: UIScrollView!
@@ -26,13 +23,20 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
     
     //Outlets
     @IBOutlet weak var controlBar: UIView!
-    @IBOutlet weak var colorButton: UIView!
+    @IBOutlet weak var colorButton: ColorPreviewButton!
     @IBOutlet weak var pencilButton: UIButton!
     @IBOutlet weak var eraserButton: UIButton!
     @IBOutlet weak var shareButton: UIButton!
     @IBOutlet weak var connectButton: UIButton!
     @IBOutlet weak var strokeSizeSlider: UISlider!
     @IBOutlet var bottomToolbarConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var colorPreview: ColorPreView!
+    @IBOutlet weak var previousColorLabel: UILabel!
+    @IBOutlet weak var newColorLabel: UILabel!
+    @IBOutlet weak var huePicker: RAScrollablePickerView!
+    @IBOutlet weak var saturationPicker: RAScrollablePickerView!
+    @IBOutlet weak var brightnessPicker: RAScrollablePickerView!
     
     //MARK: - VC Delegate
     
@@ -42,6 +46,9 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        bottomToolbarConstraint.constant = 0
+        view.layoutIfNeeded()
         
         view.insertSubview(GridView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)), belowSubview: controlBar)
         
@@ -68,23 +75,20 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
         scrollView.panGestureRecognizer.minimumNumberOfTouches = 2
         view.insertSubview(scrollView, belowSubview: controlBar)
         
+        huePicker.delegate = self
+        
+        saturationPicker.delegate = self
+        saturationPicker.type = .Saturation
+        saturationPicker.hueValueForPreview = huePicker.value
+        
+        brightnessPicker.delegate = self
+        brightnessPicker.type = .Brightness
+        brightnessPicker.hueValueForPreview = huePicker.value
+        
+        colorButton.color = SettingsController.sharedController.currentStrokeColor()
+        
         delay(0.5) {
             self.setUpWithSize(CGSize(width: 1024.0, height: 1024.0))
-        }
-    }
-    
-    override func viewDidAppear(animated: Bool)
-    {
-        super.viewDidAppear(animated)
-        
-        colorButton.backgroundColor = SettingsController.sharedController.currentStrokeColor()
-        
-        if SettingsController.sharedController.currentStrokeColor().isDarkColor() {
-            colorButton.layer.borderWidth = 1
-            colorButton.layer.borderColor = UIColor.whiteColor().CGColor
-        } else {
-            colorButton.layer.borderWidth = 0
-            colorButton.layer.borderColor = UIColor.clearColor().CGColor
         }
     }
     
@@ -145,8 +149,45 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
     func colorButtonTapped()
     {
         RAAudioEngine.sharedEngine.play(.TapSoundEffect)
-                
-        performSegueWithIdentifier("settings", sender: self)
+        
+        if bottomToolbarConstraint.constant > 0 {
+            let updatedColor = UIColor(hue: huePicker.value, saturation: saturationPicker.value, brightness: brightnessPicker.value, alpha: 1)
+            SettingsController.sharedController.setStrokeColor(updatedColor)
+            
+            colorButton.color = updatedColor
+            
+            bottomToolbarConstraint.constant = 0
+        } else {
+            if let hue = SettingsController.sharedController.currentStrokeColor().hsb()!.first {
+                huePicker.value = hue
+                saturationPicker.hueValueForPreview = hue
+                brightnessPicker.hueValueForPreview = hue
+            }
+            
+            let currentColor = SettingsController.sharedController.currentStrokeColor()
+            
+            colorPreview.previousColor = currentColor
+            colorPreview.newColor = currentColor
+            
+            previousColorLabel.text = currentColor.hexString()
+            newColorLabel.text = currentColor.hexString()
+            
+            if currentColor.isDarkColor() {
+                previousColorLabel.textColor = UIColor.whiteColor()
+                newColorLabel.textColor = UIColor.whiteColor()
+            } else {
+                previousColorLabel.textColor = UIColor.blackColor()
+                newColorLabel.textColor = UIColor.blackColor()
+            }
+            
+            bottomToolbarConstraint.constant = 400
+        }
+        
+        UIView.animateWithDuration(0.25, delay: 0.0, usingSpringWithDamping: 1.25, initialSpringVelocity: 5.0, options: nil, animations: {
+        
+            self.view.layoutIfNeeded()
+            
+        }, completion: nil)
     }
     
     @IBAction func saveTapped() {
@@ -366,8 +407,32 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
             dispatch_get_main_queue(), closure)
     }
     
+    // MARK: RAScrollablePickerViuewDelegate
+    func valueChanged(value: CGFloat, type: PickerType)
+    {
+        var changedColor: UIColor
+        
+        switch(type) {
+        case .Hue:
+            changedColor = UIColor(hue: value, saturation: saturationPicker.value, brightness: brightnessPicker.value, alpha: 1)
+            saturationPicker.hueValueForPreview = value
+            brightnessPicker.hueValueForPreview = value
+        case .Saturation:
+            changedColor = UIColor(hue: huePicker.value, saturation: value, brightness: brightnessPicker.value, alpha: 1)
+        case .Brightness:
+            changedColor = UIColor(hue: huePicker.value, saturation: saturationPicker.value, brightness: value, alpha: 1)
+        }
+        
+        colorPreview.newColor = changedColor
+        newColorLabel.text = changedColor.hexString()
+        if changedColor.isDarkColor() {
+            newColorLabel.textColor = UIColor.whiteColor()
+        } else {
+            newColorLabel.textColor = UIColor.blackColor()
+        }
+    }
+    
     //MARK: - UIScrollViewDelegate
-
     func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView?
     {
         return drawingCanvas
@@ -379,7 +444,6 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
     }
     
     //MARK: - New Document Delegate
-    
     func newDocumentControllerDidCancel(controller: RANewDocumentViewController) {
         // nothing for now
     }

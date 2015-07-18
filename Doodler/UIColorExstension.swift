@@ -67,26 +67,23 @@ extension UIColor
         return comps[2]
     }
     
+    func hsb() -> Array<CGFloat>?
+    {
+        var hue: CGFloat = 0
+        var saturation: CGFloat = 0
+        var brightness: CGFloat = 0
+        var alpha: CGFloat = 0
+        
+        if self.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha) {
+            return [hue, saturation, brightness, alpha]
+        } else {
+            return nil
+        }
+    }
+    
     func isDarkColor() -> Bool
     {
-        let brightnessThreshold: Float = 125
-        let colorThreshold: Float = 500
-        
-        let fr = 255
-        let fg = 255
-        let fb = 255
-        
-        let br = Int(red() * 255)
-        let bg = Int(green() * 255)
-        let bb = Int(blue() * 255)
-        
-        let by = Float((br * 299) + (bg * 587) + (bb * 114)) / 1000
-        let fy = Float((255 * 299) + (255 * 587) + (255 * 114)) / 1000
-        let brightnessDifference = fabs(by - fy)
-        
-        let colorDifference = Float((max(fr, br) - min(fr, br)) + (max(fg, bg) - min(fg, bg)) + (max(fb, bb) - min(fb, bb)))
-        
-        return brightnessDifference >= brightnessThreshold || colorDifference >= colorThreshold
+        return self.hsb()![2] < 0.425
     }
     
 }

@@ -55,7 +55,6 @@ class DrawableView: UIView
     {
         bufferImage = self.imageByCapturing()
         drawingComponents.removeAll(keepCapacity: false)
-        setNeedsDisplay()
     }
     
     //MARK - UIView Lifecycle -
@@ -93,8 +92,6 @@ class DrawableView: UIView
         previousPoint = touch.previousLocationInView(self)
         previousPreviousPoint = touch.previousLocationInView(self)
         currentPoint = touch.locationInView(self)
-        
-        touchesMoved(touches, withEvent: event)
     }
     
     override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent)
@@ -132,13 +129,9 @@ class DrawableView: UIView
         
         setupAndDrawWithPoints(points: points, withColor: drawColor, withWidth: drawWidth)
         
-        renderDisplayToBuffer()
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.125 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), {
+                self.renderDisplayToBuffer()
+        })
     }
     
-    override func touchesCancelled(touches: Set<NSObject>!, withEvent event: UIEvent!)
-    {
-        currentPoint = nil
-        previousPoint = nil
-        previousPreviousPoint = nil
-    }
 }
