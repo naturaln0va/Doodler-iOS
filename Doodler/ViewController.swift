@@ -9,8 +9,11 @@ import AssetsLibrary
 
 class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessionDelegate, UIScrollViewDelegate, RANewDocumentControllerDelegate, UIGestureRecognizerDelegate, RAScrollablePickerViewDelegate
 {
-    var drawingCanvas: DrawableView!
-    var scrollView: UIScrollView!
+    var canvas: DrawableView!
+    
+    var drawingScale: CGFloat = 1.0
+    var previousScale: CGFloat = 0.0
+    var panningCoord: CGPoint?
     
     let notificationCenter = NSNotificationCenter.defaultCenter()
     
@@ -37,6 +40,19 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
     @IBOutlet weak var huePicker: RAScrollablePickerView!
     @IBOutlet weak var saturationPicker: RAScrollablePickerView!
     @IBOutlet weak var brightnessPicker: RAScrollablePickerView!
+    
+    private lazy var pinchGesture: UIPinchGestureRecognizer = {
+        let pinch = UIPinchGestureRecognizer(target: self, action: "handlePinch:")
+        pinch.delegate = self
+        return pinch
+    }()
+    
+    private lazy var panGesture: UIPanGestureRecognizer = {
+        let pan = UIPanGestureRecognizer(target: self, action: "handlePan:")
+        pan.minimumNumberOfTouches = 2
+        pan.delegate = self
+        return pan
+    }()
     
     //MARK: - VC Delegate
     
@@ -70,11 +86,6 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
         colorButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "colorButtonTapped"))
         strokeSizeSlider.setValue(SettingsController.sharedController.currentStrokeWidth(), animated: false)
         
-        scrollView = UIScrollView(frame: view.bounds)
-        scrollView.delegate = self
-        scrollView.panGestureRecognizer.minimumNumberOfTouches = 2
-        view.insertSubview(scrollView, belowSubview: controlBar)
-        
         huePicker.delegate = self
         
         saturationPicker.delegate = self
@@ -93,37 +104,69 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
     }
     
     func setUpWithSize(size: CGSize) {
-        if let canvas = drawingCanvas {
+        if let canvas = canvas {
             canvas.removeFromSuperview()
-            drawingCanvas = nil
+            self.canvas = nil
         }
         
-        drawingCanvas = DrawableView(frame: CGRect(x: 0, y: 0, width: size.width, height: size.height))
-        drawingCanvas.center = view.center
-        drawingCanvas.userInteractionEnabled = true
-        drawingCanvas.alpha = 0.0
+        canvas = DrawableView(frame: CGRect(x: 0, y: 0, width: size.width, height: size.height))
+        canvas.center = view.center
+        canvas.userInteractionEnabled = true
+        canvas.alpha = 0.0
+        canvas.addGestureRecognizer(pinchGesture)
+        canvas.addGestureRecognizer(panGesture)
         
-        scrollView.addSubview(drawingCanvas)
-        scrollView.contentSize = drawingCanvas.bounds.size
-        
-        let scrollViewFrame = scrollView.frame
-        let scaleWidth = scrollViewFrame.size.width / scrollView.contentSize.width
-        let scaleHeight = scrollViewFrame.size.height / scrollView.contentSize.height
-        let minScale = min(scaleWidth, scaleHeight);
-        scrollView.minimumZoomScale = minScale;
-        
-        scrollView.maximumZoomScale = 7.0
-        scrollView.zoomScale = minScale;
+        view.insertSubview(canvas, belowSubview: controlBar)
         
         centerScrollViewContents()
         
         UIView.animateWithDuration(0.4, animations: {
-            self.drawingCanvas.alpha = 1.0
+            self.canvas.alpha = 1.0
         })
     }
     
     override func prefersStatusBarHidden() -> Bool {
         return true
+    }
+    
+    //MARK: - Gestures
+    
+    func handlePan(gesture: UIPanGestureRecognizer)
+    {
+        if let gestureView = gesture.view {
+            if gesture.state == .Began {
+                panningCoord = gesture.locationInView(gestureView)
+            }
+            
+            if let panCoord = panningCoord {
+                let newCoord = gesture.locationInView(gestureView)
+                let dx = (newCoord.x - panCoord.x) * 0.25
+                let dy = (newCoord.y - panCoord.y) * 0.25
+                
+                gestureView.frame = CGRect(x: gestureView.frame.origin.x + dx, y: gestureView.frame.origin.y + dy, width: gestureView.frame.size.width, height: gestureView.frame.size.height)
+            }
+        }
+    }
+    
+    func handlePinch(gesture: UIPinchGestureRecognizer)
+    {
+        if let drawingCanvas = canvas {
+            if gesture.state == .Began {
+                previousScale = drawingScale
+            }
+            let currScale = max(min(gesture.scale * drawingScale, 10.0), 0.25)
+            let scaleStep = currScale / previousScale
+            
+            drawingCanvas.transform = CGAffineTransformScale(drawingCanvas.transform, scaleStep, scaleStep)
+            
+            previousScale = currScale
+            
+            if gesture.state == .Ended || gesture.state == .Cancelled || gesture.state == .Failed {
+                drawingScale = currScale
+                
+                centerScrollViewContents()
+            }
+        }
     }
     
     //MARK: - Button Actions
@@ -137,7 +180,7 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
         
         let destroyAction = UIAlertAction(title: "Clear", style: .Destructive) { _ in
             RAAudioEngine.sharedEngine.play(.ClearSoundEffect)
-            self.drawingCanvas.clear()
+            self.canvas.clear()
         }
         alertController.addAction(destroyAction)
         
@@ -195,7 +238,7 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
         
         RAAudioEngine.sharedEngine.play(.TapSoundEffect)
         
-        let image = drawingCanvas.imageByCapturing()
+        let image = canvas.imageByCapturing()
         let authStatus = ALAssetsLibrary.authorizationStatus()
         if authStatus == .Authorized {
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -279,8 +322,8 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
     
     func centerScrollViewContents()
     {
-        let boundsSize = scrollView.bounds.size
-        var contentsFrame = drawingCanvas.frame
+        let boundsSize = view.bounds.size
+        var contentsFrame = canvas.frame
         
         if contentsFrame.size.width < boundsSize.width {
             contentsFrame.origin.x = (boundsSize.width - contentsFrame.size.width) / 2.0
@@ -294,7 +337,9 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
             contentsFrame.origin.y = 0.0
         }
         
-        drawingCanvas.frame = contentsFrame
+        UIView.animateWithDuration(0.2, animations: {
+            self.canvas.frame = contentsFrame
+        })
     }
     
     func setBrushToErase() {
@@ -430,17 +475,6 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
         } else {
             newColorLabel.textColor = UIColor.blackColor()
         }
-    }
-    
-    //MARK: - UIScrollViewDelegate
-    func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView?
-    {
-        return drawingCanvas
-    }
-    
-    func scrollViewDidZoom(scrollView: UIScrollView)
-    {
-        centerScrollViewContents()
     }
     
     //MARK: - New Document Delegate

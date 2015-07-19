@@ -123,6 +123,10 @@ class DrawableView: UIView
     
     override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent)
     {
+        if event.allTouches()?.count > 1 {
+            return
+        }
+        
         let drawColor = SettingsController.sharedController.currentStrokeColor().CGColor
         let drawWidth = CGFloat(SettingsController.sharedController.currentStrokeWidth())
         let points = [currentPoint!, previousPoint!, previousPreviousPoint!]
@@ -130,7 +134,7 @@ class DrawableView: UIView
         setupAndDrawWithPoints(points: points, withColor: drawColor, withWidth: drawWidth)
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.125 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), {
-                self.renderDisplayToBuffer()
+            self.renderDisplayToBuffer()
         })
     }
     

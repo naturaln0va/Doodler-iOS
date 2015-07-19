@@ -11,7 +11,7 @@
 		489085111B59F54D00C199A6 /* RAScrollablePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489085101B59F54D00C199A6 /* RAScrollablePickerView.swift */; };
 		489085131B59F57200C199A6 /* ColorPreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489085121B59F57200C199A6 /* ColorPreView.swift */; };
 		489085151B59FD3900C199A6 /* ColorPreviewButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489085141B59FD3900C199A6 /* ColorPreviewButton.swift */; };
-		48B38C5B1A16C4110040DE29 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B38C541A16C4110040DE29 /* AppDelegate.swift */; };
+		48B38C5B1A16C4110040DE29 /* WindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B38C541A16C4110040DE29 /* WindowController.swift */; };
 		48B38C611A16C4110040DE29 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B38C5A1A16C4110040DE29 /* ViewController.swift */; };
 		6903EA971B56AA3B001BEAEC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6903EA961B56AA3B001BEAEC /* Images.xcassets */; };
 		6903EA991B56AA51001BEAEC /* RAAudioEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6903EA981B56AA51001BEAEC /* RAAudioEngine.swift */; };
@@ -35,7 +35,7 @@
 		489085101B59F54D00C199A6 /* RAScrollablePickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RAScrollablePickerView.swift; sourceTree = SOURCE_ROOT; };
 		489085121B59F57200C199A6 /* ColorPreView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPreView.swift; sourceTree = SOURCE_ROOT; };
 		489085141B59FD3900C199A6 /* ColorPreviewButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPreviewButton.swift; sourceTree = SOURCE_ROOT; };
-		48B38C541A16C4110040DE29 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Doodler/AppDelegate.swift; sourceTree = SOURCE_ROOT; };
+		48B38C541A16C4110040DE29 /* WindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WindowController.swift; path = Doodler/WindowController.swift; sourceTree = SOURCE_ROOT; };
 		48B38C5A1A16C4110040DE29 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = Doodler/ViewController.swift; sourceTree = SOURCE_ROOT; };
 		48FA2ECA1A0C100F002CE8B9 /* Doodler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Doodler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6903EA961B56AA3B001BEAEC /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Assets/Images.xcassets; sourceTree = SOURCE_ROOT; };
@@ -149,7 +149,7 @@
 		48FA2ECD1A0C100F002CE8B9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				48B38C541A16C4110040DE29 /* AppDelegate.swift */,
+				48B38C541A16C4110040DE29 /* WindowController.swift */,
 				6903EA9E1B56AA8E001BEAEC /* fancy_toast.wav */,
 				6903EA9F1B56AA8E001BEAEC /* music_marimba_chord.wav */,
 				6903EAA01B56AA8E001BEAEC /* short_whoosh1.wav */,
@@ -248,7 +248,7 @@
 				6903EAB01B56AB06001BEAEC /* DrawableView.swift in Sources */,
 				489085111B59F54D00C199A6 /* RAScrollablePickerView.swift in Sources */,
 				489085151B59FD3900C199A6 /* ColorPreviewButton.swift in Sources */,
-				48B38C5B1A16C4110040DE29 /* AppDelegate.swift in Sources */,
+				48B38C5B1A16C4110040DE29 /* WindowController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
