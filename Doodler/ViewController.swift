@@ -7,30 +7,21 @@ import UIKit
 import MultipeerConnectivity
 import AssetsLibrary
 
-class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessionDelegate, UIScrollViewDelegate, RANewDocumentControllerDelegate, UIGestureRecognizerDelegate, RAScrollablePickerViewDelegate
+class ViewController: UIViewController, UIGestureRecognizerDelegate, RANewDocumentControllerDelegate, RAScrollablePickerViewDelegate
 {
     var canvas: DrawableView!
+    var colorButtonView: ColorPreviewButton!
     
     var drawingScale: CGFloat = 1.0
     var previousScale: CGFloat = 0.0
     var panningCoord: CGPoint?
     
-    let notificationCenter = NSNotificationCenter.defaultCenter()
-    
-    let service = "drawing"
-    
-    var browser: MCBrowserViewController!
-    var assistant: MCAdvertiserAssistant!
-    var session: MCSession!
-    var peerID: MCPeerID!
-    
     //Outlets
-    @IBOutlet weak var controlBar: UIView!
-    @IBOutlet weak var colorButton: ColorPreviewButton!
-    @IBOutlet weak var pencilButton: UIButton!
-    @IBOutlet weak var eraserButton: UIButton!
-    @IBOutlet weak var shareButton: UIButton!
-    @IBOutlet weak var connectButton: UIButton!
+    @IBOutlet weak var controlBar: UIToolbar!
+    @IBOutlet weak var colorButton: UIBarButtonItem!
+    @IBOutlet weak var pencilButton: UIBarButtonItem!
+    @IBOutlet weak var eraserButton: UIBarButtonItem!
+    @IBOutlet weak var shareButton: UIBarButtonItem!
     @IBOutlet weak var strokeSizeSlider: UISlider!
     @IBOutlet var bottomToolbarConstraint: NSLayoutConstraint!
     
@@ -68,22 +59,8 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
         
         view.insertSubview(GridView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)), belowSubview: controlBar)
         
-        peerID = MCPeerID(displayName: UIDevice.currentDevice().name)
-        session = MCSession(peer: peerID)
-        session.delegate = self
-        
-        //Creation of the browser controller
-        browser = MCBrowserViewController(serviceType: service, session: session)
-        browser.delegate = self
-        
-        assistant = MCAdvertiserAssistant(serviceType: service, discoveryInfo: nil, session: session)
-        assistant.start()
-        
-        notificationCenter.addObserver(self, selector: Selector("lineToSend"), name: "NOTIFICATION_LINE_TO_SEND", object: nil)
-        notificationCenter.addObserver(self, selector: Selector("shutDownAdvertiser"), name: "NOTIFICATION_SHUT_DOWN_ADVERTISER", object: nil)
-        notificationCenter.addObserver(self, selector: Selector("startAdvertiser"), name: "NOTIFICATION_START_ADVERTISER", object: nil)
-        
-        colorButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "colorButtonTapped"))
+        colorButtonView = ColorPreviewButton(frame: CGRect(x: 0, y: 0, width: 32, height: 32))
+        colorButton.customView = colorButtonView
         strokeSizeSlider.setValue(SettingsController.sharedController.currentStrokeWidth(), animated: false)
         
         huePicker.delegate = self
@@ -96,7 +73,7 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
         brightnessPicker.type = .Brightness
         brightnessPicker.hueValueForPreview = huePicker.value
         
-        colorButton.color = SettingsController.sharedController.currentStrokeColor()
+        colorButtonView.color = SettingsController.sharedController.currentStrokeColor()
         
         delay(0.5) {
             self.setUpWithSize(CGSize(width: 1024.0, height: 1024.0))
@@ -189,7 +166,7 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
         }
     }
     
-    func colorButtonTapped()
+    @IBAction func colorButtonTapped()
     {
         RAAudioEngine.sharedEngine.play(.TapSoundEffect)
         
@@ -197,7 +174,7 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
             let updatedColor = UIColor(hue: huePicker.value, saturation: saturationPicker.value, brightness: brightnessPicker.value, alpha: 1)
             SettingsController.sharedController.setStrokeColor(updatedColor)
             
-            colorButton.color = updatedColor
+            colorButtonView.color = updatedColor
             
             bottomToolbarConstraint.constant = 0
         } else {
@@ -260,35 +237,27 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
         }
         RAAudioEngine.sharedEngine.play(.SaveSoundEffect)
         showMessageBannerWithText("Image Saved", color: UIColor(hex: 0x27ae60), completion: {
-            if self.session.connectedPeers.count == 0 {
-                let alertController = UIAlertController(title: "New Document", message: "Would you like to create a new document?", preferredStyle: .Alert)
-                
-                let cancelAction = UIAlertAction(title: "No, thanks", style: .Cancel) { _ in
+            let alertController = UIAlertController(title: "New Document", message: "Would you like to create a new document?", preferredStyle: .Alert)
+            
+            let cancelAction = UIAlertAction(title: "No, thanks", style: .Cancel) { _ in
+            }
+            alertController.addAction(cancelAction)
+            
+            let destroyAction = UIAlertAction(title: "Yes, please", style: .Default) { _ in
+                self.delay(0.2) {
+                    self.setUpWithSize(CGSize(width: 1024.0, height: 1024.0))
                 }
-                alertController.addAction(cancelAction)
-                
-                let destroyAction = UIAlertAction(title: "Yes, please", style: .Default) { _ in
-                    self.delay(0.2) {
-                        self.setUpWithSize(CGSize(width: 1024.0, height: 1024.0))
-                    }
-                }
-                alertController.addAction(destroyAction)
-                
-                self.presentViewController(alertController, animated: true) {
-                    // ...
-                }
+            }
+            alertController.addAction(destroyAction)
+            
+            self.presentViewController(alertController, animated: true) {
+                // ...
             }
         })
     }
     
     @IBAction func strokeSliderUpdated(sender: UISlider) {
         SettingsController.sharedController.setStrokeWidth(sender.value)
-    }
-    
-    @IBAction func showBrowser() {
-        RAAudioEngine.sharedEngine.play(.TapSoundEffect)
-        
-        self.presentViewController(browser, animated: true, completion: nil)
     }
     
     @IBAction func eraserButtonTapped(sender: AnyObject) {
@@ -346,12 +315,6 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
         SettingsController.sharedController.setStrokeColor(UIColor.whiteColor())
     }
     
-    func lineToSend() {
-        if self.session.connectedPeers.count > 0 {
-            sendLine()
-        }
-    }
-    
     func showMessageBannerWithText(text: String, color: UIColor, completion: (() -> Void)?) {
         let bannerHeight: CGFloat = 54.0
         var banner = UIView(frame: CGRect(x: 0, y: -bannerHeight - 25, width: self.view.frame.size.width, height: bannerHeight * 2))
@@ -375,65 +338,6 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
                     banner.removeFromSuperview()
             }
         }
-    }
-    
-    func shutDownAdvertiser() {
-        assistant.stop()
-    }
-    
-    func startAdvertiser() {
-        assistant.start()
-    }
-    
-    func sendLine() {
-//        let hexIntColor = defaults.objectForKey("color") as Int
-//        let color = UIColor(hex: hexIntColor)
-//        let components = CGColorGetComponents(color.CGColor)
-//        let red = Float(components[0]) * 255
-//        let green = Float(components[1]) * 255
-//        let blue = Float(components[2]) * 255
-//        
-//        let hexColor: Int = rgbToHex(componentToHex(Int(red)), g: componentToHex(Int(green)), b: componentToHex(Int(blue)))
-//        
-//        let width = defaults.objectForKey("lineWidth") as CGFloat
-//        
-//        var error: NSError?
-//        
-//        if drawingCanvas.moving {
-//            let msg = "\(Int(glDrawView.location.x)),\(Int(glDrawView.location.y)),\(Int(glDrawView.previousLocation.x)),\(Int(glDrawView.previousLocation.y)),\(Int(hexColor)),\(Int(width))".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
-//            
-//            self.session.sendData(msg, toPeers: self.session.connectedPeers, withMode: .Reliable, error: &error)
-//        } else {
-//            let msg = "\(Int(glDrawView.location.x)),\(Int(glDrawView.location.y)),\(Int(glDrawView.location.x)),\(Int(glDrawView.location.y)),\(Int(hexColor)),\(Int(width))".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
-//            
-//            self.session.sendData(msg, toPeers: self.session.connectedPeers, withMode: .Reliable, error: &error)
-//        }
-//        
-//        if error != nil {
-//            println("Error sending data: \(error?.localizedDescription)")
-//        }
-    }
-    
-    func updateDrawViewForMessage(msg: String) {
-        let lineComponents = msg.componentsSeparatedByString(",")
-        let startX = lineComponents[0].toInt()!
-        let startY = lineComponents[1].toInt()!
-        let endX = lineComponents[2].toInt()!
-        let endY = lineComponents[3].toInt()!
-        let startPoint = CGPoint(x: startX, y: startY)
-        let endPoint = CGPoint(x: endX, y: endY)
-        let color = UIColor(hex: lineComponents[4].toInt()!)
-        let size: Int = lineComponents[5].toInt()!
-        
-//        glDrawView.renderLineFromPoint(startPoint, toPoint: endPoint)
-    }
-    
-    func imageFromView(view: UIView) -> UIImage {
-        UIGraphicsBeginImageContextWithOptions(view.bounds.size, view.opaque, 0.0)
-        view.drawViewHierarchyInRect(view.bounds, afterScreenUpdates: false)
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return image
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -485,46 +389,6 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MCSessi
     func newDocumentControllerDidFinish(controller: RANewDocumentViewController, size: CGSize) {
         self.dismissViewControllerAnimated(true, completion: nil)
         self.setUpWithSize(size)
-    }
-    
-    //MARK: - Browser Delegate
-    
-    func browserViewControllerDidFinish(browserViewController: MCBrowserViewController!) {
-        
-        self.dismissViewControllerAnimated(true, completion: {
-        })
-    }
-    
-    func browserViewControllerWasCancelled(browserViewController: MCBrowserViewController!) {
-        
-        self.dismissViewControllerAnimated(true, completion: {
-        })
-    }
-    
-    //MARK: - MCSession Delegate
-    
-    func session(session: MCSession!, didReceiveData data: NSData!, fromPeer peerID: MCPeerID!) {
-        
-        dispatch_async(dispatch_get_main_queue()) {
-            var msg = NSString(data: data, encoding: NSUTF8StringEncoding) as! String
-            self.updateDrawViewForMessage(msg)
-        }
-    }
-    
-    func session(session: MCSession!, didStartReceivingResourceWithName resourceName: String!, fromPeer peerID: MCPeerID!, withProgress progress: NSProgress!) {
-        
-    }
-    
-    func session(session: MCSession!, didFinishReceivingResourceWithName resourceName: String!, fromPeer peerID: MCPeerID!, atURL localURL: NSURL!, withError error: NSError!) {
-        
-    }
-    
-    func session(session: MCSession!, didReceiveStream stream: NSInputStream!, withName streamName: String!, fromPeer peerID: MCPeerID!) {
-        
-    }
-    
-    func session(session: MCSession!, peer peerID: MCPeerID!, didChangeState state: MCSessionState) {
-        
     }
     
     //MARK: - Motion Event Delegate

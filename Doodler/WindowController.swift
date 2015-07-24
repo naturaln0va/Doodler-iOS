@@ -1,7 +1,4 @@
 //
-//  AppDelegate.swift
-//  DrawingApp
-//
 //  Created by Ryan Ackermann on 11/6/14.
 //  Copyright (c) 2014 Ryan Ackermann. All rights reserved.
 //

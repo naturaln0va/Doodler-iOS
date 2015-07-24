@@ -178,85 +178,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6iU-dF-vRo">
-                                <rect key="frame" x="0.0" y="223" width="375" height="44"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dwu-xO-T2C" customClass="ColorPreviewButton" customModule="Doodler" customModuleProvider="target">
-                                        <rect key="frame" x="343" y="14" width="16" height="16"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="16" id="bX7-88-eJd"/>
-                                            <constraint firstAttribute="width" constant="16" id="zyR-ZN-B4Q"/>
-                                        </constraints>
-                                    </view>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K5r-wP-JPp">
-                                        <rect key="frame" x="14" y="14" width="16" height="16"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="16" id="NTa-fA-pbq"/>
-                                            <constraint firstAttribute="width" constant="16" id="lOV-tr-rsq"/>
-                                        </constraints>
-                                        <state key="normal" image="Share">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="saveTapped" destination="vXZ-lx-hvc" eventType="touchUpInside" id="gyA-Ab-dpp"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2AK-vL-YwH">
-                                        <rect key="frame" x="72" y="14" width="16" height="16"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="16" id="D0X-fZ-2pz"/>
-                                            <constraint firstAttribute="height" constant="16" id="xm7-7Z-t2u"/>
-                                        </constraints>
-                                        <state key="normal" image="Connect">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="showBrowser" destination="vXZ-lx-hvc" eventType="touchUpInside" id="5Yd-Nn-KrR"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JEO-5R-Vl1">
-                                        <rect key="frame" x="285" y="14" width="16" height="16"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="16" id="PC0-iA-0V1"/>
-                                            <constraint firstAttribute="height" constant="16" id="lAY-xi-PO4"/>
-                                        </constraints>
-                                        <state key="normal" image="Pencil">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="pencilButtonTapped:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="ef5-6F-okS"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UP0-UG-uRk">
-                                        <rect key="frame" x="227" y="14" width="16" height="16"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="16" id="N8L-4R-mNg"/>
-                                            <constraint firstAttribute="width" constant="16" id="X0w-kF-Rcy"/>
-                                        </constraints>
-                                        <state key="normal" image="Eraser">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="eraserButtonTapped:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="nvN-Wj-Rzk"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" white="0.096491228070175378" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="centerY" secondItem="2AK-vL-YwH" secondAttribute="centerY" id="2GZ-pU-gi7"/>
-                                    <constraint firstAttribute="height" constant="44" id="39M-rh-oYh"/>
-                                    <constraint firstItem="2AK-vL-YwH" firstAttribute="leading" secondItem="K5r-wP-JPp" secondAttribute="trailing" constant="42" id="4at-hE-A2w"/>
-                                    <constraint firstAttribute="trailing" secondItem="dwu-xO-T2C" secondAttribute="trailing" constant="16" id="5Fu-F4-Wxl"/>
-                                    <constraint firstItem="JEO-5R-Vl1" firstAttribute="leading" secondItem="UP0-UG-uRk" secondAttribute="trailing" constant="42" id="EfZ-9A-OCr"/>
-                                    <constraint firstItem="K5r-wP-JPp" firstAttribute="leading" secondItem="6iU-dF-vRo" secondAttribute="leading" constant="14" id="GF8-XE-xUc"/>
-                                    <constraint firstItem="dwu-xO-T2C" firstAttribute="leading" secondItem="JEO-5R-Vl1" secondAttribute="trailing" constant="42" id="VIZ-Sr-tDj"/>
-                                    <constraint firstAttribute="centerY" secondItem="UP0-UG-uRk" secondAttribute="centerY" id="as2-3q-Gam"/>
-                                    <constraint firstAttribute="centerY" secondItem="K5r-wP-JPp" secondAttribute="centerY" id="cdg-I9-J4Q"/>
-                                    <constraint firstAttribute="centerY" secondItem="dwu-xO-T2C" secondAttribute="centerY" id="uG8-e5-bYl"/>
-                                    <constraint firstAttribute="centerY" secondItem="JEO-5R-Vl1" secondAttribute="centerY" id="xbB-ug-0Db"/>
-                                </constraints>
-                            </view>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="10" minValue="5" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="c92-yP-Yfa">
                                 <rect key="frame" x="-2" y="-16" width="379" height="31"/>
                                 <color key="minimumTrackTintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -273,13 +194,13 @@
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="#88CD29" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ws6-Zv-O2T">
                                                 <rect key="frame" x="8" y="92" width="59.5" height="25"/>
                                                 <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="18"/>
-                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="#34F2B1" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="syU-fA-74r">
                                                 <rect key="frame" x="185" y="92" width="57" height="25"/>
                                                 <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="18"/>
-                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
@@ -297,16 +218,16 @@
                                         <rect key="frame" x="15" y="163" width="345" height="64"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lP8-nW-vIg" customClass="RAScrollablePickerView" customModule="Doodler" customModuleProvider="target">
+                                        <rect key="frame" x="15" y="242" width="345" height="64"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Xs-18-GqP" customClass="RAScrollablePickerView" customModule="Doodler" customModuleProvider="target">
                                         <rect key="frame" x="15" y="321" width="345" height="64"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="64" id="dv1-gK-iMG"/>
                                         </constraints>
-                                    </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lP8-nW-vIg" customClass="RAScrollablePickerView" customModule="Doodler" customModuleProvider="target">
-                                        <rect key="frame" x="15" y="242" width="345" height="64"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" white="0.14999999999999999" alpha="1" colorSpace="calibratedWhite"/>
@@ -326,17 +247,46 @@
                                     <constraint firstItem="lP8-nW-vIg" firstAttribute="leading" secondItem="gl6-HK-AxO" secondAttribute="leading" constant="15" id="zAK-SC-mKL"/>
                                 </constraints>
                             </view>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="HHN-OS-eRB">
+                                <rect key="frame" x="0.0" y="223" width="375" height="44"/>
+                                <items>
+                                    <barButtonItem image="Share" id="HaS-yF-fmI">
+                                        <connections>
+                                            <action selector="saveTapped" destination="vXZ-lx-hvc" id="Dl0-tL-2BE"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="DiF-Os-Gft"/>
+                                    <barButtonItem image="Eraser" id="ewM-9O-xo1">
+                                        <connections>
+                                            <action selector="eraserButtonTapped:" destination="vXZ-lx-hvc" id="lrA-ie-JD8"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="8js-68-KJw"/>
+                                    <barButtonItem image="Pencil" id="2nY-7i-DJY">
+                                        <connections>
+                                            <action selector="pencilButtonTapped:" destination="vXZ-lx-hvc" id="h1z-jM-W6W"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="6nL-jb-KKx"/>
+                                    <barButtonItem image="ColorView" id="ViG-w8-huC">
+                                        <connections>
+                                            <action selector="colorButtonTapped" destination="vXZ-lx-hvc" id="lTq-Yo-TkW"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                                <color key="tintColor" white="0.98549717979999996" alpha="1" colorSpace="calibratedWhite"/>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" red="0.2274509804" green="0.59999999999999998" blue="0.84705882349999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="gl6-HK-AxO" firstAttribute="top" secondItem="6iU-dF-vRo" secondAttribute="bottom" id="0ep-OX-8eq"/>
-                            <constraint firstItem="Yk3-gq-bOy" firstAttribute="top" secondItem="6iU-dF-vRo" secondAttribute="bottom" constant="15" id="3cz-Te-62Y"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="HHN-OS-eRB" secondAttribute="bottom" constant="400" id="IKC-Zb-wmG"/>
                             <constraint firstItem="c92-yP-Yfa" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top" constant="-16" id="Jbk-EL-uNd"/>
-                            <constraint firstItem="6iU-dF-vRo" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="Oa5-j5-rdn"/>
-                            <constraint firstAttribute="bottom" secondItem="6iU-dF-vRo" secondAttribute="bottom" constant="400" id="Ug0-MD-Ovb"/>
-                            <constraint firstAttribute="trailing" secondItem="6iU-dF-vRo" secondAttribute="trailing" id="msr-s7-Em5"/>
+                            <constraint firstItem="gl6-HK-AxO" firstAttribute="top" secondItem="HHN-OS-eRB" secondAttribute="bottom" id="K1Z-gl-fOY"/>
+                            <constraint firstAttribute="trailing" secondItem="HHN-OS-eRB" secondAttribute="trailing" id="SRp-RZ-O1k"/>
                             <constraint firstItem="gl6-HK-AxO" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="ozv-KO-S3g"/>
+                            <constraint firstItem="HHN-OS-eRB" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="pZ1-yY-86s"/>
                             <constraint firstAttribute="trailing" secondItem="gl6-HK-AxO" secondAttribute="trailing" id="uTC-Uz-DcJ"/>
+                            <constraint firstItem="Yk3-gq-bOy" firstAttribute="top" secondItem="HHN-OS-eRB" secondAttribute="bottom" constant="15" id="vig-ag-jqg"/>
                             <constraint firstAttribute="trailing" secondItem="c92-yP-Yfa" secondAttribute="trailing" id="yeh-R0-BO3"/>
                             <constraint firstItem="c92-yP-Yfa" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="yho-54-VcH"/>
                         </constraints>
@@ -344,33 +294,32 @@
                     <navigationItem key="navigationItem" id="agK-1p-XkP"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
-                        <outlet property="bottomToolbarConstraint" destination="Ug0-MD-Ovb" id="4c8-Ur-gmN"/>
+                        <outlet property="bottomToolbarConstraint" destination="IKC-Zb-wmG" id="X5O-7O-w1I"/>
                         <outlet property="brightnessPicker" destination="8Xs-18-GqP" id="1aV-Nq-914"/>
-                        <outlet property="colorButton" destination="dwu-xO-T2C" id="cJx-Ya-aFv"/>
+                        <outlet property="colorButton" destination="ViG-w8-huC" id="sR6-M6-t8v"/>
                         <outlet property="colorPreview" destination="Yk3-gq-bOy" id="UT0-Xw-RyJ"/>
-                        <outlet property="connectButton" destination="2AK-vL-YwH" id="DXR-TE-fuq"/>
-                        <outlet property="controlBar" destination="6iU-dF-vRo" id="zYI-w9-CmJ"/>
-                        <outlet property="eraserButton" destination="UP0-UG-uRk" id="NLF-ln-IOb"/>
+                        <outlet property="controlBar" destination="HHN-OS-eRB" id="8d7-4r-Mv7"/>
+                        <outlet property="eraserButton" destination="ewM-9O-xo1" id="N2L-S8-UzW"/>
                         <outlet property="huePicker" destination="mm4-g5-bHk" id="XZz-07-dEH"/>
                         <outlet property="newColorLabel" destination="syU-fA-74r" id="04i-pQ-4xy"/>
-                        <outlet property="pencilButton" destination="JEO-5R-Vl1" id="Kia-UR-9Q4"/>
+                        <outlet property="pencilButton" destination="2nY-7i-DJY" id="xyN-AN-wZE"/>
                         <outlet property="previousColorLabel" destination="Ws6-Zv-O2T" id="Mf3-Fp-0mo"/>
                         <outlet property="saturationPicker" destination="lP8-nW-vIg" id="pdB-94-Zfi"/>
-                        <outlet property="shareButton" destination="K5r-wP-JPp" id="qVF-hr-x33"/>
+                        <outlet property="shareButton" destination="HaS-yF-fmI" id="Evc-Hg-JBL"/>
                         <outlet property="strokeSizeSlider" destination="c92-yP-Yfa" id="P10-4P-GEE"/>
                         <segue destination="2mG-bz-REh" kind="modal" identifier="newDocument" id="bum-X2-3NE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-19.5" y="324.5"/>
+            <point key="canvasLocation" x="8.5" y="326.5"/>
         </scene>
     </scenes>
     <resources>
-        <image name="Connect" width="17" height="18"/>
-        <image name="Eraser" width="14" height="14"/>
-        <image name="Pencil" width="13" height="13"/>
-        <image name="Share" width="12" height="16"/>
+        <image name="ColorView" width="33" height="32"/>
+        <image name="Eraser" width="32" height="33"/>
+        <image name="Pencil" width="32" height="32"/>
+        <image name="Share" width="32" height="32"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

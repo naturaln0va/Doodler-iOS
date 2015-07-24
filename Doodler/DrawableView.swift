@@ -18,13 +18,17 @@ class DrawableView: UIView
     private var currentPoint: CGPoint?
     private var previousPoint: CGPoint?
     private var previousPreviousPoint: CGPoint?
+    
     private var drawingComponents = [DrawComponent]()
-    private var bufferImage: UIImage?
+    private var bufferImage: UIImage? {
+        didSet {
+            drawingComponents.removeAll(keepCapacity: false)
+        }
+    }
     
     //MARK: - Public API -
     func clear()
     {
-        drawingComponents.removeAll(keepCapacity: false)
         bufferImage = nil
         setNeedsDisplay()
     }
@@ -38,10 +42,9 @@ class DrawableView: UIView
         CGPathMoveToPoint(subPath, nil, mid1.x, mid1.y)
         CGPathAddQuadCurveToPoint(subPath, nil, points[1].x, points[1].y, mid2.x, mid2.y)
         
-        let bounds = CGPathGetBoundingBox(subPath)
-        let drawBounds = CGRectInset(bounds, -5.0 * width, -5.0 * width)
-        
+        let drawBounds = CGRectInset(CGPathGetBoundingBox(subPath), -5.0 * width, -5.0 * width)
         drawingComponents.append(DrawComponent(path: subPath, width: width, color: color))
+        
         setNeedsDisplayInRect(drawBounds)
     }
     
@@ -53,17 +56,23 @@ class DrawableView: UIView
     
     private func renderDisplayToBuffer()
     {
-        bufferImage = self.imageByCapturing()
-        drawingComponents.removeAll(keepCapacity: false)
+        let qualityOfServiceClass = QOS_CLASS_BACKGROUND
+        let backgroundQueue = dispatch_get_global_queue(qualityOfServiceClass, 0)
+        dispatch_async(backgroundQueue, {
+            self.bufferImage = self.imageByCapturing()
+        })
     }
     
     //MARK - UIView Lifecycle -
     override func drawRect(rect: CGRect)
     {
         let ctx = UIGraphicsGetCurrentContext()
-        CGContextSetLineCap(ctx, kCGLineCapRound)
         
-        CGContextSetFillColorWithColor(ctx, UIColor.whiteColor().CGColor)
+        if ctx == nil {
+            return
+        }
+        
+        UIColor.whiteColor().setFill()
         UIRectFill(rect)
         
         if let img = bufferImage {
@@ -71,11 +80,11 @@ class DrawableView: UIView
         }
         
         for comp in drawingComponents {
+            CGContextSetLineCap(ctx, kCGLineCapRound)
             CGContextSetStrokeColorWithColor(ctx, comp.color)
             CGContextSetLineWidth(ctx, comp.width)
             
             CGContextAddPath(ctx, comp.path)
-            
             CGContextStrokePath(ctx)
         }
     }
@@ -84,7 +93,7 @@ class DrawableView: UIView
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent)
     {
         if event.allTouches()?.count > 1 {
-            return
+            return // We only want to deal with one touch
         }
         
         let touch = touches.first as! UITouch
@@ -97,7 +106,7 @@ class DrawableView: UIView
     override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent)
     {
         if event.allTouches()?.count > 1 {
-            return
+            return // We only want to deal with one touch
         }
         
         let touch = touches.first as! UITouch
@@ -124,7 +133,7 @@ class DrawableView: UIView
     override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent)
     {
         if event.allTouches()?.count > 1 {
-            return
+            return // We only want to deal with one touch
         }
         
         let drawColor = SettingsController.sharedController.currentStrokeColor().CGColor
@@ -133,9 +142,7 @@ class DrawableView: UIView
         
         setupAndDrawWithPoints(points: points, withColor: drawColor, withWidth: drawWidth)
         
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.125 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), {
-            self.renderDisplayToBuffer()
-        })
+        renderDisplayToBuffer()
     }
     
 }
