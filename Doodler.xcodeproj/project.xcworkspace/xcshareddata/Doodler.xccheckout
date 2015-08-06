@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>B03C123F-D022-455E-95D7-88ED48536DBE</string>
 	<key>IDESourceControlProjectName</key>
-	<string>Doodler</string>
+	<string>project</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>28FC1554EEB04F5BC29C12634432F912C21B82F7</key>
 		<string>https://github.com/naturaln0va/Doodler_iOS.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>Doodler.xcodeproj</string>
+	<string>Doodler.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>28FC1554EEB04F5BC29C12634432F912C21B82F7</key>
@@ -34,7 +34,7 @@
 			<key>IDESourceControlWCCIdentifierKey</key>
 			<string>28FC1554EEB04F5BC29C12634432F912C21B82F7</string>
 			<key>IDESourceControlWCCName</key>
-			<string>Doodler</string>
+			<string>Doodler_iOS</string>
 		</dict>
 	</array>
 </dict>

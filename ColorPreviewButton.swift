@@ -26,7 +26,7 @@ class ColorPreviewButton: UIView
     override func drawRect(rect: CGRect)
     {
         let ctx = UIGraphicsGetCurrentContext()
-        UIColor(hex: 0x191919).set()
+        UIColor(hex: 0x141414).set()
         UIRectFill(rect)
         
         color?.set()

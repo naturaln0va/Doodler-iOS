@@ -7,23 +7,23 @@ import UIKit
 import MultipeerConnectivity
 import AssetsLibrary
 
-class ViewController: UIViewController, UIGestureRecognizerDelegate, RANewDocumentControllerDelegate, RAScrollablePickerViewDelegate
+class ViewController: UIViewController, UIGestureRecognizerDelegate, RAScrollablePickerViewDelegate
 {
     var canvas: DrawableView!
     var colorButtonView: ColorPreviewButton!
     
-    var drawingScale: CGFloat = 1.0
     var previousScale: CGFloat = 0.0
     var panningCoord: CGPoint?
     
     //Outlets
     @IBOutlet weak var controlBar: UIToolbar!
     @IBOutlet weak var colorButton: UIBarButtonItem!
-    @IBOutlet weak var pencilButton: UIBarButtonItem!
-    @IBOutlet weak var eraserButton: UIBarButtonItem!
     @IBOutlet weak var shareButton: UIBarButtonItem!
+    @IBOutlet var drawingSegmentedControl: UISegmentedControl!
     @IBOutlet weak var strokeSizeSlider: UISlider!
     @IBOutlet var bottomToolbarConstraint: NSLayoutConstraint!
+    @IBOutlet var infoView: UIView!
+    @IBOutlet var infoLabel: UILabel!
     
     @IBOutlet weak var colorPreview: ColorPreView!
     @IBOutlet weak var previousColorLabel: UILabel!
@@ -45,23 +45,45 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, RANewDocume
         return pan
     }()
     
-    //MARK: - VC Delegate
+    private lazy var tapGesture: UITapGestureRecognizer = {
+        return UITapGestureRecognizer(target: self, action: "handleTap:")
+    }()
     
-    override func canBecomeFirstResponder() -> Bool {
+    //MARK: - VC Delegate
+    override func canBecomeFirstResponder() -> Bool
+    {
         return true
     }
     
-    override func viewDidLoad() {
+    override func prefersStatusBarHidden() -> Bool
+    {
+        return true
+    }
+    
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
+        
+        drawingSegmentedControl.selectedSegmentIndex = 1
         
         bottomToolbarConstraint.constant = 0
         view.layoutIfNeeded()
         
         view.insertSubview(GridView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)), belowSubview: controlBar)
         
-        colorButtonView = ColorPreviewButton(frame: CGRect(x: 0, y: 0, width: 32, height: 32))
+        infoView.alpha = 0
+        infoView.layer.cornerRadius = 10
+        infoView.layer.borderColor = UIColor.whiteColor().CGColor
+        infoView.layer.borderWidth = 1
+        
+        colorButtonView = ColorPreviewButton(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
+        colorButtonView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "colorButtonTapped"))
         colorButton.customView = colorButtonView
+        
         strokeSizeSlider.setValue(SettingsController.sharedController.currentStrokeWidth(), animated: false)
+        strokeSizeSlider.setMinimumTrackImage(UIImage.imageOfSize(CGSize(width: 2, height: 16), ofColor: UIColor(hex: 0xA6A6A6, alpha: 0.5)).resizableImageWithCapInsets(UIEdgeInsets(top: 8, left: 1, bottom: 8, right: 1)), forState: .Normal)
+        strokeSizeSlider.setMaximumTrackImage(UIImage.imageOfSize(CGSize(width: 2, height: 16), ofColor: UIColor(hex: 0xE5E5E5, alpha: 0.5)).resizableImageWithCapInsets(UIEdgeInsets(top: 8, left: 1, bottom: 8, right: 1)), forState: .Normal)
+        strokeSizeSlider.setThumbImage(UIImage(named: "thumb"), forState: .Normal)
         
         huePicker.delegate = self
         
@@ -75,15 +97,18 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, RANewDocume
         
         colorButtonView.color = SettingsController.sharedController.currentStrokeColor()
         
-        delay(0.5) {
+        delay(0.25) {
             self.setUpWithSize(CGSize(width: 1024.0, height: 1024.0))
         }
     }
     
-    func setUpWithSize(size: CGSize) {
+    func setUpWithSize(size: CGSize)
+    {
         if let canvas = canvas {
             canvas.removeFromSuperview()
             self.canvas = nil
+            previousScale = 0.0
+            panningCoord = CGPointZero
         }
         
         canvas = DrawableView(frame: CGRect(x: 0, y: 0, width: size.width, height: size.height))
@@ -95,19 +120,17 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, RANewDocume
         
         view.insertSubview(canvas, belowSubview: controlBar)
         
+        let canvasTransformValue = CGRectGetWidth(view.frame) / CGRectGetWidth(canvas.frame)
+        canvas.transform = CGAffineTransformMakeScale(canvasTransformValue, canvasTransformValue)
+        
         centerScrollViewContents()
         
-        UIView.animateWithDuration(0.4, animations: {
+        UIView.animateWithDuration(0.25, animations: {
             self.canvas.alpha = 1.0
         })
     }
     
-    override func prefersStatusBarHidden() -> Bool {
-        return true
-    }
-    
     //MARK: - Gestures
-    
     func handlePan(gesture: UIPanGestureRecognizer)
     {
         if let gestureView = gesture.view {
@@ -129,26 +152,64 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, RANewDocume
     {
         if let drawingCanvas = canvas {
             if gesture.state == .Began {
-                previousScale = drawingScale
+                previousScale = gesture.scale
             }
-            let currScale = max(min(gesture.scale * drawingScale, 10.0), 0.25)
-            let scaleStep = currScale / previousScale
             
-            drawingCanvas.transform = CGAffineTransformScale(drawingCanvas.transform, scaleStep, scaleStep)
-            
-            previousScale = currScale
+            if gesture.state == .Began || gesture.state == .Changed {
+                if let gestureView = gesture.view {
+                    let currentScale = gestureView.transform.a
+                    
+                    let maxScale: CGFloat = 2
+                    let minScale: CGFloat = 0.5
+                    
+                    var newScale: CGFloat = 1 - (previousScale - gesture.scale)
+                    newScale = min(newScale, maxScale / currentScale)
+                    newScale = max(newScale, minScale / currentScale)
+                    
+                    gestureView.transform = CGAffineTransformScale(gestureView.transform, newScale, newScale)
+                    
+                    previousScale = gesture.scale
+                    gesture.scale = 0
+                }
+            }
             
             if gesture.state == .Ended || gesture.state == .Cancelled || gesture.state == .Failed {
-                drawingScale = currScale
                 
-                centerScrollViewContents()
+                if CGRectGetWidth(drawingCanvas.frame) < CGRectGetWidth(view.frame) {
+                    centerScrollViewContents()
+                }
+            }
+        }
+    }
+    
+    func handleTap(gesture: UITapGestureRecognizer)
+    {
+        if let gestureView = gesture.view {
+            let point = gesture.locationInView(gestureView)
+            
+            if point.y < CGRectGetMaxY(controlBar.frame) {
+                if bottomToolbarConstraint.constant > 0 {
+                    let updatedColor = UIColor(hue: huePicker.value, saturation: saturationPicker.value, brightness: brightnessPicker.value, alpha: 1)
+                    SettingsController.sharedController.setStrokeColor(updatedColor)
+                    
+                    colorButtonView.color = updatedColor
+                    
+                    bottomToolbarConstraint.constant = 0
+                }
+                
+                UIView.animateWithDuration(0.25, delay: 0.0, usingSpringWithDamping: 1.25, initialSpringVelocity: 5.0, options: nil, animations: {
+                    
+                    self.view.layoutIfNeeded()
+                    
+                }, completion: nil)
             }
         }
     }
     
     //MARK: - Button Actions
     
-    func clearScreen() {
+    func clearScreen()
+    {
         let alertController = UIAlertController(title: "Clear Screen?", message: "This cannot be undone.", preferredStyle: .Alert)
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { _ in
@@ -166,7 +227,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, RANewDocume
         }
     }
     
-    @IBAction func colorButtonTapped()
+    func colorButtonTapped()
     {
         RAAudioEngine.sharedEngine.play(.TapSoundEffect)
         
@@ -177,6 +238,8 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, RANewDocume
             colorButtonView.color = updatedColor
             
             bottomToolbarConstraint.constant = 0
+            
+            view.removeGestureRecognizer(tapGesture)
         } else {
             if let hue = SettingsController.sharedController.currentStrokeColor().hsb()!.first {
                 huePicker.value = hue
@@ -201,6 +264,8 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, RANewDocume
             }
             
             bottomToolbarConstraint.constant = 400
+            
+            view.addGestureRecognizer(tapGesture)
         }
         
         UIView.animateWithDuration(0.25, delay: 0.0, usingSpringWithDamping: 1.25, initialSpringVelocity: 5.0, options: nil, animations: {
@@ -210,77 +275,69 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, RANewDocume
         }, completion: nil)
     }
     
-    @IBAction func saveTapped() {
+    @IBAction func saveTapped()
+    {
         // add a thing for the user to edit share text
-        
         RAAudioEngine.sharedEngine.play(.TapSoundEffect)
         
-        let image = canvas.imageByCapturing()
-        let authStatus = ALAssetsLibrary.authorizationStatus()
-        if authStatus == .Authorized {
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                UIImageWriteToSavedPhotosAlbum(image, self, Selector("image:didFinishSavingWithError:contextInfo:"), nil)
-            })
-        } else if authStatus == .Denied {
-            showMessageBannerWithText("Photo Access Blocked", color: UIColor.redColor(), completion: nil)
-        } else if authStatus == .NotDetermined {
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                UIImageWriteToSavedPhotosAlbum(image, self, Selector("image:didFinishSavingWithError:contextInfo:"), nil)
-            })
-        }
-        
-    }
-    
-    func image(image: UIImage, didFinishSavingWithError error: NSError!, contextInfo:UnsafePointer<Void>) {
-        if error != nil {
-            showMessageBannerWithText("Error Saving Image", color: UIColor(hex: 0xc0392b), completion: nil)
-        }
-        RAAudioEngine.sharedEngine.play(.SaveSoundEffect)
-        showMessageBannerWithText("Image Saved", color: UIColor(hex: 0x27ae60), completion: {
-            let alertController = UIAlertController(title: "New Document", message: "Would you like to create a new document?", preferredStyle: .Alert)
-            
-            let cancelAction = UIAlertAction(title: "No, thanks", style: .Cancel) { _ in
+        let activityViewcontroller = UIActivityViewController(activityItems: ["Made with Doodler", canvas.imageByCapturing()], applicationActivities: [NewDocumentActivity()])
+        activityViewcontroller.excludedActivityTypes = [
+            UIActivityTypeAssignToContact, UIActivityTypeCopyToPasteboard, UIActivityTypePrint
+        ]
+        activityViewcontroller.completionWithItemsHandler = { (activityType: String!, completed: Bool, returnedItems: [AnyObject]!, activityError: NSError!) in
+            if activityType == nil {
+                return
             }
-            alertController.addAction(cancelAction)
             
-            let destroyAction = UIAlertAction(title: "Yes, please", style: .Default) { _ in
-                self.delay(0.2) {
+            if activityType == kActivityTypeNewDocument {
+                delay(0.25) {
                     self.setUpWithSize(CGSize(width: 1024.0, height: 1024.0))
                 }
             }
-            alertController.addAction(destroyAction)
             
-            self.presentViewController(alertController, animated: true) {
-                // ...
+            if activityType == UIActivityTypeSaveToCameraRoll {
+                RAAudioEngine.sharedEngine.play(.SaveSoundEffect)
+                self.showMessageBannerWithText("Image Saved", color: UIColor(hex: 0x27ae60), completion: {
+                    let alertController = UIAlertController(title: "New Document", message: "Would you like to create a new document?", preferredStyle: .Alert)
+                    
+                    let cancelAction = UIAlertAction(title: "No, thanks", style: .Cancel) { _ in
+                    }
+                    alertController.addAction(cancelAction)
+                    
+                    let destroyAction = UIAlertAction(title: "Yes, please", style: .Default) { _ in
+                        delay(0.25) {
+                            self.setUpWithSize(CGSize(width: 1024.0, height: 1024.0))
+                        }
+                    }
+                    alertController.addAction(destroyAction)
+                    
+                    self.presentViewController(alertController, animated: true, completion: nil)
+                })
             }
-        })
+        }
+        presentViewController(activityViewcontroller, animated: true, completion: {})
     }
     
-    @IBAction func strokeSliderUpdated(sender: UISlider) {
+    @IBAction func drawingSegmentWasChanged(sender: UISegmentedControl)
+    {
+        if sender.selectedSegmentIndex == 0 {
+            SettingsController.sharedController.enableEraser()
+        } else if sender.selectedSegmentIndex == 1 {
+            SettingsController.sharedController.disableEraser()
+        }
+    }
+    
+    @IBAction func strokeSliderUpdated(sender: UISlider)
+    {
         SettingsController.sharedController.setStrokeWidth(sender.value)
-    }
-    
-    @IBAction func eraserButtonTapped(sender: AnyObject) {
-        RAAudioEngine.sharedEngine.play(.TapSoundEffect)
-        
-        //drawingCanvas.eraserEnabled = true
-    }
-    
-    @IBAction func pencilButtonTapped(sender: AnyObject) {
-        RAAudioEngine.sharedEngine.play(.TapSoundEffect)
-        
-        //drawingCanvas.eraserEnabled = false
+        updateInfoForInfoView("Size: \(Int(sender.value))")
     }
     
     //MARK: - UIGestureRecognizer Delegate
-    
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool
+    {
         
-        if gestureRecognizer.isKindOfClass(UIPinchGestureRecognizer.self) || otherGestureRecognizer.isKindOfClass(UIPinchGestureRecognizer.self) {
-            return true
-        }
-        
-        if gestureRecognizer.isKindOfClass(UIPanGestureRecognizer.self) || otherGestureRecognizer.isKindOfClass(UIPanGestureRecognizer.self) {
+        if gestureRecognizer.isKindOfClass(UIPanGestureRecognizer.self) || otherGestureRecognizer.isKindOfClass(UIPinchGestureRecognizer.self) {
             return true
         }
         
@@ -288,34 +345,30 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, RANewDocume
     }
     
     //MARK: - Helper Functions
-    
-    func centerScrollViewContents()
+    func updateInfoForInfoView(info: String)
     {
-        let boundsSize = view.bounds.size
-        var contentsFrame = canvas.frame
+        infoLabel.text = info
         
-        if contentsFrame.size.width < boundsSize.width {
-            contentsFrame.origin.x = (boundsSize.width - contentsFrame.size.width) / 2.0
-        } else {
-            contentsFrame.origin.x = 0.0
-        }
+        UIView.animateWithDuration(0.25, animations: {
+            self.infoView.alpha = 1
+        })
         
-        if contentsFrame.size.height < boundsSize.height {
-            contentsFrame.origin.y = (boundsSize.height - contentsFrame.size.height) / 2.0
-        } else {
-            contentsFrame.origin.y = 0.0
-        }
-        
-        UIView.animateWithDuration(0.2, animations: {
-            self.canvas.frame = contentsFrame
+        delay(2, {
+            UIView.animateWithDuration(0.25, animations: {
+                self.infoView.alpha = 0
+            })
         })
     }
     
-    func setBrushToErase() {
-        SettingsController.sharedController.setStrokeColor(UIColor.whiteColor())
+    func centerScrollViewContents()
+    {
+        UIView.animateWithDuration(0.2, animations: {
+            self.canvas.center = self.view.center
+        })
     }
     
-    func showMessageBannerWithText(text: String, color: UIColor, completion: (() -> Void)?) {
+    func showMessageBannerWithText(text: String, color: UIColor, completion: (() -> Void)?)
+    {
         let bannerHeight: CGFloat = 54.0
         var banner = UIView(frame: CGRect(x: 0, y: -bannerHeight - 25, width: self.view.frame.size.width, height: bannerHeight * 2))
         banner.backgroundColor = color
@@ -339,23 +392,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, RANewDocume
             }
         }
     }
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "newDocument" {
-            let newDocVC: RANewDocumentViewController = segue.destinationViewController as! RANewDocumentViewController
-            newDocVC.delegate = self
-        }
-    }
-    
-    func delay(delay:Double, closure:()->()) {
-        dispatch_after(
-            dispatch_time(
-                DISPATCH_TIME_NOW,
-                Int64(delay * Double(NSEC_PER_SEC))
-            ),
-            dispatch_get_main_queue(), closure)
-    }
-    
+        
     // MARK: RAScrollablePickerViuewDelegate
     func valueChanged(value: CGFloat, type: PickerType)
     {
@@ -381,19 +418,9 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, RANewDocume
         }
     }
     
-    //MARK: - New Document Delegate
-    func newDocumentControllerDidCancel(controller: RANewDocumentViewController) {
-        // nothing for now
-    }
-    
-    func newDocumentControllerDidFinish(controller: RANewDocumentViewController, size: CGSize) {
-        self.dismissViewControllerAnimated(true, completion: nil)
-        self.setUpWithSize(size)
-    }
-    
     //MARK: - Motion Event Delegate
-    
-    override func motionEnded(motion: UIEventSubtype, withEvent event: UIEvent) {
+    override func motionEnded(motion: UIEventSubtype, withEvent event: UIEvent)
+    {
         if motion == .MotionShake {
             clearScreen()
         }

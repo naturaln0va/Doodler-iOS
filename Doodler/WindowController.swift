@@ -6,7 +6,7 @@
 import UIKit
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate
+class WindowController: UIResponder, UIApplicationDelegate
 {
 
     var window: UIWindow?
@@ -19,21 +19,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate
         
         return true
     }
-
-    func applicationDidEnterBackground(application: UIApplication)
-    {
-        notificationCenter.postNotificationName("NOTIFICATION_SHUT_DOWN_ADVERTISER", object: self)
-    }
-
-    func applicationDidBecomeActive(application: UIApplication)
-    {
-        notificationCenter.postNotificationName("NOTIFICATION_START_ADVERTISER", object: self)
-    }
-    
-    func applicationWillResignActive(application: UIApplication) { }
-    
-    func applicationWillEnterForeground(application: UIApplication) { }
-
-    func applicationWillTerminate(application: UIApplication) { }
 }
 

@@ -1,7 +1,7 @@
-//
 //  Created by Ryan Ackermann on 7/7/15.
 //  Copyright (c) 2015 Ryan Ackermann. All rights reserved.
-//
+//  Find me on Twitter @naturaln0va.
+//  Under The MIT License (MIT). See license.txt for more info.
 
 import UIKit
 
