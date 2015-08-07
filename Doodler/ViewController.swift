@@ -7,13 +7,12 @@ import UIKit
 import MultipeerConnectivity
 import AssetsLibrary
 
-class ViewController: UIViewController, UIGestureRecognizerDelegate, RAScrollablePickerViewDelegate
+class ViewController: UIViewController, UIGestureRecognizerDelegate, RAScrollablePickerViewDelegate, UIScrollViewDelegate
 {
     var canvas: DrawableView!
     var colorButtonView: ColorPreviewButton!
     
-    var previousScale: CGFloat = 0.0
-    var panningCoord: CGPoint?
+    var scrollView: UIScrollView!
     
     //Outlets
     @IBOutlet weak var controlBar: UIToolbar!
@@ -31,19 +30,6 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, RAScrollabl
     @IBOutlet weak var huePicker: RAScrollablePickerView!
     @IBOutlet weak var saturationPicker: RAScrollablePickerView!
     @IBOutlet weak var brightnessPicker: RAScrollablePickerView!
-    
-    private lazy var pinchGesture: UIPinchGestureRecognizer = {
-        let pinch = UIPinchGestureRecognizer(target: self, action: "handlePinch:")
-        pinch.delegate = self
-        return pinch
-    }()
-    
-    private lazy var panGesture: UIPanGestureRecognizer = {
-        let pan = UIPanGestureRecognizer(target: self, action: "handlePan:")
-        pan.minimumNumberOfTouches = 2
-        pan.delegate = self
-        return pan
-    }()
     
     private lazy var tapGesture: UITapGestureRecognizer = {
         return UITapGestureRecognizer(target: self, action: "handleTap:")
@@ -97,6 +83,11 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, RAScrollabl
         
         colorButtonView.color = SettingsController.sharedController.currentStrokeColor()
         
+        scrollView = UIScrollView(frame: view.bounds)
+        scrollView.delegate = self
+        scrollView.panGestureRecognizer.minimumNumberOfTouches = 2
+        view.insertSubview(scrollView, belowSubview: controlBar)
+        
         delay(0.25) {
             self.setUpWithSize(CGSize(width: 1024.0, height: 1024.0))
         }
@@ -107,21 +98,27 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, RAScrollabl
         if let canvas = canvas {
             canvas.removeFromSuperview()
             self.canvas = nil
-            previousScale = 0.0
-            panningCoord = CGPointZero
         }
         
         canvas = DrawableView(frame: CGRect(x: 0, y: 0, width: size.width, height: size.height))
         canvas.center = view.center
         canvas.userInteractionEnabled = true
         canvas.alpha = 0.0
-        canvas.addGestureRecognizer(pinchGesture)
-        canvas.addGestureRecognizer(panGesture)
+
+        scrollView.addSubview(canvas)
+        scrollView.contentSize = canvas.bounds.size
         
-        view.insertSubview(canvas, belowSubview: controlBar)
+        let scrollViewFrame = scrollView.frame
+        let scaleWidth = scrollViewFrame.size.width / scrollView.contentSize.width
+        let scaleHeight = scrollViewFrame.size.height / scrollView.contentSize.height
+        let minScale = min(scaleWidth, scaleHeight);
+        scrollView.minimumZoomScale = minScale;
         
         let canvasTransformValue = CGRectGetWidth(view.frame) / CGRectGetWidth(canvas.frame)
         canvas.transform = CGAffineTransformMakeScale(canvasTransformValue, canvasTransformValue)
+        
+        scrollView.maximumZoomScale = 7.0
+        scrollView.zoomScale = minScale;
         
         centerScrollViewContents()
         
@@ -131,57 +128,6 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, RAScrollabl
     }
     
     //MARK: - Gestures
-    func handlePan(gesture: UIPanGestureRecognizer)
-    {
-        if let gestureView = gesture.view {
-            if gesture.state == .Began {
-                panningCoord = gesture.locationInView(gestureView)
-            }
-            
-            if let panCoord = panningCoord {
-                let newCoord = gesture.locationInView(gestureView)
-                let dx = (newCoord.x - panCoord.x) * 0.25
-                let dy = (newCoord.y - panCoord.y) * 0.25
-                
-                gestureView.frame = CGRect(x: gestureView.frame.origin.x + dx, y: gestureView.frame.origin.y + dy, width: gestureView.frame.size.width, height: gestureView.frame.size.height)
-            }
-        }
-    }
-    
-    func handlePinch(gesture: UIPinchGestureRecognizer)
-    {
-        if let drawingCanvas = canvas {
-            if gesture.state == .Began {
-                previousScale = gesture.scale
-            }
-            
-            if gesture.state == .Began || gesture.state == .Changed {
-                if let gestureView = gesture.view {
-                    let currentScale = gestureView.transform.a
-                    
-                    let maxScale: CGFloat = 2
-                    let minScale: CGFloat = 0.5
-                    
-                    var newScale: CGFloat = 1 - (previousScale - gesture.scale)
-                    newScale = min(newScale, maxScale / currentScale)
-                    newScale = max(newScale, minScale / currentScale)
-                    
-                    gestureView.transform = CGAffineTransformScale(gestureView.transform, newScale, newScale)
-                    
-                    previousScale = gesture.scale
-                    gesture.scale = 0
-                }
-            }
-            
-            if gesture.state == .Ended || gesture.state == .Cancelled || gesture.state == .Failed {
-                
-                if CGRectGetWidth(drawingCanvas.frame) < CGRectGetWidth(view.frame) {
-                    centerScrollViewContents()
-                }
-            }
-        }
-    }
-    
     func handleTap(gesture: UITapGestureRecognizer)
     {
         if let gestureView = gesture.view {
@@ -207,7 +153,6 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, RAScrollabl
     }
     
     //MARK: - Button Actions
-    
     func clearScreen()
     {
         let alertController = UIAlertController(title: "Clear Screen?", message: "This cannot be undone.", preferredStyle: .Alert)
@@ -249,6 +194,9 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, RAScrollabl
             
             let currentColor = SettingsController.sharedController.currentStrokeColor()
             
+            saturationPicker.value = currentColor.hsb()![1]
+            brightnessPicker.value = currentColor.hsb()![2]
+
             colorPreview.previousColor = currentColor
             colorPreview.newColor = currentColor
             
@@ -362,9 +310,22 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, RAScrollabl
     
     func centerScrollViewContents()
     {
-        UIView.animateWithDuration(0.2, animations: {
-            self.canvas.center = self.view.center
-        })
+        let boundsSize = scrollView.bounds.size
+        var contentsFrame = canvas.frame
+        
+        if contentsFrame.size.width < boundsSize.width {
+            contentsFrame.origin.x = (boundsSize.width - contentsFrame.size.width) / 2.0
+        } else {
+            contentsFrame.origin.x = 0.0
+        }
+        
+        if contentsFrame.size.height < boundsSize.height {
+            contentsFrame.origin.y = (boundsSize.height - contentsFrame.size.height) / 2.0
+        } else {
+            contentsFrame.origin.y = 0.0
+        }
+        
+        canvas.frame = contentsFrame
     }
     
     func showMessageBannerWithText(text: String, color: UIColor, completion: (() -> Void)?)
@@ -416,6 +377,17 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, RAScrollabl
         } else {
             newColorLabel.textColor = UIColor.blackColor()
         }
+    }
+    
+    //MARK: - UIScrollViewDelegate
+    func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView?
+    {
+        return canvas
+    }
+    
+    func scrollViewDidZoom(scrollView: UIScrollView)
+    {
+        centerScrollViewContents()
     }
     
     //MARK: - Motion Event Delegate
