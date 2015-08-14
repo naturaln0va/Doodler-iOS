@@ -10,12 +10,16 @@ class WindowController: UIResponder, UIApplicationDelegate
 {
 
     var window: UIWindow?
-    let notificationCenter = NSNotificationCenter.defaultCenter()
-    let audioEngine = RAAudioEngine()
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool
     {
         application.applicationSupportsShakeToEdit = true;
+        
+        window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        
+        if let window = window {
+            MenuController.sharedController.showInWindow(window)
+        }
         
         return true
     }

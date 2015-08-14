@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SplashViewController" customModule="Doodler" customModuleProvider="target">
+            <connections>
+                <outlet property="view" destination="i5M-Pr-FkT" id="wUV-bV-9aH"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IYN-vL-zOd">
+                    <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                    <color key="backgroundColor" white="0.08037788303" alpha="1" colorSpace="calibratedWhite"/>
+                    <items/>
+                </toolbar>
+            </subviews>
+            <color key="backgroundColor" white="0.14999999999999999" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="IYN-vL-zOd" secondAttribute="trailing" id="L10-QG-x6g"/>
+                <constraint firstAttribute="bottom" secondItem="IYN-vL-zOd" secondAttribute="bottom" id="lCf-zu-dhF"/>
+                <constraint firstItem="IYN-vL-zOd" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="xmP-7S-vqP"/>
+            </constraints>
+        </view>
+    </objects>
+</document>

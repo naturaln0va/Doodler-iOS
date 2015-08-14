@@ -7,7 +7,7 @@ import UIKit
 import MultipeerConnectivity
 import AssetsLibrary
 
-class ViewController: UIViewController, UIGestureRecognizerDelegate, RAScrollablePickerViewDelegate, UIScrollViewDelegate
+class CanvasViewController: RHAViewController, UIGestureRecognizerDelegate, UIScrollViewDelegate, ColorPickerViewControllerDelegate
 {
     var canvas: DrawableView!
     var colorButtonView: ColorPreviewButton!
@@ -20,20 +20,8 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, RAScrollabl
     @IBOutlet weak var shareButton: UIBarButtonItem!
     @IBOutlet var drawingSegmentedControl: UISegmentedControl!
     @IBOutlet weak var strokeSizeSlider: UISlider!
-    @IBOutlet var bottomToolbarConstraint: NSLayoutConstraint!
     @IBOutlet var infoView: UIView!
     @IBOutlet var infoLabel: UILabel!
-    
-    @IBOutlet weak var colorPreview: ColorPreView!
-    @IBOutlet weak var previousColorLabel: UILabel!
-    @IBOutlet weak var newColorLabel: UILabel!
-    @IBOutlet weak var huePicker: RAScrollablePickerView!
-    @IBOutlet weak var saturationPicker: RAScrollablePickerView!
-    @IBOutlet weak var brightnessPicker: RAScrollablePickerView!
-    
-    private lazy var tapGesture: UITapGestureRecognizer = {
-        return UITapGestureRecognizer(target: self, action: "handleTap:")
-    }()
     
     //MARK: - VC Delegate
     override func canBecomeFirstResponder() -> Bool
@@ -52,11 +40,6 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, RAScrollabl
         
         drawingSegmentedControl.selectedSegmentIndex = 1
         
-        bottomToolbarConstraint.constant = 0
-        view.layoutIfNeeded()
-        
-        view.insertSubview(GridView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)), belowSubview: controlBar)
-        
         infoView.alpha = 0
         infoView.layer.cornerRadius = 10
         infoView.layer.borderColor = UIColor.whiteColor().CGColor
@@ -67,29 +50,27 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, RAScrollabl
         colorButton.customView = colorButtonView
         
         strokeSizeSlider.setValue(SettingsController.sharedController.currentStrokeWidth(), animated: false)
-        strokeSizeSlider.setMinimumTrackImage(UIImage.imageOfSize(CGSize(width: 2, height: 16), ofColor: UIColor(hex: 0xA6A6A6, alpha: 0.5)).resizableImageWithCapInsets(UIEdgeInsets(top: 8, left: 1, bottom: 8, right: 1)), forState: .Normal)
-        strokeSizeSlider.setMaximumTrackImage(UIImage.imageOfSize(CGSize(width: 2, height: 16), ofColor: UIColor(hex: 0xE5E5E5, alpha: 0.5)).resizableImageWithCapInsets(UIEdgeInsets(top: 8, left: 1, bottom: 8, right: 1)), forState: .Normal)
+        strokeSizeSlider.setMinimumTrackImage(UIImage.imageOfSize(CGSize(width: 2, height: 16), ofColor: UIColor(hex: 0x020202, alpha: 1.0)).resizableImageWithCapInsets(UIEdgeInsets(top: 8, left: 1, bottom: 8, right: 1)), forState: .Normal)
+        strokeSizeSlider.setMaximumTrackImage(UIImage.imageOfSize(CGSize(width: 2, height: 16), ofColor: UIColor(hex: 0x202020, alpha: 1.0)).resizableImageWithCapInsets(UIEdgeInsets(top: 8, left: 1, bottom: 8, right: 1)), forState: .Normal)
         strokeSizeSlider.setThumbImage(UIImage(named: "thumb"), forState: .Normal)
         
-        huePicker.delegate = self
-        
-        saturationPicker.delegate = self
-        saturationPicker.type = .Saturation
-        saturationPicker.hueValueForPreview = huePicker.value
-        
-        brightnessPicker.delegate = self
-        brightnessPicker.type = .Brightness
-        brightnessPicker.hueValueForPreview = huePicker.value
-        
         colorButtonView.color = SettingsController.sharedController.currentStrokeColor()
-        
-        scrollView = UIScrollView(frame: view.bounds)
-        scrollView.delegate = self
-        scrollView.panGestureRecognizer.minimumNumberOfTouches = 2
-        view.insertSubview(scrollView, belowSubview: controlBar)
-        
-        delay(0.25) {
-            self.setUpWithSize(CGSize(width: 1024.0, height: 1024.0))
+        shareButton.action = "shareButtonTapped"
+    }
+    
+    override func viewWillLayoutSubviews()
+    {
+        if isBeingPresented() {
+            view.insertSubview(GridView(frame: CGRect(x: 0, y: 0, width: CGRectGetWidth(view.bounds), height: CGRectGetHeight(view.bounds))), belowSubview: controlBar)
+            
+            scrollView = UIScrollView(frame: view.bounds)
+            scrollView.delegate = self
+            scrollView.panGestureRecognizer.minimumNumberOfTouches = 2
+            view.insertSubview(scrollView, belowSubview: controlBar)
+            
+            delay(0.25) {
+                self.setUpWithSize(CGSize(width: 1024.0, height: 1024.0))
+            }
         }
     }
     
@@ -127,31 +108,6 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, RAScrollabl
         })
     }
     
-    //MARK: - Gestures
-    func handleTap(gesture: UITapGestureRecognizer)
-    {
-        if let gestureView = gesture.view {
-            let point = gesture.locationInView(gestureView)
-            
-            if point.y < CGRectGetMaxY(controlBar.frame) {
-                if bottomToolbarConstraint.constant > 0 {
-                    let updatedColor = UIColor(hue: huePicker.value, saturation: saturationPicker.value, brightness: brightnessPicker.value, alpha: 1)
-                    SettingsController.sharedController.setStrokeColor(updatedColor)
-                    
-                    colorButtonView.color = updatedColor
-                    
-                    bottomToolbarConstraint.constant = 0
-                }
-                
-                UIView.animateWithDuration(0.25, delay: 0.0, usingSpringWithDamping: 1.25, initialSpringVelocity: 5.0, options: nil, animations: {
-                    
-                    self.view.layoutIfNeeded()
-                    
-                }, completion: nil)
-            }
-        }
-    }
-    
     //MARK: - Button Actions
     func clearScreen()
     {
@@ -176,54 +132,11 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, RAScrollabl
     {
         RAAudioEngine.sharedEngine.play(.TapSoundEffect)
         
-        if bottomToolbarConstraint.constant > 0 {
-            let updatedColor = UIColor(hue: huePicker.value, saturation: saturationPicker.value, brightness: brightnessPicker.value, alpha: 1)
-            SettingsController.sharedController.setStrokeColor(updatedColor)
-            
-            colorButtonView.color = updatedColor
-            
-            bottomToolbarConstraint.constant = 0
-            
-            view.removeGestureRecognizer(tapGesture)
-        } else {
-            if let hue = SettingsController.sharedController.currentStrokeColor().hsb()!.first {
-                huePicker.value = hue
-                saturationPicker.hueValueForPreview = hue
-                brightnessPicker.hueValueForPreview = hue
-            }
-            
-            let currentColor = SettingsController.sharedController.currentStrokeColor()
-            
-            saturationPicker.value = currentColor.hsb()![1]
-            brightnessPicker.value = currentColor.hsb()![2]
-
-            colorPreview.previousColor = currentColor
-            colorPreview.newColor = currentColor
-            
-            previousColorLabel.text = currentColor.hexString()
-            newColorLabel.text = currentColor.hexString()
-            
-            if currentColor.isDarkColor() {
-                previousColorLabel.textColor = UIColor.whiteColor()
-                newColorLabel.textColor = UIColor.whiteColor()
-            } else {
-                previousColorLabel.textColor = UIColor.blackColor()
-                newColorLabel.textColor = UIColor.blackColor()
-            }
-            
-            bottomToolbarConstraint.constant = 400
-            
-            view.addGestureRecognizer(tapGesture)
-        }
-        
-        UIView.animateWithDuration(0.25, delay: 0.0, usingSpringWithDamping: 1.25, initialSpringVelocity: 5.0, options: nil, animations: {
-        
-            self.view.layoutIfNeeded()
-            
-        }, completion: nil)
+        MenuController.sharedController.colorPickerVC.delegate = self
+        presentViewController(RHANavigationViewController(rootViewController: MenuController.sharedController.colorPickerVC), animated: true, completion: nil)
     }
     
-    @IBAction func saveTapped()
+    func shareButtonTapped()
     {
         // add a thing for the user to edit share text
         RAAudioEngine.sharedEngine.play(.TapSoundEffect)
@@ -353,31 +266,6 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, RAScrollabl
             }
         }
     }
-        
-    // MARK: RAScrollablePickerViuewDelegate
-    func valueChanged(value: CGFloat, type: PickerType)
-    {
-        var changedColor: UIColor
-        
-        switch(type) {
-        case .Hue:
-            changedColor = UIColor(hue: value, saturation: saturationPicker.value, brightness: brightnessPicker.value, alpha: 1)
-            saturationPicker.hueValueForPreview = value
-            brightnessPicker.hueValueForPreview = value
-        case .Saturation:
-            changedColor = UIColor(hue: huePicker.value, saturation: value, brightness: brightnessPicker.value, alpha: 1)
-        case .Brightness:
-            changedColor = UIColor(hue: huePicker.value, saturation: saturationPicker.value, brightness: value, alpha: 1)
-        }
-        
-        colorPreview.newColor = changedColor
-        newColorLabel.text = changedColor.hexString()
-        if changedColor.isDarkColor() {
-            newColorLabel.textColor = UIColor.whiteColor()
-        } else {
-            newColorLabel.textColor = UIColor.blackColor()
-        }
-    }
     
     //MARK: - UIScrollViewDelegate
     func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView?
@@ -388,6 +276,14 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, RAScrollabl
     func scrollViewDidZoom(scrollView: UIScrollView)
     {
         centerScrollViewContents()
+    }
+    
+    //MARK: - ColorPickerViewControllerDelegate Methods -
+    func colorPickerViewControllerDidPickColor(color: UIColor)
+    {
+        SettingsController.sharedController.setStrokeColor(color)
+        
+        colorButtonView.color = color
     }
     
     //MARK: - Motion Event Delegate
