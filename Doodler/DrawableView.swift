@@ -30,6 +30,7 @@ class DrawableView: UIView
     func clear()
     {
         bufferImage = nil
+        CacheController.sharedController.invalidateCache()
         setNeedsDisplay()
     }
     
@@ -56,11 +57,12 @@ class DrawableView: UIView
     
     private func renderDisplayToBuffer()
     {
-        let qualityOfServiceClass = QOS_CLASS_BACKGROUND
-        let backgroundQueue = dispatch_get_global_queue(qualityOfServiceClass, 0)
-        dispatch_async(backgroundQueue, {
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)) {
             self.bufferImage = self.imageByCapturing()
-        })
+            if let image = self.bufferImage {
+                CacheController.sharedController.addItem(image)
+            }
+        }
     }
     
     //MARK - UIView Lifecycle -

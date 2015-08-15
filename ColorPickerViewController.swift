@@ -1,7 +1,4 @@
 //
-//  ColorPickerViewController.swift
-//  Doodler
-//
 //  Created by Ryan Ackermann on 8/13/15.
 //  Copyright (c) 2015 Ryan Ackermann. All rights reserved.
 //
@@ -32,12 +29,14 @@ class ColorPickerViewController: RHAViewController, SaturationBrightnessPickerVi
         title = "Pick A Color"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: "doneButtonPressed")
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Cancel, target: self, action: "cancelButtonPressed")
-                
-        if let hue = SettingsController.sharedController.currentStrokeColor().hsb()!.first {
-            huePickerView.hue = hue
-            saturationBrightnessPickerView.hue = hue
-        }
         
+        huePickerView.layer.cornerRadius = 4
+        huePickerView.delegate = saturationBrightnessPickerView
+        saturationBrightnessPickerView.delegate = self
+    }
+    
+    override func viewWillAppear(animated: Bool)
+    {
         let currentColor = SettingsController.sharedController.currentStrokeColor()
         colorPreView.previousColor = currentColor
         colorPreView.newColor = currentColor
@@ -53,8 +52,10 @@ class ColorPickerViewController: RHAViewController, SaturationBrightnessPickerVi
             currentColorLabel.textColor = UIColor.blackColor()
         }
         
-        huePickerView.delegate = saturationBrightnessPickerView
-        saturationBrightnessPickerView.delegate = self
+        if let hue = SettingsController.sharedController.currentStrokeColor().hsb()!.first {
+            huePickerView.hue = hue
+            saturationBrightnessPickerView.hue = hue
+        }
     }
     
     func doneButtonPressed()

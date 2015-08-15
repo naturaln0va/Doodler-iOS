@@ -35,6 +35,8 @@
 		6903EAB11B56AB06001BEAEC /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6903EAAF1B56AB06001BEAEC /* GridView.swift */; };
 		6903EAB31B56AB31001BEAEC /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6903EAB21B56AB31001BEAEC /* SettingsController.swift */; };
 		693617BD1B5702AC00F1CCF4 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6903EAA81B56AAD8001BEAEC /* LaunchScreen.xib */; };
+		693740F71B7E4EFC00E49149 /* AutoHideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693740F61B7E4EFC00E49149 /* AutoHideView.swift */; };
+		693740F91B7E5A1E00E49149 /* CacheController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693740F81B7E5A1E00E49149 /* CacheController.swift */; };
 		69F3DB4C1B73BBF1008F2511 /* UIImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F3DB4B1B73BBF1008F2511 /* UIImageExtensions.swift */; };
 		69F3DB4E1B73BFF1008F2511 /* FoundationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F3DB4D1B73BFF1008F2511 /* FoundationExtensions.swift */; };
 		69F3DB511B73DE67008F2511 /* NewDocumentActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F3DB501B73DE67008F2511 /* NewDocumentActivity.swift */; };
@@ -71,6 +73,8 @@
 		6903EAAE1B56AB06001BEAEC /* DrawableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DrawableView.swift; path = Doodler/DrawableView.swift; sourceTree = SOURCE_ROOT; };
 		6903EAAF1B56AB06001BEAEC /* GridView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GridView.swift; path = Doodler/GridView.swift; sourceTree = SOURCE_ROOT; };
 		6903EAB21B56AB31001BEAEC /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsController.swift; path = Doodler/SettingsController.swift; sourceTree = SOURCE_ROOT; };
+		693740F61B7E4EFC00E49149 /* AutoHideView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoHideView.swift; sourceTree = SOURCE_ROOT; };
+		693740F81B7E5A1E00E49149 /* CacheController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheController.swift; sourceTree = SOURCE_ROOT; };
 		69F3DB4B1B73BBF1008F2511 /* UIImageExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtensions.swift; sourceTree = SOURCE_ROOT; };
 		69F3DB4D1B73BFF1008F2511 /* FoundationExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoundationExtensions.swift; sourceTree = SOURCE_ROOT; };
 		69F3DB501B73DE67008F2511 /* NewDocumentActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewDocumentActivity.swift; sourceTree = SOURCE_ROOT; };
@@ -108,6 +112,7 @@
 				489085141B59FD3900C199A6 /* ColorPreviewButton.swift */,
 				489816B91B7D953700CAE108 /* HuePickerView.swift */,
 				489816BA1B7D953700CAE108 /* SaturationBrightnessPickerView.swift */,
+				693740F61B7E4EFC00E49149 /* AutoHideView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -153,6 +158,7 @@
 				489816AB1B7D852200CAE108 /* MenuController.swift */,
 				489816AC1B7D852200CAE108 /* RHAColorController.swift */,
 				48B38C541A16C4110040DE29 /* WindowController.swift */,
+				693740F81B7E5A1E00E49149 /* CacheController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -285,11 +291,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				489085131B59F57200C199A6 /* ColorPreView.swift in Sources */,
+				693740F71B7E4EFC00E49149 /* AutoHideView.swift in Sources */,
 				489816AD1B7D852200CAE108 /* MenuController.swift in Sources */,
 				69F3DB4E1B73BFF1008F2511 /* FoundationExtensions.swift in Sources */,
 				69F3DB4C1B73BBF1008F2511 /* UIImageExtensions.swift in Sources */,
 				6903EA9C1B56AA6C001BEAEC /* UIColorExstension.swift in Sources */,
 				6903EA9D1B56AA6C001BEAEC /* UIViewExtensions.swift in Sources */,
+				693740F91B7E5A1E00E49149 /* CacheController.swift in Sources */,
 				6903EAB31B56AB31001BEAEC /* SettingsController.swift in Sources */,
 				69F3DB511B73DE67008F2511 /* NewDocumentActivity.swift in Sources */,
 				6903EA991B56AA51001BEAEC /* RAAudioEngine.swift in Sources */,

@@ -1,7 +1,4 @@
 //
-//  MenuController.swift
-//  Whereabouts
-//
 //  Created by Ryan Ackermann on 5/29/15.
 //  Copyright (c) 2015 Ryan Ackermann. All rights reserved.
 //
@@ -21,12 +18,7 @@ class MenuController: NSObject
     lazy var colorPickerVC: ColorPickerViewController = {
         return ColorPickerViewController()
     }()
-    
-    override init()
-    {
-        super.init()
-    }
-    
+        
     func showInWindow(window: UIWindow)
     {
         presenterViewController = SplashViewController()
@@ -36,11 +28,7 @@ class MenuController: NSObject
         
         if let presenterVC = presenterViewController {
             delay(0.5, {
-                presenterVC.presentViewController(self.canvasVC, animated: false, completion: {
-                    dispatch_async(dispatch_get_main_queue(), {
-                        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: .Slide)
-                    })
-                })
+                presenterVC.presentViewController(self.canvasVC, animated: false, completion: nil)
             })
         }
     }

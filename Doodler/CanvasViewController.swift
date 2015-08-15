@@ -20,7 +20,7 @@ class CanvasViewController: RHAViewController, UIGestureRecognizerDelegate, UISc
     @IBOutlet weak var shareButton: UIBarButtonItem!
     @IBOutlet var drawingSegmentedControl: UISegmentedControl!
     @IBOutlet weak var strokeSizeSlider: UISlider!
-    @IBOutlet var infoView: UIView!
+    @IBOutlet var infoView: AutoHideView!
     @IBOutlet var infoLabel: UILabel!
     
     //MARK: - VC Delegate
@@ -209,16 +209,7 @@ class CanvasViewController: RHAViewController, UIGestureRecognizerDelegate, UISc
     func updateInfoForInfoView(info: String)
     {
         infoLabel.text = info
-        
-        UIView.animateWithDuration(0.25, animations: {
-            self.infoView.alpha = 1
-        })
-        
-        delay(2, {
-            UIView.animateWithDuration(0.25, animations: {
-                self.infoView.alpha = 0
-            })
-        })
+        infoView.show()
     }
     
     func centerScrollViewContents()

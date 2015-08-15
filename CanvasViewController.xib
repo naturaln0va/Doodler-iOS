@@ -52,7 +52,7 @@
                         <action selector="strokeSliderUpdated:" destination="-1" eventType="valueChanged" id="bU2-Yf-vib"/>
                     </connections>
                 </slider>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lzu-oa-Thf" userLabel="Info View">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lzu-oa-Thf" userLabel="Info View" customClass="AutoHideView" customModule="Doodler" customModuleProvider="target">
                     <rect key="frame" x="259" y="510" width="82.5" height="38"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Info View" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aip-H7-hlu">
