@@ -10,6 +10,8 @@
 		485C65601A1B191E003FA399 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 485C655F1A1B191E003FA399 /* AudioToolbox.framework */; };
 		489085131B59F57200C199A6 /* ColorPreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489085121B59F57200C199A6 /* ColorPreView.swift */; };
 		489085151B59FD3900C199A6 /* ColorPreviewButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489085141B59FD3900C199A6 /* ColorPreviewButton.swift */; };
+		48943FA41B817EF900A070FD /* LoveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48943FA21B817EF900A070FD /* LoveViewController.swift */; };
+		48943FA51B817EF900A070FD /* LoveViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 48943FA31B817EF900A070FD /* LoveViewController.xib */; };
 		489816A91B7D842300CAE108 /* RHANavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489816A71B7D842300CAE108 /* RHANavigationViewController.swift */; };
 		489816AA1B7D842300CAE108 /* RHAViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489816A81B7D842300CAE108 /* RHAViewController.swift */; };
 		489816AD1B7D852200CAE108 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489816AB1B7D852200CAE108 /* MenuController.swift */; };
@@ -48,6 +50,8 @@
 		485C655F1A1B191E003FA399 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		489085121B59F57200C199A6 /* ColorPreView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPreView.swift; sourceTree = SOURCE_ROOT; };
 		489085141B59FD3900C199A6 /* ColorPreviewButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPreviewButton.swift; sourceTree = SOURCE_ROOT; };
+		48943FA21B817EF900A070FD /* LoveViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoveViewController.swift; sourceTree = SOURCE_ROOT; };
+		48943FA31B817EF900A070FD /* LoveViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoveViewController.xib; sourceTree = SOURCE_ROOT; };
 		489816A71B7D842300CAE108 /* RHANavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RHANavigationViewController.swift; sourceTree = SOURCE_ROOT; };
 		489816A81B7D842300CAE108 /* RHAViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RHAViewController.swift; sourceTree = SOURCE_ROOT; };
 		489816AB1B7D852200CAE108 /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = SOURCE_ROOT; };
@@ -130,6 +134,7 @@
 				489816A81B7D842300CAE108 /* RHAViewController.swift */,
 				489816AF1B7D865000CAE108 /* SplashViewController.swift */,
 				489816B51B7D942700CAE108 /* ColorPickerViewController.swift */,
+				48943FA21B817EF900A070FD /* LoveViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -205,6 +210,7 @@
 			children = (
 				6903EAA81B56AAD8001BEAEC /* LaunchScreen.xib */,
 				489816B01B7D865000CAE108 /* SplashViewController.xib */,
+				48943FA31B817EF900A070FD /* LoveViewController.xib */,
 				489816B31B7D875200CAE108 /* CanvasViewController.xib */,
 				489816B61B7D942700CAE108 /* ColorPickerViewController.xib */,
 			);
@@ -279,6 +285,7 @@
 			files = (
 				693617BD1B5702AC00F1CCF4 /* LaunchScreen.xib in Resources */,
 				489816B81B7D942700CAE108 /* ColorPickerViewController.xib in Resources */,
+				48943FA51B817EF900A070FD /* LoveViewController.xib in Resources */,
 				6903EA971B56AA3B001BEAEC /* Images.xcassets in Resources */,
 				489816B21B7D865000CAE108 /* SplashViewController.xib in Resources */,
 				6903EAA51B56AA8E001BEAEC /* woody_click.wav in Resources */,
@@ -306,6 +313,7 @@
 				6903EA9D1B56AA6C001BEAEC /* UIViewExtensions.swift in Sources */,
 				693740F91B7E5A1E00E49149 /* CacheController.swift in Sources */,
 				6903EAB31B56AB31001BEAEC /* SettingsController.swift in Sources */,
+				48943FA41B817EF900A070FD /* LoveViewController.swift in Sources */,
 				69F3DB511B73DE67008F2511 /* NewDocumentActivity.swift in Sources */,
 				6903EA991B56AA51001BEAEC /* RAAudioEngine.swift in Sources */,
 				6903EAB11B56AB06001BEAEC /* GridView.swift in Sources */,

@@ -4,8 +4,6 @@
 //
 
 import UIKit
-import MultipeerConnectivity
-import AssetsLibrary
 
 class CanvasViewController: RHAViewController, UIGestureRecognizerDelegate, UIScrollViewDelegate, ColorPickerViewControllerDelegate
 {
