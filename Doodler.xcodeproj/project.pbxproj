@@ -23,6 +23,8 @@
 		489816BC1B7D953700CAE108 /* SaturationBrightnessPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489816BA1B7D953700CAE108 /* SaturationBrightnessPickerView.swift */; };
 		48B38C5B1A16C4110040DE29 /* WindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B38C541A16C4110040DE29 /* WindowController.swift */; };
 		48B38C611A16C4110040DE29 /* CanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B38C5A1A16C4110040DE29 /* CanvasViewController.swift */; };
+		48E1887D1B811A1900D30FB2 /* Threading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E1887C1B811A1900D30FB2 /* Threading.swift */; };
+		48E1887F1B81579C00D30FB2 /* SCLAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E1887E1B81579C00D30FB2 /* SCLAlertView.swift */; };
 		6903EA971B56AA3B001BEAEC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6903EA961B56AA3B001BEAEC /* Images.xcassets */; };
 		6903EA991B56AA51001BEAEC /* RAAudioEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6903EA981B56AA51001BEAEC /* RAAudioEngine.swift */; };
 		6903EA9C1B56AA6C001BEAEC /* UIColorExstension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6903EA9A1B56AA6C001BEAEC /* UIColorExstension.swift */; };
@@ -38,7 +40,7 @@
 		693740F71B7E4EFC00E49149 /* AutoHideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693740F61B7E4EFC00E49149 /* AutoHideView.swift */; };
 		693740F91B7E5A1E00E49149 /* CacheController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693740F81B7E5A1E00E49149 /* CacheController.swift */; };
 		69F3DB4C1B73BBF1008F2511 /* UIImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F3DB4B1B73BBF1008F2511 /* UIImageExtensions.swift */; };
-		69F3DB4E1B73BFF1008F2511 /* FoundationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F3DB4D1B73BFF1008F2511 /* FoundationExtensions.swift */; };
+		69F3DB4E1B73BFF1008F2511 /* UIKitExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F3DB4D1B73BFF1008F2511 /* UIKitExtensions.swift */; };
 		69F3DB511B73DE67008F2511 /* NewDocumentActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F3DB501B73DE67008F2511 /* NewDocumentActivity.swift */; };
 /* End PBXBuildFile section */
 
@@ -59,6 +61,8 @@
 		489816BA1B7D953700CAE108 /* SaturationBrightnessPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaturationBrightnessPickerView.swift; sourceTree = SOURCE_ROOT; };
 		48B38C541A16C4110040DE29 /* WindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WindowController.swift; path = Doodler/WindowController.swift; sourceTree = SOURCE_ROOT; };
 		48B38C5A1A16C4110040DE29 /* CanvasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CanvasViewController.swift; path = Doodler/CanvasViewController.swift; sourceTree = SOURCE_ROOT; };
+		48E1887C1B811A1900D30FB2 /* Threading.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Threading.swift; sourceTree = SOURCE_ROOT; };
+		48E1887E1B81579C00D30FB2 /* SCLAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCLAlertView.swift; sourceTree = SOURCE_ROOT; };
 		48FA2ECA1A0C100F002CE8B9 /* Doodler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Doodler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6903EA961B56AA3B001BEAEC /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Assets/Images.xcassets; sourceTree = SOURCE_ROOT; };
 		6903EA981B56AA51001BEAEC /* RAAudioEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RAAudioEngine.swift; path = Doodler/RAAudioEngine.swift; sourceTree = SOURCE_ROOT; };
@@ -76,7 +80,7 @@
 		693740F61B7E4EFC00E49149 /* AutoHideView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoHideView.swift; sourceTree = SOURCE_ROOT; };
 		693740F81B7E5A1E00E49149 /* CacheController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheController.swift; sourceTree = SOURCE_ROOT; };
 		69F3DB4B1B73BBF1008F2511 /* UIImageExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtensions.swift; sourceTree = SOURCE_ROOT; };
-		69F3DB4D1B73BFF1008F2511 /* FoundationExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoundationExtensions.swift; sourceTree = SOURCE_ROOT; };
+		69F3DB4D1B73BFF1008F2511 /* UIKitExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIKitExtensions.swift; sourceTree = SOURCE_ROOT; };
 		69F3DB501B73DE67008F2511 /* NewDocumentActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewDocumentActivity.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -113,6 +117,7 @@
 				489816B91B7D953700CAE108 /* HuePickerView.swift */,
 				489816BA1B7D953700CAE108 /* SaturationBrightnessPickerView.swift */,
 				693740F61B7E4EFC00E49149 /* AutoHideView.swift */,
+				48E1887E1B81579C00D30FB2 /* SCLAlertView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -135,7 +140,8 @@
 				6903EA9A1B56AA6C001BEAEC /* UIColorExstension.swift */,
 				6903EA9B1B56AA6C001BEAEC /* UIViewExtensions.swift */,
 				69F3DB4B1B73BBF1008F2511 /* UIImageExtensions.swift */,
-				69F3DB4D1B73BFF1008F2511 /* FoundationExtensions.swift */,
+				69F3DB4D1B73BFF1008F2511 /* UIKitExtensions.swift */,
+				48E1887C1B811A1900D30FB2 /* Threading.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -292,8 +298,9 @@
 			files = (
 				489085131B59F57200C199A6 /* ColorPreView.swift in Sources */,
 				693740F71B7E4EFC00E49149 /* AutoHideView.swift in Sources */,
+				48E1887F1B81579C00D30FB2 /* SCLAlertView.swift in Sources */,
 				489816AD1B7D852200CAE108 /* MenuController.swift in Sources */,
-				69F3DB4E1B73BFF1008F2511 /* FoundationExtensions.swift in Sources */,
+				69F3DB4E1B73BFF1008F2511 /* UIKitExtensions.swift in Sources */,
 				69F3DB4C1B73BBF1008F2511 /* UIImageExtensions.swift in Sources */,
 				6903EA9C1B56AA6C001BEAEC /* UIColorExstension.swift in Sources */,
 				6903EA9D1B56AA6C001BEAEC /* UIViewExtensions.swift in Sources */,
@@ -306,6 +313,7 @@
 				48B38C611A16C4110040DE29 /* CanvasViewController.swift in Sources */,
 				6903EAB01B56AB06001BEAEC /* DrawableView.swift in Sources */,
 				489816BC1B7D953700CAE108 /* SaturationBrightnessPickerView.swift in Sources */,
+				48E1887D1B811A1900D30FB2 /* Threading.swift in Sources */,
 				489816AA1B7D842300CAE108 /* RHAViewController.swift in Sources */,
 				489816B11B7D865000CAE108 /* SplashViewController.swift in Sources */,
 				489816BB1B7D953700CAE108 /* HuePickerView.swift in Sources */,

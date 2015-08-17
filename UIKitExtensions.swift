@@ -3,7 +3,7 @@
 //  Copyright (c) 2015 Ryan Ackermann. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 func delay(delay: Double, closure: ()->())
 {
@@ -13,4 +13,14 @@ func delay(delay: Double, closure: ()->())
             Int64(delay * Double(NSEC_PER_SEC))
         ),
         dispatch_get_main_queue(), closure)
+}
+
+func isIPad() -> Bool
+{
+    return UIDevice.currentDevice().userInterfaceIdiom == .Pad
+}
+
+func isIOS8OrLater() -> Bool
+{
+    return NSString(string: UIDevice.currentDevice().systemVersion).floatValue >= 8.0
 }

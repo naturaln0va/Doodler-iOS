@@ -26,9 +26,11 @@ class ColorPickerViewController: RHAViewController, SaturationBrightnessPickerVi
     {
         super.viewDidLoad()
         
-        title = "Pick A Color"
+        title = "Choose"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: "doneButtonPressed")
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Cancel, target: self, action: "cancelButtonPressed")
+        navigationItem.rightBarButtonItem?.setTitleTextAttributes([NSForegroundColorAttributeName: RHAColorController.barTintColor, NSFontAttributeName: UIFont(name: "AvenirNextCondensed-Regular", size: 20.0)!], forState: .Normal)
+        navigationItem.leftBarButtonItem?.setTitleTextAttributes([NSForegroundColorAttributeName: RHAColorController.barTintColor, NSFontAttributeName: UIFont(name: "AvenirNextCondensed-Regular", size: 20.0)!], forState: .Normal)
         
         huePickerView.layer.cornerRadius = 4
         huePickerView.delegate = saturationBrightnessPickerView
@@ -38,6 +40,7 @@ class ColorPickerViewController: RHAViewController, SaturationBrightnessPickerVi
     override func viewWillAppear(animated: Bool)
     {
         let currentColor = SettingsController.sharedController.currentStrokeColor()
+        saturationBrightnessPickerView.setColorToDisplay(currentColor)
         colorPreView.previousColor = currentColor
         colorPreView.newColor = currentColor
         
@@ -54,7 +57,6 @@ class ColorPickerViewController: RHAViewController, SaturationBrightnessPickerVi
         
         if let hue = SettingsController.sharedController.currentStrokeColor().hsb()!.first {
             huePickerView.hue = hue
-            saturationBrightnessPickerView.hue = hue
         }
     }
     
@@ -72,7 +74,14 @@ class ColorPickerViewController: RHAViewController, SaturationBrightnessPickerVi
     
     private func dismiss()
     {
-        dismissViewControllerAnimated(true, completion: nil)
+        if isIPad() {
+            if let popOver = MenuController.sharedController.canvasVC.popOverView {
+                popOver.dismissPopoverAnimated(true)
+            }
+        }
+        else {
+            dismissViewControllerAnimated(true, completion: nil)
+        }
     }
     
     //MARK: - SaturationBrightnessPickerViewDelegate Methods -

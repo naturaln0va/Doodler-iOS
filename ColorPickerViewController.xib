@@ -98,7 +98,8 @@
                     </variation>
                     <variation key="widthClass=compact">
                         <mask key="constraints">
-                            <include reference="ORR-1v-4Q2"/>
+                            <exclude reference="CVj-Gb-b9C"/>
+                            <exclude reference="ORR-1v-4Q2"/>
                             <include reference="lxG-63-n5S"/>
                         </mask>
                     </variation>
@@ -106,6 +107,9 @@
             </subviews>
             <color key="backgroundColor" white="0.14999999999999999" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstAttribute="trailing" secondItem="OUY-mE-4sy" secondAttribute="trailing" constant="40" id="38S-HQ-0VT">
+                    <variation key="widthClass=compact" constant="8"/>
+                </constraint>
                 <constraint firstItem="OUY-mE-4sy" firstAttribute="top" secondItem="KdS-Sz-DFK" secondAttribute="bottom" constant="12" id="7tQ-s6-Phj"/>
                 <constraint firstItem="fkD-al-5dg" firstAttribute="top" secondItem="KdS-Sz-DFK" secondAttribute="bottom" constant="12" id="BfH-Sg-OuI"/>
                 <constraint firstItem="OUY-mE-4sy" firstAttribute="top" secondItem="KdS-Sz-DFK" secondAttribute="bottom" constant="8" id="CN2-cr-3mF">
@@ -115,6 +119,9 @@
                 <constraint firstItem="KdS-Sz-DFK" firstAttribute="width" secondItem="OUY-mE-4sy" secondAttribute="width" id="KJu-dM-ewd"/>
                 <constraint firstItem="fkD-al-5dg" firstAttribute="top" secondItem="OUY-mE-4sy" secondAttribute="bottom" constant="33" id="MVT-e4-jPk">
                     <variation key="widthClass=compact" constant="12"/>
+                </constraint>
+                <constraint firstItem="OUY-mE-4sy" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="40" id="NAv-8f-HgY">
+                    <variation key="widthClass=compact" constant="8"/>
                 </constraint>
                 <constraint firstAttribute="centerX" secondItem="fkD-al-5dg" secondAttribute="centerX" id="Qud-lI-2wa"/>
                 <constraint firstItem="KdS-Sz-DFK" firstAttribute="width" secondItem="OUY-mE-4sy" secondAttribute="width" id="RUI-Y0-Bcm"/>
@@ -131,8 +138,10 @@
             <variation key="default">
                 <mask key="constraints">
                     <exclude reference="RUI-Y0-Bcm"/>
+                    <exclude reference="38S-HQ-0VT"/>
                     <exclude reference="CN2-cr-3mF"/>
                     <exclude reference="H8d-UK-GuD"/>
+                    <exclude reference="NAv-8f-HgY"/>
                     <exclude reference="pDM-YW-dNw"/>
                     <exclude reference="BfH-Sg-OuI"/>
                     <exclude reference="MVT-e4-jPk"/>
@@ -144,9 +153,11 @@
                     <include reference="fkD-al-5dg"/>
                 </mask>
                 <mask key="constraints">
-                    <include reference="RUI-Y0-Bcm"/>
+                    <exclude reference="RUI-Y0-Bcm"/>
+                    <include reference="38S-HQ-0VT"/>
                     <include reference="CN2-cr-3mF"/>
                     <include reference="H8d-UK-GuD"/>
+                    <include reference="NAv-8f-HgY"/>
                     <include reference="pDM-YW-dNw"/>
                     <include reference="MVT-e4-jPk"/>
                     <include reference="Qud-lI-2wa"/>

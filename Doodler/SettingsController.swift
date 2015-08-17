@@ -62,6 +62,12 @@ class SettingsController: NSObject
     
     func currentStrokeColor() -> UIColor
     {
+        let colorComponents = defaults.arrayForKey(SettingsController.kStrokeColorKey) as! [CGFloat]
+        return UIColor(red: colorComponents[0], green: colorComponents[1], blue: colorComponents[2], alpha: 1.0)
+    }
+    
+    func currentDrawColor() -> UIColor
+    {
         if isEraserEnabled() {
             return UIColor.whiteColor()
         }

@@ -9,16 +9,9 @@ class CacheController: NSObject
 {
     static let sharedController = CacheController()
     
-    private(set) var cache: NSCache
-    private(set) var count: Int
-    
-    override init()
-    {
-        cache = NSCache()
-        count = 0
-        
-        super.init()
-    }
+    private(set) var cache = NSCache()
+    private(set) var indexForAdding = 0
+    private(set) var indexForRetrieving = 0
     
     func invalidateCache()
     {
@@ -27,13 +20,20 @@ class CacheController: NSObject
     
     func addItem(item: AnyObject)
     {
-        cache.setObject(item, forKey: "\(count)")
+        cache.setObject(item, forKey: indexForAdding)
+        indexForRetrieving = indexForAdding - 1
+        indexForAdding++
+        
     }
     
-    func itemForIndex(index: Int) -> AnyObject?
+    func lastAddedImage() -> UIImage?
     {
-        let item: AnyObject? = cache.objectForKey("\(index)")
-        cache.removeObjectForKey("\(index)")
-        return item
+        indexForAdding = 0
+        if let image = cache.objectForKey(indexForRetrieving) as? UIImage {
+            indexForAdding = indexForRetrieving + 1
+            indexForRetrieving--
+            return image
+        }
+        return nil
     }
 }

@@ -20,7 +20,7 @@ class SaturationBrightnessPickerView: UIView, HuePickerViewDelegate
     private let reticuleSize: CGFloat = 25
     var delegate: SaturationBrightnessPickerViewDelegate?
     
-    var hue: CGFloat = 1.0 {
+    private var hue: CGFloat = 1.0 {
         didSet {
             delegate?.saturationBrightnessPickerViewDidUpdateColor(currentColor())
             setNeedsDisplay()
@@ -58,7 +58,12 @@ class SaturationBrightnessPickerView: UIView, HuePickerViewDelegate
     private func commonInit()
     {
         clipsToBounds = false
-        backgroundColor = UIColor.clearColor()
+        backgroundColor = UIColor.blackColor()
+        
+        layer.cornerRadius = 4
+        layer.borderColor = UIColor.whiteColor().CGColor
+        layer.borderWidth = 1
+        
         opaque = false
         bounds = CGRectInset(bounds, -inset, -inset)
     }
@@ -66,6 +71,15 @@ class SaturationBrightnessPickerView: UIView, HuePickerViewDelegate
     func currentColor() -> UIColor
     {
         return UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: 1.0)
+    }
+    
+    func setColorToDisplay(color: UIColor)
+    {
+        if let comps = color.hsb() {
+            hue = comps[0]
+            saturation = comps[1]
+            brightness = comps[2]
+        }
     }
     
     override func drawRect(rect: CGRect)
