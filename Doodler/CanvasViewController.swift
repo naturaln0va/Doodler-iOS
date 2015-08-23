@@ -14,6 +14,7 @@ class CanvasViewController: RHAViewController, UIGestureRecognizerDelegate, UISc
     var colorButtonView: ColorPreviewButton!
     var scrollView: UIScrollView!
     var hasBeingInitiallySetup = false
+    var lastCanvasZoomScale: Int?
     
     //Outlets
     @IBOutlet weak var controlBar: UIToolbar!
@@ -24,6 +25,8 @@ class CanvasViewController: RHAViewController, UIGestureRecognizerDelegate, UISc
     @IBOutlet weak var strokeSizeSlider: UISlider!
     @IBOutlet var infoView: AutoHideView!
     @IBOutlet var infoLabel: UILabel!
+    @IBOutlet weak var strokeSizeView: StrokeSizeView!
+    @IBOutlet weak var controlBarBottomConstraint: NSLayoutConstraint!
     
     //MARK: - VC Delegate
     override func canBecomeFirstResponder() -> Bool
@@ -39,6 +42,12 @@ class CanvasViewController: RHAViewController, UIGestureRecognizerDelegate, UISc
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        
+        strokeSizeView.alpha = 0
+        strokeSizeView.layer.cornerRadius = 10
+        strokeSizeView.layer.borderColor = UIColor.whiteColor().CGColor
+        strokeSizeView.layer.borderWidth = 1
+        strokeSizeView.clipsToBounds = true
         
         drawingSegmentedControl.selectedSegmentIndex = 1
         SettingsController.sharedController.disableEraser()
@@ -114,7 +123,7 @@ class CanvasViewController: RHAViewController, UIGestureRecognizerDelegate, UISc
         })
     }
     
-    //MARK: - Button Actions
+    //MARK: - Actions
     func clearScreen()
     {
         let alert = SCLAlertView()
@@ -161,7 +170,7 @@ class CanvasViewController: RHAViewController, UIGestureRecognizerDelegate, UISc
         
         let activityViewcontroller = UIActivityViewController(activityItems: ["Made with Doodler", NSURL(string: "http://apple.co/1IUYyFk")!, canvas.imageByCapturing()], applicationActivities: [NewDocumentActivity()])
         activityViewcontroller.excludedActivityTypes = [
-            UIActivityTypeAssignToContact, UIActivityTypeCopyToPasteboard, UIActivityTypePrint
+            UIActivityTypeAssignToContact, UIActivityTypeAddToReadingList, UIActivityTypePrint
         ]
         
         if !isIOS8OrLater() {
@@ -246,6 +255,7 @@ class CanvasViewController: RHAViewController, UIGestureRecognizerDelegate, UISc
     @IBAction func strokeSliderUpdated(sender: UISlider)
     {
         SettingsController.sharedController.setStrokeWidth(sender.value)
+        strokeSizeView.strokeSize = CGFloat(sender.value)
         updateInfoForInfoView("Size: \(Int(sender.value))")
     }
     
@@ -254,6 +264,26 @@ class CanvasViewController: RHAViewController, UIGestureRecognizerDelegate, UISc
     {
         infoLabel.text = info
         infoView.show()
+    }
+    
+    func showToolbar()
+    {
+        controlBarBottomConstraint.constant = 0
+        
+        UIView.animateWithDuration(0.4, delay: 0.0, usingSpringWithDamping: 1.05, initialSpringVelocity: 0.125, options: nil, animations: {
+            self.view.layoutIfNeeded()
+        },
+        completion: nil)
+    }
+    
+    func hideToolbar()
+    {
+        controlBarBottomConstraint.constant = -CGRectGetHeight(controlBar.bounds)
+        
+        UIView.animateWithDuration(0.4, delay: 0.0, usingSpringWithDamping: 1.05, initialSpringVelocity: 0.125, options: nil, animations: {
+            self.view.layoutIfNeeded()
+        },
+        completion: nil)
     }
     
     func centerScrollViewContents()
@@ -313,11 +343,20 @@ class CanvasViewController: RHAViewController, UIGestureRecognizerDelegate, UISc
         let scale = Int(scrollView.zoomScale * 100)
         updateInfoForInfoView("\(scale)%")
         
+        if lastCanvasZoomScale < scale && scrollView.pinchGestureRecognizer.velocity > 2 {
+            hideToolbar()
+        }
+        else if lastCanvasZoomScale > scale && scrollView.pinchGestureRecognizer.velocity < -1 {
+            showToolbar()
+        }
+        
         if scale > 750 {
             canvas.layer.magnificationFilter = kCAFilterNearest
         } else {
             canvas.layer.magnificationFilter = kCAFilterLinear
         }
+        
+        lastCanvasZoomScale = scale
         
         centerScrollViewContents()
     }

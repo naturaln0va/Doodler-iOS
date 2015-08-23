@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		485C65601A1B191E003FA399 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 485C655F1A1B191E003FA399 /* AudioToolbox.framework */; };
+		4877B12C1B8A496B0082718D /* StrokeSizeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4877B12B1B8A496B0082718D /* StrokeSizeView.swift */; };
 		489085131B59F57200C199A6 /* ColorPreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489085121B59F57200C199A6 /* ColorPreView.swift */; };
 		489085151B59FD3900C199A6 /* ColorPreviewButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489085141B59FD3900C199A6 /* ColorPreviewButton.swift */; };
 		48943FA41B817EF900A070FD /* LoveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48943FA21B817EF900A070FD /* LoveViewController.swift */; };
@@ -48,6 +49,7 @@
 
 /* Begin PBXFileReference section */
 		485C655F1A1B191E003FA399 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		4877B12B1B8A496B0082718D /* StrokeSizeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StrokeSizeView.swift; sourceTree = SOURCE_ROOT; };
 		489085121B59F57200C199A6 /* ColorPreView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPreView.swift; sourceTree = SOURCE_ROOT; };
 		489085141B59FD3900C199A6 /* ColorPreviewButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPreviewButton.swift; sourceTree = SOURCE_ROOT; };
 		48943FA21B817EF900A070FD /* LoveViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoveViewController.swift; sourceTree = SOURCE_ROOT; };
@@ -122,6 +124,7 @@
 				489816BA1B7D953700CAE108 /* SaturationBrightnessPickerView.swift */,
 				693740F61B7E4EFC00E49149 /* AutoHideView.swift */,
 				48E1887E1B81579C00D30FB2 /* SCLAlertView.swift */,
+				4877B12B1B8A496B0082718D /* StrokeSizeView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -305,6 +308,7 @@
 			files = (
 				489085131B59F57200C199A6 /* ColorPreView.swift in Sources */,
 				693740F71B7E4EFC00E49149 /* AutoHideView.swift in Sources */,
+				4877B12C1B8A496B0082718D /* StrokeSizeView.swift in Sources */,
 				48E1887F1B81579C00D30FB2 /* SCLAlertView.swift in Sources */,
 				489816AD1B7D852200CAE108 /* MenuController.swift in Sources */,
 				69F3DB4E1B73BFF1008F2511 /* UIKitExtensions.swift in Sources */,

@@ -32,7 +32,7 @@ class DrawableView: UIView
     {
         bufferImage = nil
         setNeedsDisplay()
-        CacheController.sharedController.addItem(imageByCapturing())
+        renderDisplayToBuffer()
     }
     
     func undo()

@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CanvasViewController" customModule="Doodler" customModuleProvider="target">
             <connections>
                 <outlet property="colorButton" destination="cvp-xj-5rE" id="Xfo-rW-Diy"/>
                 <outlet property="controlBar" destination="r7F-I6-qwx" id="u5r-9y-T3Z"/>
+                <outlet property="controlBarBottomConstraint" destination="RA9-io-tNi" id="FEF-Ki-086"/>
                 <outlet property="drawingSegmentedControl" destination="sP6-gl-2hd" id="4W8-re-86V"/>
                 <outlet property="infoLabel" destination="aip-H7-hlu" id="jAk-6d-uQZ"/>
                 <outlet property="infoView" destination="lzu-oa-Thf" id="FRZ-UN-4r0"/>
                 <outlet property="shareButton" destination="xj4-kT-Nax" id="0vw-2q-X3e"/>
                 <outlet property="strokeSizeSlider" destination="Cc3-OI-d2A" id="4iq-eq-kdH"/>
+                <outlet property="strokeSizeView" destination="9dk-C4-RzR" id="C97-nz-NAZ"/>
                 <outlet property="undoButton" destination="tQ0-q6-lfc" id="qge-eK-1m3"/>
                 <outlet property="view" destination="iN0-l3-epB" id="lQH-Pq-KaO"/>
             </connections>
@@ -75,6 +78,16 @@
                         <constraint firstAttribute="trailing" secondItem="aip-H7-hlu" secondAttribute="trailing" constant="8" id="pIV-Cj-HtD"/>
                     </constraints>
                 </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9dk-C4-RzR" customClass="StrokeSizeView" customModule="Doodler" customModuleProvider="target">
+                    <rect key="frame" x="150" y="150" width="300" height="300"/>
+                    <color key="backgroundColor" white="0.14999999999999999" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="300" id="d8O-op-4JM">
+                            <variation key="heightClass=regular-widthClass=regular" constant="420"/>
+                        </constraint>
+                        <constraint firstAttribute="width" secondItem="9dk-C4-RzR" secondAttribute="height" multiplier="1:1" id="gMV-tl-dKJ"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
@@ -86,12 +99,14 @@
                     <variation key="heightClass=regular-widthClass=regular" constant="24"/>
                 </constraint>
                 <constraint firstItem="r7F-I6-qwx" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="N7s-TM-WLW"/>
+                <constraint firstAttribute="centerY" secondItem="9dk-C4-RzR" secondAttribute="centerY" id="NvP-wU-Faa"/>
                 <constraint firstItem="Cc3-OI-d2A" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="PHe-Sm-ayR">
                     <variation key="heightClass=regular-widthClass=regular" constant="125"/>
                 </constraint>
                 <constraint firstAttribute="bottom" secondItem="r7F-I6-qwx" secondAttribute="bottom" id="RA9-io-tNi"/>
                 <constraint firstItem="Cc3-OI-d2A" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="V3q-Gw-eQX"/>
                 <constraint firstAttribute="centerX" secondItem="lzu-oa-Thf" secondAttribute="centerX" id="VF8-xJ-oVA"/>
+                <constraint firstAttribute="centerX" secondItem="9dk-C4-RzR" secondAttribute="centerX" id="iDn-8o-pDn"/>
             </constraints>
             <point key="canvasLocation" x="-201" y="296"/>
         </view>

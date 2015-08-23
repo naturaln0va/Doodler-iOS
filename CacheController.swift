@@ -30,7 +30,7 @@ class CacheController: NSObject
             hasReachedMaxCount = true
             
             if removedCount >= maxCount {
-                count = 0
+                invalidateCache()
                 removedCount = 0
                 indexForRetrieving = 1
                 indexForAdding = 0
@@ -40,7 +40,7 @@ class CacheController: NSObject
                 
                 if indexForAdding == maxCount {
                     indexForAdding = 0
-                    indexForRetrieving = maxCount
+                    indexForRetrieving = maxCount - 1
                 }
                 else {
                     indexForRetrieving = indexForAdding - 1
@@ -51,7 +51,6 @@ class CacheController: NSObject
             indexForRetrieving = indexForAdding - 1
         }
         
-        println("Adding index: \(indexForAdding)")
         cache.setObject(item, forKey: indexForAdding)
         indexForAdding++
         
@@ -69,11 +68,12 @@ class CacheController: NSObject
                 return nil
             }
         }
-        println("Retrieveing index: \(indexForRetrieving)")
+        
         if let image = cache.objectForKey(indexForRetrieving) as? UIImage {
             if count == maxCount {
                 removedCount++
                 if removedCount >= maxCount {
+                    removedCount = maxCount
                     return cache.objectForKey(indexForRetrieving + 1) as? UIImage
                 }
                 if indexForRetrieving == 0 {
