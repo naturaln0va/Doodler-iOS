@@ -42,8 +42,10 @@ class DrawableView: UIView
             setNeedsDisplay()
         }
         else {
-            bufferImage = nil
-            setNeedsDisplay()
+            if !CacheController.sharedController.hasReachedMaxCount {
+                bufferImage = nil
+                setNeedsDisplay()
+            }
         }
     }
     
