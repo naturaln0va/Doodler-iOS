@@ -16,7 +16,7 @@ class ColorPreviewButton: UIView
                 self.layer.cornerRadius = CGRectGetWidth(bounds) / 2
             } else {
                 self.layer.borderColor = UIColor.clearColor().CGColor
-                self.layer.borderWidth = 0
+                self.layer.borderWidth = 1
                 self.layer.cornerRadius = CGRectGetWidth(bounds) / 2
             }
             setNeedsDisplay()
@@ -25,11 +25,9 @@ class ColorPreviewButton: UIView
     
     override func drawRect(rect: CGRect)
     {
-        let ctx = UIGraphicsGetCurrentContext()
-        UIColor(hex: 0x141414).set()
-        UIRectFill(rect)
+        UIBezierPath(ovalInRect: rect).addClip()
         
-        color?.set()
-        CGContextFillEllipseInRect(ctx, rect)
+        color?.setFill()
+        UIRectFill(rect)
     }
 }

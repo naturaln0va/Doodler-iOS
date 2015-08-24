@@ -58,6 +58,7 @@ class CanvasViewController: RHAViewController, UIGestureRecognizerDelegate, UISc
         infoView.layer.borderWidth = 1
         
         colorButtonView = ColorPreviewButton(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
+        colorButtonView.backgroundColor = UIColor.clearColor()
         colorButtonView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "colorButtonTapped"))
         colorButton.customView = colorButtonView
         
