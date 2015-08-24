@@ -1,0 +1,479 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		485C65601A1B191E003FA399 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 485C655F1A1B191E003FA399 /* AudioToolbox.framework */; };
+		489085131B59F57200C199A6 /* ColorPreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489085121B59F57200C199A6 /* ColorPreView.swift */; };
+		489085151B59FD3900C199A6 /* ColorPreviewButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489085141B59FD3900C199A6 /* ColorPreviewButton.swift */; };
+		48943FA41B817EF900A070FD /* LoveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48943FA21B817EF900A070FD /* LoveViewController.swift */; };
+		48943FA51B817EF900A070FD /* LoveViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 48943FA31B817EF900A070FD /* LoveViewController.xib */; };
+		489816A91B7D842300CAE108 /* RHANavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489816A71B7D842300CAE108 /* RHANavigationViewController.swift */; };
+		489816AA1B7D842300CAE108 /* RHAViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489816A81B7D842300CAE108 /* RHAViewController.swift */; };
+		489816AD1B7D852200CAE108 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489816AB1B7D852200CAE108 /* MenuController.swift */; };
+		489816AE1B7D852200CAE108 /* RHAColorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489816AC1B7D852200CAE108 /* RHAColorController.swift */; };
+		489816B11B7D865000CAE108 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489816AF1B7D865000CAE108 /* SplashViewController.swift */; };
+		489816B21B7D865000CAE108 /* SplashViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 489816B01B7D865000CAE108 /* SplashViewController.xib */; };
+		489816B41B7D875200CAE108 /* CanvasViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 489816B31B7D875200CAE108 /* CanvasViewController.xib */; };
+		489816B71B7D942700CAE108 /* ColorPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489816B51B7D942700CAE108 /* ColorPickerViewController.swift */; };
+		489816B81B7D942700CAE108 /* ColorPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 489816B61B7D942700CAE108 /* ColorPickerViewController.xib */; };
+		489816BB1B7D953700CAE108 /* HuePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489816B91B7D953700CAE108 /* HuePickerView.swift */; };
+		489816BC1B7D953700CAE108 /* SaturationBrightnessPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489816BA1B7D953700CAE108 /* SaturationBrightnessPickerView.swift */; };
+		48B38C5B1A16C4110040DE29 /* WindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B38C541A16C4110040DE29 /* WindowController.swift */; };
+		48B38C611A16C4110040DE29 /* CanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B38C5A1A16C4110040DE29 /* CanvasViewController.swift */; };
+		48E1887D1B811A1900D30FB2 /* Threading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E1887C1B811A1900D30FB2 /* Threading.swift */; };
+		48E1887F1B81579C00D30FB2 /* SCLAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E1887E1B81579C00D30FB2 /* SCLAlertView.swift */; };
+		6903EA971B56AA3B001BEAEC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6903EA961B56AA3B001BEAEC /* Images.xcassets */; };
+		6903EA991B56AA51001BEAEC /* RAAudioEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6903EA981B56AA51001BEAEC /* RAAudioEngine.swift */; };
+		6903EA9C1B56AA6C001BEAEC /* UIColorExstension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6903EA9A1B56AA6C001BEAEC /* UIColorExstension.swift */; };
+		6903EA9D1B56AA6C001BEAEC /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6903EA9B1B56AA6C001BEAEC /* UIViewExtensions.swift */; };
+		6903EAA21B56AA8E001BEAEC /* fancy_toast.wav in Resources */ = {isa = PBXBuildFile; fileRef = 6903EA9E1B56AA8E001BEAEC /* fancy_toast.wav */; };
+		6903EAA31B56AA8E001BEAEC /* music_marimba_chord.wav in Resources */ = {isa = PBXBuildFile; fileRef = 6903EA9F1B56AA8E001BEAEC /* music_marimba_chord.wav */; };
+		6903EAA41B56AA8E001BEAEC /* short_whoosh1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 6903EAA01B56AA8E001BEAEC /* short_whoosh1.wav */; };
+		6903EAA51B56AA8E001BEAEC /* woody_click.wav in Resources */ = {isa = PBXBuildFile; fileRef = 6903EAA11B56AA8E001BEAEC /* woody_click.wav */; };
+		6903EAB01B56AB06001BEAEC /* DrawableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6903EAAE1B56AB06001BEAEC /* DrawableView.swift */; };
+		6903EAB11B56AB06001BEAEC /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6903EAAF1B56AB06001BEAEC /* GridView.swift */; };
+		6903EAB31B56AB31001BEAEC /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6903EAB21B56AB31001BEAEC /* SettingsController.swift */; };
+		693617BD1B5702AC00F1CCF4 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6903EAA81B56AAD8001BEAEC /* LaunchScreen.xib */; };
+		693740F71B7E4EFC00E49149 /* AutoHideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693740F61B7E4EFC00E49149 /* AutoHideView.swift */; };
+		693740F91B7E5A1E00E49149 /* CacheController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693740F81B7E5A1E00E49149 /* CacheController.swift */; };
+		69F3DB4C1B73BBF1008F2511 /* UIImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F3DB4B1B73BBF1008F2511 /* UIImageExtensions.swift */; };
+		69F3DB4E1B73BFF1008F2511 /* UIKitExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F3DB4D1B73BFF1008F2511 /* UIKitExtensions.swift */; };
+		69F3DB511B73DE67008F2511 /* NewDocumentActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F3DB501B73DE67008F2511 /* NewDocumentActivity.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		485C655F1A1B191E003FA399 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		489085121B59F57200C199A6 /* ColorPreView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPreView.swift; sourceTree = SOURCE_ROOT; };
+		489085141B59FD3900C199A6 /* ColorPreviewButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPreviewButton.swift; sourceTree = SOURCE_ROOT; };
+		48943FA21B817EF900A070FD /* LoveViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoveViewController.swift; sourceTree = SOURCE_ROOT; };
+		48943FA31B817EF900A070FD /* LoveViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoveViewController.xib; sourceTree = SOURCE_ROOT; };
+		489816A71B7D842300CAE108 /* RHANavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RHANavigationViewController.swift; sourceTree = SOURCE_ROOT; };
+		489816A81B7D842300CAE108 /* RHAViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RHAViewController.swift; sourceTree = SOURCE_ROOT; };
+		489816AB1B7D852200CAE108 /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = SOURCE_ROOT; };
+		489816AC1B7D852200CAE108 /* RHAColorController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RHAColorController.swift; sourceTree = SOURCE_ROOT; };
+		489816AF1B7D865000CAE108 /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = SOURCE_ROOT; };
+		489816B01B7D865000CAE108 /* SplashViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SplashViewController.xib; sourceTree = SOURCE_ROOT; };
+		489816B31B7D875200CAE108 /* CanvasViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CanvasViewController.xib; sourceTree = SOURCE_ROOT; };
+		489816B51B7D942700CAE108 /* ColorPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPickerViewController.swift; sourceTree = SOURCE_ROOT; };
+		489816B61B7D942700CAE108 /* ColorPickerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ColorPickerViewController.xib; sourceTree = SOURCE_ROOT; };
+		489816B91B7D953700CAE108 /* HuePickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HuePickerView.swift; sourceTree = SOURCE_ROOT; };
+		489816BA1B7D953700CAE108 /* SaturationBrightnessPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaturationBrightnessPickerView.swift; sourceTree = SOURCE_ROOT; };
+		48B38C541A16C4110040DE29 /* WindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WindowController.swift; path = Doodler/WindowController.swift; sourceTree = SOURCE_ROOT; };
+		48B38C5A1A16C4110040DE29 /* CanvasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CanvasViewController.swift; path = Doodler/CanvasViewController.swift; sourceTree = SOURCE_ROOT; };
+		48E1887C1B811A1900D30FB2 /* Threading.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Threading.swift; sourceTree = SOURCE_ROOT; };
+		48E1887E1B81579C00D30FB2 /* SCLAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCLAlertView.swift; sourceTree = SOURCE_ROOT; };
+		48FA2ECA1A0C100F002CE8B9 /* Doodler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Doodler.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6903EA961B56AA3B001BEAEC /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Assets/Images.xcassets; sourceTree = SOURCE_ROOT; };
+		6903EA981B56AA51001BEAEC /* RAAudioEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RAAudioEngine.swift; path = Doodler/RAAudioEngine.swift; sourceTree = SOURCE_ROOT; };
+		6903EA9A1B56AA6C001BEAEC /* UIColorExstension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIColorExstension.swift; path = Doodler/UIColorExstension.swift; sourceTree = SOURCE_ROOT; };
+		6903EA9B1B56AA6C001BEAEC /* UIViewExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIViewExtensions.swift; path = Doodler/UIViewExtensions.swift; sourceTree = SOURCE_ROOT; };
+		6903EA9E1B56AA8E001BEAEC /* fancy_toast.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = fancy_toast.wav; path = Assets/sound/fancy_toast.wav; sourceTree = SOURCE_ROOT; };
+		6903EA9F1B56AA8E001BEAEC /* music_marimba_chord.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = music_marimba_chord.wav; path = Assets/sound/music_marimba_chord.wav; sourceTree = SOURCE_ROOT; };
+		6903EAA01B56AA8E001BEAEC /* short_whoosh1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = short_whoosh1.wav; path = Assets/sound/short_whoosh1.wav; sourceTree = SOURCE_ROOT; };
+		6903EAA11B56AA8E001BEAEC /* woody_click.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = woody_click.wav; path = Assets/sound/woody_click.wav; sourceTree = SOURCE_ROOT; };
+		6903EAA61B56AAA2001BEAEC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Doodler/other/Info.plist; sourceTree = SOURCE_ROOT; };
+		6903EAA91B56AAD8001BEAEC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Doodler/other/Base.lproj/LaunchScreen.xib; sourceTree = SOURCE_ROOT; };
+		6903EAAE1B56AB06001BEAEC /* DrawableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DrawableView.swift; path = Doodler/DrawableView.swift; sourceTree = SOURCE_ROOT; };
+		6903EAAF1B56AB06001BEAEC /* GridView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GridView.swift; path = Doodler/GridView.swift; sourceTree = SOURCE_ROOT; };
+		6903EAB21B56AB31001BEAEC /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsController.swift; path = Doodler/SettingsController.swift; sourceTree = SOURCE_ROOT; };
+		693740F61B7E4EFC00E49149 /* AutoHideView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoHideView.swift; sourceTree = SOURCE_ROOT; };
+		693740F81B7E5A1E00E49149 /* CacheController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheController.swift; sourceTree = SOURCE_ROOT; };
+		69F3DB4B1B73BBF1008F2511 /* UIImageExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtensions.swift; sourceTree = SOURCE_ROOT; };
+		69F3DB4D1B73BFF1008F2511 /* UIKitExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIKitExtensions.swift; sourceTree = SOURCE_ROOT; };
+		69F3DB501B73DE67008F2511 /* NewDocumentActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewDocumentActivity.swift; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		48FA2EC71A0C100F002CE8B9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				485C65601A1B191E003FA399 /* AudioToolbox.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4880D4691A4F74430077E68B /* Util & Resources */ = {
+			isa = PBXGroup;
+			children = (
+				6903EA961B56AA3B001BEAEC /* Images.xcassets */,
+				6903EA981B56AA51001BEAEC /* RAAudioEngine.swift */,
+				489816BE1B7D9F7400CAE108 /* Sound */,
+				6903EAA61B56AAA2001BEAEC /* Info.plist */,
+			);
+			name = "Util & Resources";
+			sourceTree = "<group>";
+		};
+		4880D46A1A4F74620077E68B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				6903EAAE1B56AB06001BEAEC /* DrawableView.swift */,
+				6903EAAF1B56AB06001BEAEC /* GridView.swift */,
+				489085121B59F57200C199A6 /* ColorPreView.swift */,
+				489085141B59FD3900C199A6 /* ColorPreviewButton.swift */,
+				489816B91B7D953700CAE108 /* HuePickerView.swift */,
+				489816BA1B7D953700CAE108 /* SaturationBrightnessPickerView.swift */,
+				693740F61B7E4EFC00E49149 /* AutoHideView.swift */,
+				48E1887E1B81579C00D30FB2 /* SCLAlertView.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		4880D46B1A4F749C0077E68B /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				48B38C5A1A16C4110040DE29 /* CanvasViewController.swift */,
+				489816A71B7D842300CAE108 /* RHANavigationViewController.swift */,
+				489816A81B7D842300CAE108 /* RHAViewController.swift */,
+				489816AF1B7D865000CAE108 /* SplashViewController.swift */,
+				489816B51B7D942700CAE108 /* ColorPickerViewController.swift */,
+				48943FA21B817EF900A070FD /* LoveViewController.swift */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		489816BD1B7D9F4300CAE108 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				6903EA9A1B56AA6C001BEAEC /* UIColorExstension.swift */,
+				6903EA9B1B56AA6C001BEAEC /* UIViewExtensions.swift */,
+				69F3DB4B1B73BBF1008F2511 /* UIImageExtensions.swift */,
+				69F3DB4D1B73BFF1008F2511 /* UIKitExtensions.swift */,
+				48E1887C1B811A1900D30FB2 /* Threading.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
+		489816BE1B7D9F7400CAE108 /* Sound */ = {
+			isa = PBXGroup;
+			children = (
+				6903EA9E1B56AA8E001BEAEC /* fancy_toast.wav */,
+				6903EA9F1B56AA8E001BEAEC /* music_marimba_chord.wav */,
+				6903EAA01B56AA8E001BEAEC /* short_whoosh1.wav */,
+				6903EAA11B56AA8E001BEAEC /* woody_click.wav */,
+			);
+			name = Sound;
+			sourceTree = "<group>";
+		};
+		48D5F4331B2C93B8003B8B96 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				6903EAB21B56AB31001BEAEC /* SettingsController.swift */,
+				489816AB1B7D852200CAE108 /* MenuController.swift */,
+				489816AC1B7D852200CAE108 /* RHAColorController.swift */,
+				48B38C541A16C4110040DE29 /* WindowController.swift */,
+				693740F81B7E5A1E00E49149 /* CacheController.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		48FA2EC11A0C100F002CE8B9 = {
+			isa = PBXGroup;
+			children = (
+				485C655F1A1B191E003FA399 /* AudioToolbox.framework */,
+				48FA2ECC1A0C100F002CE8B9 /* DrawingApp */,
+				48FA2ECB1A0C100F002CE8B9 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		48FA2ECB1A0C100F002CE8B9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				48FA2ECA1A0C100F002CE8B9 /* Doodler.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		48FA2ECC1A0C100F002CE8B9 /* DrawingApp */ = {
+			isa = PBXGroup;
+			children = (
+				48D5F4331B2C93B8003B8B96 /* Controllers */,
+				4880D46B1A4F749C0077E68B /* ViewControllers */,
+				69F3DB4F1B73DB64008F2511 /* Activities */,
+				4880D46A1A4F74620077E68B /* Views */,
+				489816BD1B7D9F4300CAE108 /* Extensions */,
+				4880D4691A4F74430077E68B /* Util & Resources */,
+				69F3DB4A1B73B00E008F2511 /* Interfaces */,
+			);
+			path = DrawingApp;
+			sourceTree = "<group>";
+		};
+		69F3DB4A1B73B00E008F2511 /* Interfaces */ = {
+			isa = PBXGroup;
+			children = (
+				6903EAA81B56AAD8001BEAEC /* LaunchScreen.xib */,
+				489816B01B7D865000CAE108 /* SplashViewController.xib */,
+				48943FA31B817EF900A070FD /* LoveViewController.xib */,
+				489816B31B7D875200CAE108 /* CanvasViewController.xib */,
+				489816B61B7D942700CAE108 /* ColorPickerViewController.xib */,
+			);
+			name = Interfaces;
+			sourceTree = "<group>";
+		};
+		69F3DB4F1B73DB64008F2511 /* Activities */ = {
+			isa = PBXGroup;
+			children = (
+				69F3DB501B73DE67008F2511 /* NewDocumentActivity.swift */,
+			);
+			name = Activities;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		48FA2EC91A0C100F002CE8B9 /* Doodler */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 48FA2EE91A0C100F002CE8B9 /* Build configuration list for PBXNativeTarget "Doodler" */;
+			buildPhases = (
+				48FA2EC61A0C100F002CE8B9 /* Sources */,
+				48FA2EC71A0C100F002CE8B9 /* Frameworks */,
+				48FA2EC81A0C100F002CE8B9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Doodler;
+			productName = DrawingApp;
+			productReference = 48FA2ECA1A0C100F002CE8B9 /* Doodler.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		48FA2EC21A0C100F002CE8B9 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = "Ryan Ackermann";
+				TargetAttributes = {
+					48FA2EC91A0C100F002CE8B9 = {
+						CreatedOnToolsVersion = 6.1;
+						DevelopmentTeam = WK4Y48HVH2;
+					};
+				};
+			};
+			buildConfigurationList = 48FA2EC51A0C100F002CE8B9 /* Build configuration list for PBXProject "Doodler" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 48FA2EC11A0C100F002CE8B9;
+			productRefGroup = 48FA2ECB1A0C100F002CE8B9 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				48FA2EC91A0C100F002CE8B9 /* Doodler */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		48FA2EC81A0C100F002CE8B9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				693617BD1B5702AC00F1CCF4 /* LaunchScreen.xib in Resources */,
+				489816B81B7D942700CAE108 /* ColorPickerViewController.xib in Resources */,
+				48943FA51B817EF900A070FD /* LoveViewController.xib in Resources */,
+				6903EA971B56AA3B001BEAEC /* Images.xcassets in Resources */,
+				489816B21B7D865000CAE108 /* SplashViewController.xib in Resources */,
+				6903EAA51B56AA8E001BEAEC /* woody_click.wav in Resources */,
+				6903EAA41B56AA8E001BEAEC /* short_whoosh1.wav in Resources */,
+				489816B41B7D875200CAE108 /* CanvasViewController.xib in Resources */,
+				6903EAA21B56AA8E001BEAEC /* fancy_toast.wav in Resources */,
+				6903EAA31B56AA8E001BEAEC /* music_marimba_chord.wav in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		48FA2EC61A0C100F002CE8B9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				489085131B59F57200C199A6 /* ColorPreView.swift in Sources */,
+				693740F71B7E4EFC00E49149 /* AutoHideView.swift in Sources */,
+				48E1887F1B81579C00D30FB2 /* SCLAlertView.swift in Sources */,
+				489816AD1B7D852200CAE108 /* MenuController.swift in Sources */,
+				69F3DB4E1B73BFF1008F2511 /* UIKitExtensions.swift in Sources */,
+				69F3DB4C1B73BBF1008F2511 /* UIImageExtensions.swift in Sources */,
+				6903EA9C1B56AA6C001BEAEC /* UIColorExstension.swift in Sources */,
+				6903EA9D1B56AA6C001BEAEC /* UIViewExtensions.swift in Sources */,
+				693740F91B7E5A1E00E49149 /* CacheController.swift in Sources */,
+				6903EAB31B56AB31001BEAEC /* SettingsController.swift in Sources */,
+				48943FA41B817EF900A070FD /* LoveViewController.swift in Sources */,
+				69F3DB511B73DE67008F2511 /* NewDocumentActivity.swift in Sources */,
+				6903EA991B56AA51001BEAEC /* RAAudioEngine.swift in Sources */,
+				6903EAB11B56AB06001BEAEC /* GridView.swift in Sources */,
+				489816B71B7D942700CAE108 /* ColorPickerViewController.swift in Sources */,
+				48B38C611A16C4110040DE29 /* CanvasViewController.swift in Sources */,
+				6903EAB01B56AB06001BEAEC /* DrawableView.swift in Sources */,
+				489816BC1B7D953700CAE108 /* SaturationBrightnessPickerView.swift in Sources */,
+				48E1887D1B811A1900D30FB2 /* Threading.swift in Sources */,
+				489816AA1B7D842300CAE108 /* RHAViewController.swift in Sources */,
+				489816B11B7D865000CAE108 /* SplashViewController.swift in Sources */,
+				489816BB1B7D953700CAE108 /* HuePickerView.swift in Sources */,
+				489816A91B7D842300CAE108 /* RHANavigationViewController.swift in Sources */,
+				489816AE1B7D852200CAE108 /* RHAColorController.swift in Sources */,
+				489085151B59FD3900C199A6 /* ColorPreviewButton.swift in Sources */,
+				48B38C5B1A16C4110040DE29 /* WindowController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		6903EAA81B56AAD8001BEAEC /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6903EAA91B56AAD8001BEAEC /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		48FA2EE71A0C100F002CE8B9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		48FA2EE81A0C100F002CE8B9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		48FA2EEA1A0C100F002CE8B9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = "$(SRCROOT)/Doodler/other/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		48FA2EEB1A0C100F002CE8B9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = "$(SRCROOT)/Doodler/other/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		48FA2EC51A0C100F002CE8B9 /* Build configuration list for PBXProject "Doodler" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				48FA2EE71A0C100F002CE8B9 /* Debug */,
+				48FA2EE81A0C100F002CE8B9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		48FA2EE91A0C100F002CE8B9 /* Build configuration list for PBXNativeTarget "Doodler" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				48FA2EEA1A0C100F002CE8B9 /* Debug */,
+				48FA2EEB1A0C100F002CE8B9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 48FA2EC21A0C100F002CE8B9 /* Project object */;
+}
