@@ -49,7 +49,7 @@ class DrawableView: UIView
         }
     }
     
-    func setupAndDrawWithPoints(#points: [CGPoint], withColor color: CGColorRef, withWidth width: CGFloat)
+    func setupAndDrawWithPoints(points points: [CGPoint], withColor color: CGColorRef, withWidth width: CGFloat)
     {
         let mid1 = midPoint(points[1], point2: points[2])
         let mid2 = midPoint(points[0], point2: points[1])
@@ -74,7 +74,7 @@ class DrawableView: UIView
     
     private func renderDisplayToBuffer()
     {
-        let dispatchQueue = isIOS8OrLater() ? dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0) : dispatch_queue_create("background-queue-worker", DISPATCH_QUEUE_PRIORITY_BACKGROUND)
+        let dispatchQueue = isIOS8OrLater() ? dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0) : dispatch_queue_create("background-queue-worker", 0)
         dispatch_async(dispatchQueue) {
             let image = self.imageByCapturing()
             self.bufferImage = image

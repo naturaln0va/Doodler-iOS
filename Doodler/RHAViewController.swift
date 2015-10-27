@@ -12,7 +12,7 @@ class RHAViewController: UIViewController
         super.init(nibName: NSStringFromClass(self.dynamicType).componentsSeparatedByString(".").last!, bundle: NSBundle.mainBundle())
     }
     
-    required init(coder aDecoder: NSCoder)
+    required init?(coder aDecoder: NSCoder)
     {
         super.init(coder: aDecoder)
     }

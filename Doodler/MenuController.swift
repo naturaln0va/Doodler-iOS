@@ -27,9 +27,9 @@ class MenuController: NSObject
         window.makeKeyAndVisible()
         
         if let presenterVC = presenterViewController {
-            delay(0.5, {
+            delay(0.5) {
                 presenterVC.presentViewController(self.canvasVC, animated: false, completion: nil)
-            })
+            }
         }
     }
 }
