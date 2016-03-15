@@ -29,8 +29,6 @@ class ColorPickerViewController: RHAViewController, SaturationBrightnessPickerVi
         title = "Choose"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: "doneButtonPressed")
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Cancel, target: self, action: "cancelButtonPressed")
-        navigationItem.rightBarButtonItem?.setTitleTextAttributes([NSForegroundColorAttributeName: RHAColorController.barTintColor, NSFontAttributeName: UIFont(name: "AvenirNextCondensed-Regular", size: 20.0)!], forState: .Normal)
-        navigationItem.leftBarButtonItem?.setTitleTextAttributes([NSForegroundColorAttributeName: RHAColorController.barTintColor, NSFontAttributeName: UIFont(name: "AvenirNextCondensed-Regular", size: 20.0)!], forState: .Normal)
         
         huePickerView.layer.cornerRadius = 4
         huePickerView.delegate = saturationBrightnessPickerView

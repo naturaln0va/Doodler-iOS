@@ -48,7 +48,7 @@ class SaturationBrightnessPickerView: UIView, HuePickerViewDelegate
         commonInit()
     }
     
-    required init(coder aDecoder: NSCoder)
+    required init?(coder aDecoder: NSCoder)
     {
         super.init(coder: aDecoder)
         
@@ -96,13 +96,13 @@ class SaturationBrightnessPickerView: UIView, HuePickerViewDelegate
             UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).CGColor]
         
         let gradient = CGGradientCreateWithColors(colorSpace, colors, [CGFloat(0.0), CGFloat(1.0)])
-        CGContextDrawLinearGradient(ctx, gradient, CGPoint(x: rectToDraw.size.width, y: 0), CGPointZero, 0)
+        CGContextDrawLinearGradient(ctx, gradient, CGPoint(x: rectToDraw.size.width, y: 0), CGPoint.zero, [])
         
         let desaturatedColors = [UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.0).CGColor,
             UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0).CGColor]
         
         let desaturatedGradient = CGGradientCreateWithColors(colorSpace, desaturatedColors, [CGFloat(0.0), CGFloat(1.0)])
-        CGContextDrawLinearGradient(ctx, desaturatedGradient, CGPointZero, CGPoint(x: 0, y: rectToDraw.size.height), 0)
+        CGContextDrawLinearGradient(ctx, desaturatedGradient, CGPoint.zero, CGPoint(x: 0, y: rectToDraw.size.height), [])
         
         CGContextRestoreGState(ctx)
         
@@ -114,7 +114,7 @@ class SaturationBrightnessPickerView: UIView, HuePickerViewDelegate
         CGContextSetStrokeColorWithColor(ctx, currentColor().isDarkColor() ? UIColor.whiteColor().CGColor : UIColor.blackColor().CGColor)
         CGContextSetLineWidth(ctx, 1)
         CGContextClosePath(ctx)
-        CGContextDrawPath(ctx, kCGPathEOFillStroke)
+        CGContextDrawPath(ctx, .EOFill)
     }
     
     //MARK: - HuePickerViewDelegate -
@@ -155,17 +155,17 @@ class SaturationBrightnessPickerView: UIView, HuePickerViewDelegate
         setNeedsDisplay()
     }
     
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent)
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?)
     {
         handleTouches(touches)
     }
     
-    override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent)
+    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?)
     {
         handleTouches(touches)
     }
 
-    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent)
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?)
     {
         handleTouches(touches)
     }

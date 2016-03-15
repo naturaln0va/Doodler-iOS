@@ -11,8 +11,6 @@ class LoveViewController: RHAViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        
-        
     }
 
 }

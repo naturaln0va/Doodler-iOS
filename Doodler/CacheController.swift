@@ -51,7 +51,7 @@ class CacheController: NSObject
             indexForRetrieving = indexForAdding - 1
         }
         
-        println("Adding index: \(indexForAdding)")
+        print("Adding index: \(indexForAdding)")
         cache.setObject(item, forKey: indexForAdding)
         indexForAdding++
         
@@ -69,7 +69,7 @@ class CacheController: NSObject
                 return nil
             }
         }
-        println("Retrieveing index: \(indexForRetrieving)")
+        print("Retrieveing index: \(indexForRetrieving)")
         if let image = cache.objectForKey(indexForRetrieving) as? UIImage {
             if count == maxCount {
                 removedCount++

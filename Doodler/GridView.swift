@@ -13,7 +13,7 @@ class GridView: UIView
         let width: CGFloat = CGRectGetWidth(bounds)
         let height: CGFloat = CGRectGetHeight(bounds)
         let spaceBetween: CGFloat = 18.0
-        let ctx: CGContextRef = UIGraphicsGetCurrentContext()
+        let ctx: CGContextRef? = UIGraphicsGetCurrentContext()
         
         CGContextSetLineWidth(ctx, 1.0)
         CGContextSetStrokeColorWithColor(ctx, UIColor(white: 1.0, alpha: 0.075).CGColor)

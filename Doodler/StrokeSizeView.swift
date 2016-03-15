@@ -38,7 +38,7 @@ class StrokeSizeView: AutoHideView {
         UIRectFill(rect)
         
         if let size = strokeSize {
-            CGContextSetLineCap(ctx, kCGLineCapRound)
+            CGContextSetLineCap(ctx, .Round)
             CGContextSetStrokeColorWithColor(ctx, UIColor.whiteColor().CGColor)
             CGContextSetLineWidth(ctx, size)
             

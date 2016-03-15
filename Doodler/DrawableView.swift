@@ -1,3 +1,4 @@
+
 //  Created by Ryan Ackermann on 7/7/15.
 //  Copyright (c) 2015 Ryan Ackermann. All rights reserved.
 //  Find me on Twitter @naturaln0va.
@@ -74,8 +75,7 @@ class DrawableView: UIView
     
     private func renderDisplayToBuffer()
     {
-        let dispatchQueue = isIOS8OrLater() ? dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0) : dispatch_queue_create("background-queue-worker", 0)
-        dispatch_async(dispatchQueue) {
+        dispatch_async(dispatch_queue_create("io.ackermann.render", nil)) {
             let image = self.imageByCapturing()
             self.bufferImage = image
             CacheController.sharedController.addItem(image)
@@ -99,7 +99,7 @@ class DrawableView: UIView
         }
         
         for comp in drawingComponents {
-            CGContextSetLineCap(ctx, kCGLineCapRound)
+            CGContextSetLineCap(ctx, .Round)
             CGContextSetStrokeColorWithColor(ctx, comp.color)
             CGContextSetLineWidth(ctx, comp.width)
             
@@ -109,27 +109,30 @@ class DrawableView: UIView
     }
     
     //MARK: - UITouch Event Handling -
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent)
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?)
     {
-        if event.allTouches()?.count > 1 {
+        if event?.allTouches()?.count > 1 {
             return // We only want to deal with one touch
         }
         
-        let touch = touches.first as! UITouch
-        
-        previousPoint = touch.previousLocationInView(self)
-        previousPreviousPoint = touch.previousLocationInView(self)
-        currentPoint = touch.locationInView(self)
+        if let touch = touches.first {
+            previousPoint = touch.previousLocationInView(self)
+            previousPreviousPoint = touch.previousLocationInView(self)
+            currentPoint = touch.locationInView(self)
+        }
     }
     
-    override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent)
+    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?)
     {
-        if event.allTouches()?.count > 1 {
+        if event?.allTouches()?.count > 1 {
             return // We only want to deal with one touch
         }
         
-        let touch = touches.first as! UITouch
-        let point = touch.locationInView(self)
+        guard let firstTouch = touches.first else {
+            return
+        }
+        
+        let point = firstTouch.locationInView(self)
         
         let dx = point.x - currentPoint!.x
         let dy = point.y - currentPoint!.y
@@ -139,8 +142,8 @@ class DrawableView: UIView
         }
         
         previousPreviousPoint = previousPoint
-        previousPoint = touch.previousLocationInView(self)
-        currentPoint = touch.locationInView(self)
+        previousPoint = firstTouch.previousLocationInView(self)
+        currentPoint = firstTouch.locationInView(self)
         
         let drawColor = SettingsController.sharedController.currentDrawColor().CGColor
         let drawWidth = CGFloat(SettingsController.sharedController.currentStrokeWidth())
@@ -149,9 +152,9 @@ class DrawableView: UIView
         setupAndDrawWithPoints(points: points, withColor: drawColor, withWidth: drawWidth)
     }
     
-    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent)
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?)
     {
-        if event.allTouches()?.count > 1 {
+        if event?.allTouches()?.count > 1 {
             return // We only want to deal with one touch
         }
         

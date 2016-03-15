@@ -21,6 +21,8 @@ class RHANavigationViewController: UINavigationController
         navigationBar.tintColor = RHAColorController.barTintColor
         navigationBar.translucent = false
         
-        self.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: RHAColorController.barTintColor, NSFontAttributeName: UIFont(name: "AvenirNextCondensed-Regular", size: 24.0)!]
+        self.navigationBar.titleTextAttributes = [
+            NSForegroundColorAttributeName: RHAColorController.barTintColor
+        ]
     }
 }

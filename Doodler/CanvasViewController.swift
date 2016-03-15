@@ -127,20 +127,18 @@ class CanvasViewController: RHAViewController, UIGestureRecognizerDelegate, UISc
     //MARK: - Actions
     func clearScreen()
     {
-        let alert = SCLAlertView()
-        alert.showCloseButton = false
-        alert.addButton("Clear") {
-            RAAudioEngine.sharedEngine.play(.ClearSoundEffect)
+        let alert = UIAlertController(title: "Clear Screen", message: "Would you like to clear the screen?", preferredStyle: .Alert)
+        
+        alert.addAction(UIAlertAction(title: "Clear", style: .Default, handler: { action in
             self.canvas.clear()
-        }
-        alert.addButton("Cancel") { }
-        alert.showWarning("Clear Screen", subTitle: "Would you like to clear the screen?")
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+
+        presentViewController(alert, animated: true, completion: nil)
     }
     
     func colorButtonTapped()
     {
-        RAAudioEngine.sharedEngine.play(.TapSoundEffect)
-        
         MenuController.sharedController.colorPickerVC.delegate = self
         
         if isIPad() {
@@ -159,79 +157,72 @@ class CanvasViewController: RHAViewController, UIGestureRecognizerDelegate, UISc
     
     func undoButtonTapped()
     {
-        RAAudioEngine.sharedEngine.play(.TapSoundEffect)
-        
         canvas.undo()
     }
     
     func shareButtonTapped()
     {
-        // add a thing for the user to edit share text
-        RAAudioEngine.sharedEngine.play(.TapSoundEffect)
-        
         let activityViewcontroller = UIActivityViewController(activityItems: ["Made with Doodler", NSURL(string: "http://apple.co/1IUYyFk")!, canvas.imageByCapturing()], applicationActivities: [NewDocumentActivity()])
         activityViewcontroller.excludedActivityTypes = [
             UIActivityTypeAssignToContact, UIActivityTypeAddToReadingList, UIActivityTypePrint
         ]
         
-        if !isIOS8OrLater() {
-            activityViewcontroller.completionHandler = { (activityType, completed: Bool) in
-                if activityType == nil {
-                    return
-                }
-                
-                if activityType == kActivityTypeNewDocument {
-                    delay(0.25) {
-                        self.setUpWithSize(self.kDefaultCanvasSize)
-                    }
-                }
-                
-                if activityType == UIActivityTypeSaveToCameraRoll && completed {
-                    RAAudioEngine.sharedEngine.play(.SaveSoundEffect)
-                    
-                    self.showMessageBannerWithText("Image Saved", color: UIColor(hex: 0x27ae60)) {
-                        let alert = SCLAlertView()
-                        alert.showCloseButton = false
-                        alert.addButton("Yes, please") {
-                            delay(0.25) {
-                                self.setUpWithSize(self.kDefaultCanvasSize)
-                            }
-                        }
-                        alert.addButton("No, thanks") { }
-                        alert.showInfo("New Document", subTitle: "Would you like to create a new document?")
-                    }
-                }
-            }
-        }
-        else {
-            activityViewcontroller.completionWithItemsHandler = { (activityType: String!, completed: Bool, returnedItems: [AnyObject]!, activityError: NSError!) in
-                if activityType == nil {
-                    return
-                }
-                
-                if activityType == kActivityTypeNewDocument {
-                    delay(0.25) {
-                        self.setUpWithSize(self.kDefaultCanvasSize)
-                    }
-                }
-                
-                if activityType == UIActivityTypeSaveToCameraRoll {
-                    RAAudioEngine.sharedEngine.play(.SaveSoundEffect)
-                    
-                    self.showMessageBannerWithText("Image Saved", color: UIColor(hex: 0x27ae60)) {
-                        let alert = SCLAlertView()
-                        alert.showCloseButton = false
-                        alert.addButton("Yes, please") {
-                            delay(0.25) {
-                                self.setUpWithSize(self.kDefaultCanvasSize)
-                            }
-                        }
-                        alert.addButton("No, thanks") { }
-                        alert.showInfo("New Document", subTitle: "Would you like to create a new document?")
-                    }
-                }
-            }
-        }
+//        if !isIOS8OrLater() {
+//            activityViewcontroller.completionHandler = { (activityType, completed: Bool) in
+//                if activityType == nil {
+//                    return
+//                }
+//                
+//                if activityType == kActivityTypeNewDocument {
+//                    delay(0.25) {
+//                        self.setUpWithSize(self.kDefaultCanvasSize)
+//                    }
+//                }
+//                
+//                if activityType == UIActivityTypeSaveToCameraRoll && completed {
+//                    RAAudioEngine.sharedEngine.play(.SaveSoundEffect)
+//                    
+////                    self.showMessageBannerWithText("Image Saved", color: UIColor(hex: 0x27ae60)) {
+////                        let alert = SCLAlertView()
+////                        alert.showCloseButton = false
+////                        alert.addButton("Yes, please") {
+////                            delay(0.25) {
+////                                self.setUpWithSize(self.kDefaultCanvasSize)
+////                            }
+////                        }
+////                        alert.addButton("No, thanks") { }
+////                        alert.showInfo("New Document", subTitle: "Would you like to create a new document?")
+////                    }
+//                }
+//            }
+//        }
+//        else {
+//            activityViewcontroller.completionWithItemsHandler = { (activityType: String!, completed: Bool, returnedItems: [AnyObject]!, activityError: NSError!) in
+//                if activityType == nil {
+//                    return
+//                }
+//                
+//                if activityType == kActivityTypeNewDocument {
+//                    delay(0.25) {
+//                        self.setUpWithSize(self.kDefaultCanvasSize)
+//                    }
+//                }
+//                
+//                if activityType == UIActivityTypeSaveToCameraRoll {
+//                    RAAudioEngine.sharedEngine.play(.SaveSoundEffect)
+//                    
+//                    self.showMessageBannerWithText("Image Saved", color: UIColor(hex: 0x27ae60)) {
+//                        let alert = UIAlertController(title: "New Document", message: "Would you like to create a new document?", preferredStyle: .Alert)
+//                        alert.addAction(UIAlertAction(title: "Yes, please", style: .Default, handler: { action in
+//                            delay(0.25) {
+//                                self.setUpWithSize(self.kDefaultCanvasSize)
+//                            }
+//                        }))
+//                        alert.addAction(UIAlertAction(title: "No, thanks", style: .Cancel, handler: nil))
+//                    }
+//                }
+//            }
+//        }
         
         if isIPad() {
             popOverView = UIPopoverController(contentViewController: activityViewcontroller)
@@ -271,7 +262,7 @@ class CanvasViewController: RHAViewController, UIGestureRecognizerDelegate, UISc
     {
         controlBarBottomConstraint.constant = 0
         
-        UIView.animateWithDuration(0.4, delay: 0.0, usingSpringWithDamping: 1.05, initialSpringVelocity: 0.125, options: nil, animations: {
+        UIView.animateWithDuration(0.4, delay: 0.0, usingSpringWithDamping: 1.05, initialSpringVelocity: 0.125, options: [], animations: {
             self.view.layoutIfNeeded()
         },
         completion: nil)
@@ -281,7 +272,7 @@ class CanvasViewController: RHAViewController, UIGestureRecognizerDelegate, UISc
     {
         controlBarBottomConstraint.constant = -CGRectGetHeight(controlBar.bounds)
         
-        UIView.animateWithDuration(0.4, delay: 0.0, usingSpringWithDamping: 1.05, initialSpringVelocity: 0.125, options: nil, animations: {
+        UIView.animateWithDuration(0.4, delay: 0.0, usingSpringWithDamping: 1.05, initialSpringVelocity: 0.125, options: [], animations: {
             self.view.layoutIfNeeded()
         },
         completion: nil)
@@ -310,10 +301,10 @@ class CanvasViewController: RHAViewController, UIGestureRecognizerDelegate, UISc
     func showMessageBannerWithText(text: String, color: UIColor, completion: (() -> Void)?)
     {
         let bannerHeight: CGFloat = 54.0
-        var banner = UIView(frame: CGRect(x: 0, y: -bannerHeight - 25, width: self.view.frame.size.width, height: bannerHeight * 2))
+        let banner = UIView(frame: CGRect(x: 0, y: -bannerHeight - 25, width: self.view.frame.size.width, height: bannerHeight * 2))
         banner.backgroundColor = color
         
-        var label = UILabel(frame: CGRect(x: 0, y: 13, width: banner.frame.width, height: (bannerHeight * 2)))
+        let label = UILabel(frame: CGRect(x: 0, y: 13, width: banner.frame.width, height: (bannerHeight * 2)))
         label.textAlignment = .Center
         label.text = text
         label.font = UIFont(name: "AvenirNext-Medium", size: 37.0)
@@ -344,10 +335,10 @@ class CanvasViewController: RHAViewController, UIGestureRecognizerDelegate, UISc
         let scale = Int(scrollView.zoomScale * 100)
         updateInfoForInfoView("\(scale)%")
         
-        if lastCanvasZoomScale < scale && scrollView.pinchGestureRecognizer.velocity > 2 {
+        if lastCanvasZoomScale < scale && scrollView.pinchGestureRecognizer?.velocity > 2 {
             hideToolbar()
         }
-        else if lastCanvasZoomScale > scale && scrollView.pinchGestureRecognizer.velocity < -1 {
+        else if lastCanvasZoomScale > scale && scrollView.pinchGestureRecognizer?.velocity < -1 {
             showToolbar()
         }
         
@@ -371,7 +362,7 @@ class CanvasViewController: RHAViewController, UIGestureRecognizerDelegate, UISc
     }
     
     //MARK: - Motion Event Delegate
-    override func motionEnded(motion: UIEventSubtype, withEvent event: UIEvent)
+    override func motionEnded(motion: UIEventSubtype, withEvent event: UIEvent?)
     {
         if motion == .MotionShake {
             clearScreen()

@@ -7,8 +7,8 @@ import UIKit
 
 class AutoHideView: UIView
 {
-    private let animationDuration = 0.25
-    private var timer: NSTimer?
+    let animationDuration = 0.25
+    var timer: NSTimer?
     
     func show()
     {

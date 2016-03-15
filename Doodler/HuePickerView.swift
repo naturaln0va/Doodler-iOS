@@ -33,9 +33,8 @@ class HuePickerView: UIView
         
         commonInit()
     }
-    
-    required init(coder aDecoder: NSCoder)
-    {
+
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
         commonInit()
@@ -64,7 +63,7 @@ class HuePickerView: UIView
         ]
         
         let gradient = CGGradientCreateWithColors(colorSpace, colors, locations)
-        CGContextDrawLinearGradient(ctx, gradient, CGPoint(x: CGRectGetWidth(rect), y: 0), CGPointZero, 0)
+        CGContextDrawLinearGradient(ctx, gradient, CGPoint(x: CGRectGetWidth(rect), y: 0), CGPoint.zero, [])
         
         let adjustedPosition = CGFloat(CGRectGetWidth(rect)) * hue
         
@@ -72,7 +71,7 @@ class HuePickerView: UIView
         CGContextSetFillColorWithColor(ctx, UIColor.whiteColor().CGColor)
         CGContextSetShadowWithColor(ctx, CGSizeZero, 2, UIColor.blackColor().CGColor)
         CGContextClosePath(ctx)
-        CGContextDrawPath(ctx, kCGPathFill)
+        CGContextDrawPath(ctx, .Fill)
     }
     
     //MARK: - Touches -
@@ -94,17 +93,17 @@ class HuePickerView: UIView
         setNeedsDisplay()
     }
     
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent)
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?)
     {
         handleTouches(touches)
     }
     
-    override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent)
+    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?)
     {
         handleTouches(touches)
     }
     
-    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent)
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?)
     {
         handleTouches(touches)
     }
