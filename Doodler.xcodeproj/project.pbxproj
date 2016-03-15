@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		485C65601A1B191E003FA399 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 485C655F1A1B191E003FA399 /* AudioToolbox.framework */; };
 		48B38C5B1A16C4110040DE29 /* WindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B38C541A16C4110040DE29 /* WindowController.swift */; };
 		48B38C611A16C4110040DE29 /* CanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B38C5A1A16C4110040DE29 /* CanvasViewController.swift */; };
 		6903EA971B56AA3B001BEAEC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6903EA961B56AA3B001BEAEC /* Images.xcassets */; };
@@ -44,7 +43,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		485C655F1A1B191E003FA399 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		48B38C541A16C4110040DE29 /* WindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WindowController.swift; path = Doodler/WindowController.swift; sourceTree = SOURCE_ROOT; };
 		48B38C5A1A16C4110040DE29 /* CanvasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CanvasViewController.swift; path = Doodler/CanvasViewController.swift; sourceTree = SOURCE_ROOT; };
 		48FA2ECA1A0C100F002CE8B9 /* Doodler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Doodler.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,7 +86,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				485C65601A1B191E003FA399 /* AudioToolbox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -186,7 +183,6 @@
 		48FA2ECC1A0C100F002CE8B9 /* DrawingApp */ = {
 			isa = PBXGroup;
 			children = (
-				69E9E06A1BE00B720065DE51 /* Frameworks */,
 				48D5F4331B2C93B8003B8B96 /* Controllers */,
 				4880D46B1A4F749C0077E68B /* ViewControllers */,
 				69F3DB4F1B73DB64008F2511 /* Activities */,
@@ -196,15 +192,6 @@
 				69F3DB4A1B73B00E008F2511 /* Interfaces */,
 			);
 			path = DrawingApp;
-			sourceTree = "<group>";
-		};
-		69E9E06A1BE00B720065DE51 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				485C655F1A1B191E003FA399 /* AudioToolbox.framework */,
-			);
-			name = Frameworks;
-			path = ..;
 			sourceTree = "<group>";
 		};
 		69F3DB4A1B73B00E008F2511 /* Interfaces */ = {
