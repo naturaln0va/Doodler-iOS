@@ -12,6 +12,7 @@ class ColorPreView: UIView
             setNeedsDisplay()
         }
     }
+    
     var newColor: UIColor? {
         didSet {
             setNeedsDisplay()
@@ -21,6 +22,11 @@ class ColorPreView: UIView
     override func drawRect(rect: CGRect)
     {
         let ctx = UIGraphicsGetCurrentContext()
+        
+        let clippingPath = UIBezierPath(roundedRect: rect, cornerRadius: 5).CGPath
+        CGContextAddPath(ctx, clippingPath)
+        
+        CGContextClip(ctx)
         
         if let previous = previousColor {
             previous.set()

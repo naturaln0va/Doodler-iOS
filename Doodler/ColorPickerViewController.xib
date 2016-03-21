@@ -1,54 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ColorPickerViewController" customModule="Doodler" customModuleProvider="target">
             <connections>
+                <outlet property="colorHexTextField" destination="Xu6-6c-Rmp" id="tuB-bU-2YL"/>
+                <outlet property="colorHexValueBackingView" destination="836-dv-AIT" id="tl2-oC-vM2"/>
                 <outlet property="colorPreView" destination="KdS-Sz-DFK" id="l3R-Qn-XkZ"/>
-                <outlet property="currentColorLabel" destination="4IF-Eu-RIR" id="vhI-VV-eWC"/>
                 <outlet property="huePickerView" destination="fkD-al-5dg" id="u1F-XK-o5V"/>
-                <outlet property="previousColorLabel" destination="vQO-Ry-hy2" id="YuI-xB-COS"/>
                 <outlet property="saturationBrightnessPickerView" destination="OUY-mE-4sy" id="BUP-qR-EKJ"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
-            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KdS-Sz-DFK" customClass="ColorPreView" customModule="Doodler" customModuleProvider="target">
-                    <rect key="frame" x="140" y="12" width="320" height="50"/>
-                    <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="#88CD29" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="60" translatesAutoresizingMaskIntoConstraints="NO" id="vQO-Ry-hy2">
-                            <rect key="frame" x="8" y="17" width="60" height="25"/>
-                            <animations/>
-                            <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="18"/>
-                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="#34F2B1" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="57" translatesAutoresizingMaskIntoConstraints="NO" id="4IF-Eu-RIR">
-                            <rect key="frame" x="255" y="17" width="57" height="25"/>
-                            <animations/>
-                            <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="18"/>
-                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                    </subviews>
-                    <animations/>
+                    <rect key="frame" x="195" y="15" width="165" height="40"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="bottom" secondItem="vQO-Ry-hy2" secondAttribute="bottom" constant="8" id="7LG-Ky-tHu"/>
-                        <constraint firstItem="vQO-Ry-hy2" firstAttribute="leading" secondItem="KdS-Sz-DFK" secondAttribute="leading" constant="8" id="9pi-Ab-eZD"/>
-                        <constraint firstAttribute="bottom" secondItem="4IF-Eu-RIR" secondAttribute="bottom" constant="8" id="QFO-JQ-kjA"/>
-                        <constraint firstAttribute="height" constant="50" id="RTI-W7-esQ">
+                        <constraint firstAttribute="height" constant="40" id="RTI-W7-esQ">
                             <variation key="widthClass=compact" constant="50"/>
                         </constraint>
-                        <constraint firstAttribute="trailing" secondItem="4IF-Eu-RIR" secondAttribute="trailing" constant="8" id="gjE-q2-Fkk"/>
                         <constraint firstAttribute="width" constant="250" id="jd4-jd-4pX"/>
                     </constraints>
                     <variation key="default">
@@ -63,14 +42,13 @@
                     </variation>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fkD-al-5dg" customClass="HuePickerView" customModule="Doodler" customModuleProvider="target">
-                    <rect key="frame" x="140" y="406" width="320" height="44"/>
-                    <animations/>
+                    <rect key="frame" x="15" y="430" width="345" height="40"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="fkD-al-5dg" secondAttribute="height" multiplier="1:1" id="72P-QZ-7A4"/>
                         <constraint firstAttribute="width" constant="320" id="IW0-Ib-tkC"/>
                         <constraint firstAttribute="height" constant="44" id="aWh-hp-J7h"/>
-                        <constraint firstAttribute="height" constant="44" id="aqP-iH-8ny"/>
+                        <constraint firstAttribute="height" constant="40" id="r6F-Ih-ISa"/>
                     </constraints>
                     <variation key="default">
                         <mask key="constraints">
@@ -85,9 +63,33 @@
                         </mask>
                     </variation>
                 </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="836-dv-AIT">
+                    <rect key="frame" x="15" y="15" width="165" height="40"/>
+                    <subviews>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="#27b1b1" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Xu6-6c-Rmp">
+                            <rect key="frame" x="12" y="2" width="141" height="36"/>
+                            <color key="textColor" red="0.93333333330000001" green="0.93333333330000001" blue="0.93333333330000001" alpha="1" colorSpace="calibratedRGB"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <textInputTraits key="textInputTraits" keyboardType="namePhonePad" keyboardAppearance="alert" returnKeyType="done"/>
+                        </textField>
+                    </subviews>
+                    <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="Xu6-6c-Rmp" secondAttribute="trailing" constant="12" id="D6q-MB-NAt"/>
+                        <constraint firstItem="Xu6-6c-Rmp" firstAttribute="centerY" secondItem="836-dv-AIT" secondAttribute="centerY" id="QaO-WQ-dLv"/>
+                        <constraint firstAttribute="height" constant="40" id="agD-86-Gds"/>
+                        <constraint firstItem="Xu6-6c-Rmp" firstAttribute="top" secondItem="836-dv-AIT" secondAttribute="top" constant="2" id="bq6-nW-h78"/>
+                        <constraint firstItem="Xu6-6c-Rmp" firstAttribute="leading" secondItem="836-dv-AIT" secondAttribute="leading" constant="12" id="qf3-Yy-Vr0"/>
+                        <constraint firstAttribute="bottom" secondItem="Xu6-6c-Rmp" secondAttribute="bottom" constant="2" id="y1P-D9-yF8"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="QaO-WQ-dLv"/>
+                        </mask>
+                    </variation>
+                </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OUY-mE-4sy" customClass="SaturationBrightnessPickerView" customModule="Doodler" customModuleProvider="target">
-                    <rect key="frame" x="140" y="74" width="320" height="320"/>
-                    <animations/>
+                    <rect key="frame" x="15" y="70" width="345" height="345"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="320" id="CVj-Gb-b9C"/>
@@ -97,6 +99,7 @@
                     </constraints>
                     <variation key="default">
                         <mask key="constraints">
+                            <exclude reference="CVj-Gb-b9C"/>
                             <exclude reference="ORR-1v-4Q2"/>
                             <exclude reference="lxG-63-n5S"/>
                         </mask>
@@ -110,48 +113,63 @@
                     </variation>
                 </view>
             </subviews>
-            <animations/>
-            <color key="backgroundColor" white="0.14999999999999999" alpha="1" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="0.38039215686274508" green="0.38039215686274508" blue="0.38431372549019605" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
+                <constraint firstItem="fkD-al-5dg" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="15" id="0Ev-dE-0gd"/>
                 <constraint firstAttribute="trailing" secondItem="OUY-mE-4sy" secondAttribute="trailing" constant="40" id="38S-HQ-0VT">
                     <variation key="widthClass=compact" constant="8"/>
                 </constraint>
-                <constraint firstItem="OUY-mE-4sy" firstAttribute="top" secondItem="KdS-Sz-DFK" secondAttribute="bottom" constant="12" id="7tQ-s6-Phj"/>
+                <constraint firstItem="836-dv-AIT" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="15" id="40A-O4-19a"/>
+                <constraint firstItem="OUY-mE-4sy" firstAttribute="top" secondItem="KdS-Sz-DFK" secondAttribute="bottom" constant="15" id="7tQ-s6-Phj"/>
                 <constraint firstItem="fkD-al-5dg" firstAttribute="top" secondItem="KdS-Sz-DFK" secondAttribute="bottom" constant="12" id="BfH-Sg-OuI"/>
                 <constraint firstItem="OUY-mE-4sy" firstAttribute="top" secondItem="KdS-Sz-DFK" secondAttribute="bottom" constant="8" id="CN2-cr-3mF">
                     <variation key="widthClass=compact" constant="12"/>
                 </constraint>
+                <constraint firstItem="OUY-mE-4sy" firstAttribute="top" secondItem="836-dv-AIT" secondAttribute="bottom" constant="15" id="GCc-li-2qu"/>
+                <constraint firstItem="836-dv-AIT" firstAttribute="width" secondItem="KdS-Sz-DFK" secondAttribute="width" id="GVW-9f-hk5"/>
                 <constraint firstAttribute="centerX" secondItem="OUY-mE-4sy" secondAttribute="centerX" id="H8d-UK-GuD"/>
                 <constraint firstItem="KdS-Sz-DFK" firstAttribute="width" secondItem="OUY-mE-4sy" secondAttribute="width" id="KJu-dM-ewd"/>
+                <constraint firstItem="KdS-Sz-DFK" firstAttribute="leading" secondItem="836-dv-AIT" secondAttribute="trailing" constant="15" id="KLi-jk-2Eg"/>
                 <constraint firstItem="fkD-al-5dg" firstAttribute="top" secondItem="OUY-mE-4sy" secondAttribute="bottom" constant="33" id="MVT-e4-jPk">
                     <variation key="widthClass=compact" constant="12"/>
                 </constraint>
                 <constraint firstItem="OUY-mE-4sy" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="40" id="NAv-8f-HgY">
                     <variation key="widthClass=compact" constant="8"/>
                 </constraint>
+                <constraint firstAttribute="trailing" secondItem="KdS-Sz-DFK" secondAttribute="trailing" constant="15" id="Nai-gr-81v"/>
                 <constraint firstAttribute="centerX" secondItem="fkD-al-5dg" secondAttribute="centerX" id="Qud-lI-2wa"/>
                 <constraint firstItem="KdS-Sz-DFK" firstAttribute="width" secondItem="OUY-mE-4sy" secondAttribute="width" id="RUI-Y0-Bcm"/>
                 <constraint firstAttribute="centerX" secondItem="KdS-Sz-DFK" secondAttribute="centerX" id="TK0-fi-ywR"/>
                 <constraint firstAttribute="centerX" secondItem="fkD-al-5dg" secondAttribute="centerX" id="Ul6-DO-Jcz"/>
                 <constraint firstAttribute="centerX" secondItem="OUY-mE-4sy" secondAttribute="centerX" id="b6U-9i-kBe"/>
-                <constraint firstItem="fkD-al-5dg" firstAttribute="top" secondItem="OUY-mE-4sy" secondAttribute="bottom" constant="12" id="gZQ-fy-u4n"/>
-                <constraint firstItem="KdS-Sz-DFK" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="12" id="hJl-st-oMz">
+                <constraint firstItem="836-dv-AIT" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="15" id="eOa-WA-iWN"/>
+                <constraint firstItem="OUY-mE-4sy" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="15" id="f6N-k2-9z2"/>
+                <constraint firstItem="KdS-Sz-DFK" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="15" id="hJl-st-oMz">
                     <variation key="widthClass=compact" constant="12"/>
                 </constraint>
+                <constraint firstAttribute="trailing" secondItem="fkD-al-5dg" secondAttribute="trailing" constant="15" id="kFI-at-1OF"/>
                 <constraint firstItem="OUY-mE-4sy" firstAttribute="width" secondItem="fkD-al-5dg" secondAttribute="width" id="pDM-YW-dNw"/>
                 <constraint firstItem="OUY-mE-4sy" firstAttribute="width" secondItem="fkD-al-5dg" secondAttribute="width" id="pHf-cr-b3X"/>
+                <constraint firstAttribute="trailing" secondItem="OUY-mE-4sy" secondAttribute="trailing" constant="15" id="uu7-5m-vnG"/>
+                <constraint firstItem="fkD-al-5dg" firstAttribute="top" secondItem="OUY-mE-4sy" secondAttribute="bottom" constant="15" id="yeD-e7-s9E"/>
             </constraints>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
             <variation key="default">
                 <mask key="constraints">
-                    <exclude reference="RUI-Y0-Bcm"/>
                     <exclude reference="38S-HQ-0VT"/>
                     <exclude reference="CN2-cr-3mF"/>
                     <exclude reference="H8d-UK-GuD"/>
                     <exclude reference="NAv-8f-HgY"/>
+                    <exclude reference="b6U-9i-kBe"/>
                     <exclude reference="pDM-YW-dNw"/>
+                    <exclude reference="pHf-cr-b3X"/>
+                    <exclude reference="KJu-dM-ewd"/>
+                    <exclude reference="RUI-Y0-Bcm"/>
+                    <exclude reference="TK0-fi-ywR"/>
                     <exclude reference="BfH-Sg-OuI"/>
                     <exclude reference="MVT-e4-jPk"/>
                     <exclude reference="Qud-lI-2wa"/>
+                    <exclude reference="Ul6-DO-Jcz"/>
                 </mask>
             </variation>
             <variation key="widthClass=compact">
@@ -159,17 +177,17 @@
                     <include reference="fkD-al-5dg"/>
                 </mask>
                 <mask key="constraints">
-                    <exclude reference="RUI-Y0-Bcm"/>
                     <include reference="38S-HQ-0VT"/>
                     <include reference="CN2-cr-3mF"/>
                     <include reference="H8d-UK-GuD"/>
                     <include reference="NAv-8f-HgY"/>
                     <include reference="pDM-YW-dNw"/>
+                    <exclude reference="RUI-Y0-Bcm"/>
                     <include reference="MVT-e4-jPk"/>
                     <include reference="Qud-lI-2wa"/>
                 </mask>
             </variation>
-            <point key="canvasLocation" x="266" y="322"/>
+            <point key="canvasLocation" x="198.5" y="209.5"/>
         </view>
     </objects>
 </document>

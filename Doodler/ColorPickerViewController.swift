@@ -10,12 +10,12 @@ protocol ColorPickerViewControllerDelegate
     func colorPickerViewControllerDidPickColor(color: UIColor)
 }
 
-class ColorPickerViewController: RHAViewController, SaturationBrightnessPickerViewDelegate
+class ColorPickerViewController: RHAViewController, SaturationBrightnessPickerViewDelegate, UITextFieldDelegate
 {
     
     @IBOutlet weak var colorPreView: ColorPreView!
-    @IBOutlet weak var previousColorLabel: UILabel!
-    @IBOutlet weak var currentColorLabel: UILabel!
+    @IBOutlet weak var colorHexValueBackingView: UIView!
+    @IBOutlet weak var colorHexTextField: UITextField!
     
     @IBOutlet weak var saturationBrightnessPickerView: SaturationBrightnessPickerView!
     @IBOutlet weak var huePickerView: HuePickerView!
@@ -30,7 +30,13 @@ class ColorPickerViewController: RHAViewController, SaturationBrightnessPickerVi
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: "doneButtonPressed")
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Cancel, target: self, action: "cancelButtonPressed")
         
-        huePickerView.layer.cornerRadius = 4
+        colorPreView.backgroundColor = UIColor.clearColor()
+        
+        huePickerView.layer.cornerRadius = 5
+        colorHexValueBackingView.layer.cornerRadius = 5
+        
+        colorHexTextField.delegate = self
+        
         huePickerView.delegate = saturationBrightnessPickerView
         saturationBrightnessPickerView.delegate = self
     }
@@ -42,16 +48,7 @@ class ColorPickerViewController: RHAViewController, SaturationBrightnessPickerVi
         colorPreView.previousColor = currentColor
         colorPreView.newColor = currentColor
         
-        previousColorLabel.text = currentColor.hexString()
-        currentColorLabel.text = currentColor.hexString()
-        
-        if currentColor.isDarkColor() {
-            previousColorLabel.textColor = UIColor.whiteColor()
-            currentColorLabel.textColor = UIColor.whiteColor()
-        } else {
-            previousColorLabel.textColor = UIColor.blackColor()
-            currentColorLabel.textColor = UIColor.blackColor()
-        }
+        colorHexTextField.text = currentColor.hexString()
         
         if let hue = SettingsController.sharedController.currentStrokeColor().hsb()!.first {
             huePickerView.hue = hue
@@ -82,17 +79,35 @@ class ColorPickerViewController: RHAViewController, SaturationBrightnessPickerVi
         }
     }
     
-    //MARK: - SaturationBrightnessPickerViewDelegate Methods -
+    //MARK: - SaturationBrightnessPickerViewDelegate Methods
     func saturationBrightnessPickerViewDidUpdateColor(color: UIColor)
     {
         colorPreView.newColor = color
-        currentColorLabel.text = color.hexString()
-        
-        if color.isDarkColor() {
-            currentColorLabel.textColor = UIColor.whiteColor()
-        } else {
-            currentColorLabel.textColor = UIColor.blackColor()
+        colorHexTextField.text = color.hexString()
+    }
+    
+    // MARK: - UITextField Delegate
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool
+    {
+        if NSEqualRanges(range, NSRange(location: 0, length: 1)) && string == "" {
+            return false
         }
+        
+        let strippedString = string.stringByTrimmingCharactersInSet(NSCharacterSet.hexadecimalCharacterSet())
+        if strippedString.characters.count > 0 {
+            return false
+        }
+        
+        return true
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool
+    {
+        
+        
+        textField.endEditing(true)
+        
+        return true
     }
     
 }

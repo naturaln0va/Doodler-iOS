@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		483804F71C9F69C500B8FD72 /* NSCharacterSet+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483804F61C9F69C500B8FD72 /* NSCharacterSet+Hex.swift */; };
 		48B38C5B1A16C4110040DE29 /* WindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B38C541A16C4110040DE29 /* WindowController.swift */; };
 		48B38C611A16C4110040DE29 /* CanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B38C5A1A16C4110040DE29 /* CanvasViewController.swift */; };
 		6903EA971B56AA3B001BEAEC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6903EA961B56AA3B001BEAEC /* Images.xcassets */; };
@@ -43,6 +44,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		483804F61C9F69C500B8FD72 /* NSCharacterSet+Hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSCharacterSet+Hex.swift"; sourceTree = SOURCE_ROOT; };
 		48B38C541A16C4110040DE29 /* WindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WindowController.swift; path = Doodler/WindowController.swift; sourceTree = SOURCE_ROOT; };
 		48B38C5A1A16C4110040DE29 /* CanvasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CanvasViewController.swift; path = Doodler/CanvasViewController.swift; sourceTree = SOURCE_ROOT; };
 		48FA2ECA1A0C100F002CE8B9 /* Doodler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Doodler.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -137,6 +139,7 @@
 				6903EA9B1B56AA6C001BEAEC /* UIViewExtensions.swift */,
 				69E9E0591BE007ED0065DE51 /* UIKitExtensions.swift */,
 				69E9E05A1BE007ED0065DE51 /* UIViewExtensions.swift */,
+				483804F61C9F69C500B8FD72 /* NSCharacterSet+Hex.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -298,6 +301,7 @@
 				69E9E0531BE0056D0065DE51 /* AutoHideView.swift in Sources */,
 				69E9E0411BE004FB0065DE51 /* RHAViewController.swift in Sources */,
 				69E9E0491BE005390065DE51 /* NewDocumentActivity.swift in Sources */,
+				483804F71C9F69C500B8FD72 /* NSCharacterSet+Hex.swift in Sources */,
 				69E9E04F1BE005590065DE51 /* HuePickerView.swift in Sources */,
 				69E9E03B1BE004D00065DE51 /* RHAColorController.swift in Sources */,
 				6903EA9C1B56AA6C001BEAEC /* UIColorExstension.swift in Sources */,

@@ -17,7 +17,7 @@ class SaturationBrightnessPickerView: UIView, HuePickerViewDelegate
 {
     
     private let inset: CGFloat = 15
-    private let reticuleSize: CGFloat = 25
+    private let reticuleSize: CGFloat = 35
     var delegate: SaturationBrightnessPickerViewDelegate?
     
     private var hue: CGFloat = 1.0 {
@@ -58,11 +58,7 @@ class SaturationBrightnessPickerView: UIView, HuePickerViewDelegate
     private func commonInit()
     {
         clipsToBounds = false
-        backgroundColor = UIColor.blackColor()
-        
-        layer.cornerRadius = 4
-        layer.borderColor = UIColor.whiteColor().CGColor
-        layer.borderWidth = 1
+        backgroundColor = UIColor.clearColor()
         
         opaque = false
         bounds = CGRectInset(bounds, -inset, -inset)
@@ -109,12 +105,13 @@ class SaturationBrightnessPickerView: UIView, HuePickerViewDelegate
         let adjustedPoint = CGPoint(x: saturation * CGRectGetWidth(rectToDraw), y: CGRectGetHeight(rectToDraw) - (brightness * CGRectGetHeight(rectToDraw)))
         let reticuleRect = CGRect(x: adjustedPoint.x - (reticuleSize / 2), y: adjustedPoint.y - (reticuleSize / 2), width: reticuleSize, height: reticuleSize)
         
-        CGContextAddEllipseInRect(ctx, CGRectInset(reticuleRect, 4, 4))
+        CGContextSetShadow(ctx, CGSize(width: 0, height: 2), 3)
         CGContextSetFillColorWithColor(ctx, currentColor().CGColor)
+        CGContextFillEllipseInRect(ctx, CGRectInset(reticuleRect, 4, 4))
+        
         CGContextSetStrokeColorWithColor(ctx, currentColor().isDarkColor() ? UIColor.whiteColor().CGColor : UIColor.blackColor().CGColor)
         CGContextSetLineWidth(ctx, 1)
-        CGContextClosePath(ctx)
-        CGContextDrawPath(ctx, .EOFill)
+        CGContextStrokeEllipseInRect(ctx, CGRectInset(reticuleRect, 4, 4))
     }
     
     //MARK: - HuePickerViewDelegate -
