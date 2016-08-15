@@ -1,20 +1,11 @@
-//
-//  HuePickerView.swift
-//
-//  Created by Ryan Ackermann on 8/13/15.
-//  Copyright (c) 2015 Ryan Ackermann. All rights reserved.
-//  Find me on Twitter @naturaln0va.
-//  Under The MIT License (MIT). See license.txt for more info.
 
 import UIKit
 
-protocol HuePickerViewDelegate
-{
-    func huePickerViewDidUpdateHue(hue: CGFloat)
+protocol HuePickerViewDelegate {
+    func huePickerViewDidUpdateHue(_ hue: CGFloat)
 }
 
-class HuePickerView: UIView
-{
+class HuePickerView: UIView {
     
     private let step: CGFloat = 0.166666666666667
     private let hueIndicatorSize: CGFloat = 5
@@ -27,8 +18,7 @@ class HuePickerView: UIView
         }
     }
     
-    override init(frame: CGRect)
-    {
+    override init(frame: CGRect) {
         super.init(frame: frame)
         
         commonInit()
@@ -40,71 +30,65 @@ class HuePickerView: UIView
         commonInit()
     }
     
-    private func commonInit()
-    {
+    private func commonInit() {
         clipsToBounds = true
     }
 
-    override func drawRect(rect: CGRect)
-    {
+    override func draw(_ rect: CGRect) {
         let ctx = UIGraphicsGetCurrentContext()
         let colorSpace = CGColorSpaceCreateDeviceRGB()
         
         let locations = [CGFloat(0.0), step, step * 2, step * 3, step * 4, step * 5, CGFloat(1.0)]
         
         let colors = [
-            UIColor(red: 1.0, green: 0.0, blue: 0.0, alpha: 1.0).CGColor,
-            UIColor(red: 1.0, green: 0.0, blue: 1.0, alpha: 1.0).CGColor,
-            UIColor(red: 0.0, green: 0.0, blue: 1.0, alpha: 1.0).CGColor,
-            UIColor(red: 0.0, green: 1.0, blue: 1.0, alpha: 1.0).CGColor,
-            UIColor(red: 0.0, green: 1.0, blue: 0.0, alpha: 1.0).CGColor,
-            UIColor(red: 1.0, green: 1.0, blue: 0.0, alpha: 1.0).CGColor,
-            UIColor(red: 1.0, green: 0.0, blue: 0.0, alpha: 1.0).CGColor
+            UIColor(red: 1.0, green: 0.0, blue: 0.0, alpha: 1.0).cgColor,
+            UIColor(red: 1.0, green: 0.0, blue: 1.0, alpha: 1.0).cgColor,
+            UIColor(red: 0.0, green: 0.0, blue: 1.0, alpha: 1.0).cgColor,
+            UIColor(red: 0.0, green: 1.0, blue: 1.0, alpha: 1.0).cgColor,
+            UIColor(red: 0.0, green: 1.0, blue: 0.0, alpha: 1.0).cgColor,
+            UIColor(red: 1.0, green: 1.0, blue: 0.0, alpha: 1.0).cgColor,
+            UIColor(red: 1.0, green: 0.0, blue: 0.0, alpha: 1.0).cgColor
         ]
         
-        let gradient = CGGradientCreateWithColors(colorSpace, colors, locations)
-        CGContextDrawLinearGradient(ctx, gradient, CGPoint(x: CGRectGetWidth(rect), y: 0), CGPoint.zero, [])
+        let gradient = CGGradient(colorsSpace: colorSpace, colors: colors, locations: locations)
+        ctx?.drawLinearGradient(gradient!, start: CGPoint(x: rect.width, y: 0), end: CGPoint.zero, options: [])
         
-        let adjustedPosition = CGFloat(CGRectGetWidth(rect)) * hue
+        let adjustedPosition = CGFloat(rect.width) * hue
         
-        CGContextAddRect(ctx, CGRect(x: adjustedPosition - (hueIndicatorSize / 2), y: 0, width: hueIndicatorSize, height: CGRectGetHeight(rect)))
-        CGContextSetFillColorWithColor(ctx, UIColor.whiteColor().CGColor)
-        CGContextSetShadowWithColor(ctx, CGSizeZero, 2, UIColor.blackColor().CGColor)
-        CGContextClosePath(ctx)
-        CGContextDrawPath(ctx, .Fill)
+        ctx?.addRect(CGRect(x: adjustedPosition - (hueIndicatorSize / 2), y: 0, width: hueIndicatorSize, height: rect.height))
+        ctx?.setFillColor(UIColor.white.cgColor)
+        ctx?.setShadow(offset: CGSize.zero, blur: 2, color: UIColor.black.cgColor)
+        ctx?.closePath()
+        ctx?.drawPath(using: .fill)
     }
     
     //MARK: - Touches -
-    private func handleTouches(touches: Set<NSObject>)
-    {
+    private func handleTouches(_ touches: Set<NSObject>) {
         let touch = touches.first as! UITouch
-        let point = touch.locationInView(self)
+        let point = touch.location(in: self)
         
         if point.x < 0 {
             hue = 0
         }
-        else if point.x > CGRectGetWidth(bounds) {
+        else if point.x > bounds.width {
             hue = 1
         }
         else {
-            hue = point.x / CGRectGetWidth(bounds)
+            hue = point.x / bounds.width
         }
         
         setNeedsDisplay()
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?)
-    {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         handleTouches(touches)
     }
     
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?)
-    {
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         handleTouches(touches)
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?)
-    {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         handleTouches(touches)
     }
 

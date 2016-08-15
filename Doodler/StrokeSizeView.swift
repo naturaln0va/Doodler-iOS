@@ -1,7 +1,3 @@
-//
-//  Created by Ryan Ackermann on 8/23/15.
-//  Copyright (c) 2015 Ryan Ackermann. All rights reserved.
-//
 
 import UIKit
 
@@ -14,42 +10,45 @@ class StrokeSizeView: AutoHideView {
         }
     }
     
-    override func show()
-    {
-        UIView.animateWithDuration(animationDuration) {
+    override func show() {
+        UIView.animate(withDuration: animationDuration) {
             self.alpha = 0.675
         }
         
         if let t = timer {
-            if t.valid {
-                self.timer?.invalidate()
+            if t.isValid {
+                timer?.invalidate()
             }
         }
         
-        timer = NSTimer.scheduledTimerWithTimeInterval(animationDuration * 2, target: self, selector: "hide", userInfo: nil, repeats: false)
+        timer = Timer.scheduledTimer(
+            timeInterval: animationDuration * 2,
+            target: self,
+            selector: #selector(StrokeSizeView.hide),
+            userInfo: nil,
+            repeats: false
+        )
     }
     
-    override func drawRect(rect: CGRect)
-    {
+    override func draw(_ rect: CGRect) {
         let ctx = UIGraphicsGetCurrentContext()
         
-        // Drawing code
         UIColor(hex: 0x262626).set()
         UIRectFill(rect)
         
         if let size = strokeSize {
-            CGContextSetLineCap(ctx, .Round)
-            CGContextSetStrokeColorWithColor(ctx, UIColor.whiteColor().CGColor)
-            CGContextSetLineWidth(ctx, size)
+            ctx?.setLineCap(.round)
+            ctx?.setStrokeColor(UIColor.white.cgColor)
+            ctx?.setLineWidth(size)
             
-            let path = CGPathCreateMutable()
-            let xPos = CGRectGetMidX(rect)
-            let yPos = CGRectGetMidY(rect)
-            CGPathMoveToPoint(path, nil, xPos, yPos)
-            CGPathAddLineToPoint(path, nil, xPos, yPos)
+            let path = CGMutablePath()
+            let xPos = rect.midX
+            let yPos = rect.midY
+            path.moveTo(nil, x: xPos, y: yPos)
+            path.addLineTo(nil, x: xPos, y: yPos)
             
-            CGContextAddPath(ctx, path)
-            CGContextStrokePath(ctx)
+            ctx?.addPath(path)
+            ctx?.strokePath()
         }
     }
 }

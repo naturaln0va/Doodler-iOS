@@ -1,12 +1,8 @@
-//
-//  Created by Ryan Ackermann on 5/29/15.
-//  Copyright (c) 2015 Ryan Ackermann. All rights reserved.
-//
 
 import UIKit
 
-class MenuController: NSObject
-{
+class MenuController {
+    
     static let sharedController = MenuController()
     
     var presenterViewController: UIViewController?
@@ -19,17 +15,9 @@ class MenuController: NSObject
         return ColorPickerViewController()
     }()
         
-    func showInWindow(window: UIWindow)
-    {
-        presenterViewController = SplashViewController()
-        
-        window.rootViewController = presenterViewController
+    func showInWindow(_ window: UIWindow) {
+        window.rootViewController = canvasVC
         window.makeKeyAndVisible()
-        
-        if let presenterVC = presenterViewController {
-            delay(0.5) {
-                presenterVC.presentViewController(self.canvasVC, animated: false, completion: nil)
-            }
-        }
     }
+    
 }

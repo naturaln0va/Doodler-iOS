@@ -1,74 +1,47 @@
-//
-//  Created by Ryan Ackermann on 6/13/15.
-//  Copyright (c) 2015 Ryan Ackermann. All rights reserved.
-//
 
 import UIKit
 
-extension UIColor
-{
+extension UIColor {
     
-    convenience init(hex: Int, alpha: CGFloat = 1.0)
-    {
+    convenience init(hex: Int, alpha: CGFloat = 1.0) {
         let red = CGFloat((hex & 0xFF0000) >> 16) / 255.0
         let green = CGFloat((hex & 0xFF00) >> 8) / 255.0
         let blue = CGFloat(hex & 0xFF) / 255.0
         self.init(red: red, green: green, blue: blue, alpha: alpha);
     }
     
-    func hexString() -> String?
-    {
+    func hexString() -> String? {
         var redValue: CGFloat = 0
         var greenValue: CGFloat = 0
         var blueValue: CGFloat = 0
         var alphaValue: CGFloat = 0
         
         if self.getRed(&redValue, green: &greenValue, blue: &blueValue, alpha: &alphaValue) {
-            
             let r = Int(redValue * 255.0)
             let g = Int(greenValue * 255.0)
             let b = Int(blueValue * 255.0)
             
             return "#"+String(format: "%02X", Int(r))+String(format: "%02X", Int(g))+String(format: "%02X", Int(b))
-        } else {
+        }
+        else {
             return nil
         }
     }
     
-    func rgb() -> Array<Float>?
-    {
-        var fRed : CGFloat = 0
-        var fGreen : CGFloat = 0
-        var fBlue : CGFloat = 0
+    func rgb() -> [Float]? {
+        var fRed: CGFloat = 0
+        var fGreen: CGFloat = 0
+        var fBlue: CGFloat = 0
         var fAlpha: CGFloat = 0
         if self.getRed(&fRed, green: &fGreen, blue: &fBlue, alpha: &fAlpha) {
-            
             return [Float(fRed), Float(fGreen), Float(fBlue)]
-        } else {
+        }
+        else {
             return nil
         }
     }
     
-    func red() -> CGFloat
-    {
-        let comps = CGColorGetComponents(CGColor)
-        return comps[0]
-    }
-    
-    func green() -> CGFloat
-    {
-        let comps = CGColorGetComponents(CGColor)
-        return comps[1]
-    }
-    
-    func blue() -> CGFloat
-    {
-        let comps = CGColorGetComponents(CGColor)
-        return comps[2]
-    }
-    
-    func hsb() -> Array<CGFloat>?
-    {
+    func hsb() -> [CGFloat]? {
         var hue: CGFloat = 0
         var saturation: CGFloat = 0
         var brightness: CGFloat = 0
@@ -76,14 +49,34 @@ extension UIColor
         
         if self.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha) {
             return [hue, saturation, brightness, alpha]
-        } else {
+        }
+        else {
             return nil
         }
     }
     
-    func isDarkColor() -> Bool
-    {
-        return self.hsb()![2] < 0.425
+    func isDarkColor() -> Bool {
+        return hsb()?[2] < 0.425
     }
     
+    var redValue: CGFloat {
+        return CGFloat(rgb()?[0] ?? 0)
+    }
+    
+    var greenValue: CGFloat {
+        return CGFloat(rgb()?[1] ?? 0)
+    }
+    
+    var blueValue: CGFloat {
+        return CGFloat(rgb()?[2] ?? 0)
+    }
+    
+    static var barMainColor: UIColor {
+        return UIColor(white: 0.2, alpha: 1.0)
+    }
+    
+    static var barTintColor: UIColor {
+        return UIColor(hex: 0xe5e5e5)
+    }
+
 }

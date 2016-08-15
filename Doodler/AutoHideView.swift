@@ -1,33 +1,27 @@
-//
-//  Created by Ryan Ackermann on 8/14/15.
-//  Copyright (c) 2015 Ryan Ackermann. All rights reserved.
-//
 
 import UIKit
 
-class AutoHideView: UIView
-{
-    let animationDuration = 0.25
-    var timer: NSTimer?
+class AutoHideView: UIView {
     
-    func show()
-    {
-        UIView.animateWithDuration(animationDuration) {
+    let animationDuration = 0.25
+    var timer: Timer?
+    
+    func show() {
+        UIView.animate(withDuration: animationDuration) {
             self.alpha = 1
         }
         
         if let t = timer {
-            if t.valid {
-                self.timer?.invalidate()
+            if t.isValid {
+                timer?.invalidate()
             }
         }
         
-        timer = NSTimer.scheduledTimerWithTimeInterval(animationDuration * 2, target: self, selector: "hide", userInfo: nil, repeats: false)
+        timer = Timer.scheduledTimer(timeInterval: animationDuration * 2, target: self, selector: #selector(AutoHideView.hide), userInfo: nil, repeats: false)
     }
     
-    func hide()
-    {
-        UIView.animateWithDuration(animationDuration) {
+    func hide() {
+        UIView.animate(withDuration: animationDuration) {
             self.alpha = 0
         }
     }

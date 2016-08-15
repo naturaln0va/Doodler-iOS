@@ -1,51 +1,44 @@
-//
-//  Created by Ryan Ackermann on 11/6/14.
-//  Copyright (c) 2014 Ryan Ackermann. All rights reserved.
-//
 
 import UIKit
 
-class CanvasViewController: RHAViewController, UIGestureRecognizerDelegate, UIScrollViewDelegate, ColorPickerViewControllerDelegate
+class CanvasViewController: UIViewController, UIGestureRecognizerDelegate, UIScrollViewDelegate, ColorPickerViewControllerDelegate
 {
-    private let kDefaultCanvasSize = CGSize(width: UIScreen.mainScreen().bounds.size.width, height: UIScreen.mainScreen().bounds.size.height)
+    private let kDefaultCanvasSize = CGSize(
+        width: UIScreen.main.bounds.size.width,
+        height: UIScreen.main.bounds.size.height
+    )
     
     var canvas: DrawableView!
-    var popOverView: UIPopoverController?
-    var colorButtonView: ColorPreviewButton!
     var scrollView: UIScrollView!
     var hasBeingInitiallySetup = false
     var lastCanvasZoomScale: Int?
     
     //Outlets
-    @IBOutlet weak var controlBar: UIToolbar!
-    @IBOutlet weak var colorButton: UIBarButtonItem!
-    @IBOutlet weak var shareButton: UIBarButtonItem!
-    @IBOutlet weak var undoButton: UIBarButtonItem!
+    @IBOutlet var controlBar: UIToolbar!
+    @IBOutlet var backButton: UIBarButtonItem!
+    @IBOutlet var actionButton: UIBarButtonItem!
     @IBOutlet var drawingSegmentedControl: UISegmentedControl!
-    @IBOutlet weak var strokeSizeSlider: UISlider!
+    @IBOutlet var strokeSizeSlider: UISlider!
     @IBOutlet var infoView: AutoHideView!
     @IBOutlet var infoLabel: UILabel!
-    @IBOutlet weak var strokeSizeView: StrokeSizeView!
-    @IBOutlet weak var controlBarBottomConstraint: NSLayoutConstraint!
+    @IBOutlet var strokeSizeView: StrokeSizeView!
+    @IBOutlet var controlBarBottomConstraint: NSLayoutConstraint!
     
     //MARK: - VC Delegate
-    override func canBecomeFirstResponder() -> Bool
-    {
+    override var canBecomeFirstResponder: Bool {
         return true
     }
     
-    override func prefersStatusBarHidden() -> Bool
-    {
+    override var prefersStatusBarHidden: Bool {
         return true
     }
     
-    override func viewDidLoad()
-    {
+    override func viewDidLoad() {
         super.viewDidLoad()
         
         strokeSizeView.alpha = 0
         strokeSizeView.layer.cornerRadius = 10
-        strokeSizeView.layer.borderColor = UIColor.whiteColor().CGColor
+        strokeSizeView.layer.borderColor = UIColor.white.cgColor
         strokeSizeView.layer.borderWidth = 1
         strokeSizeView.clipsToBounds = true
         
@@ -54,29 +47,22 @@ class CanvasViewController: RHAViewController, UIGestureRecognizerDelegate, UISc
         
         infoView.alpha = 0
         infoView.layer.cornerRadius = 10
-        infoView.layer.borderColor = UIColor.whiteColor().CGColor
+        infoView.layer.borderColor = UIColor.white.cgColor
         infoView.layer.borderWidth = 1
         
-        colorButtonView = ColorPreviewButton(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
-        colorButtonView.backgroundColor = UIColor.clearColor()
-        colorButtonView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "colorButtonTapped"))
-        colorButton.customView = colorButtonView
-        
         strokeSizeSlider.setValue(SettingsController.sharedController.currentStrokeWidth(), animated: false)
-        strokeSizeSlider.setMinimumTrackImage(UIImage(named: "slider"), forState: .Normal)
-        strokeSizeSlider.setMaximumTrackImage(UIImage(named: "slider"), forState: .Normal)
-        strokeSizeSlider.setThumbImage(UIImage(named: "knob"), forState: .Normal)
+        strokeSizeSlider.setMinimumTrackImage(UIImage(named: "slider"), for: UIControlState())
+        strokeSizeSlider.setMaximumTrackImage(UIImage(named: "slider"), for: UIControlState())
+        strokeSizeSlider.setThumbImage(UIImage(named: "knob"), for: UIControlState())
         
-        colorButtonView.color = SettingsController.sharedController.currentStrokeColor()
-        shareButton.action = "shareButtonTapped"
-        undoButton.action = "undoButtonTapped"
+        actionButton.target = self
+        actionButton.action = #selector(CanvasViewController.actionButtonPressed)
     }
     
-    override func viewWillLayoutSubviews()
-    {
+    override func viewWillLayoutSubviews() {
         if !hasBeingInitiallySetup {
             hasBeingInitiallySetup = true
-            view.insertSubview(GridView(frame: CGRect(x: 0, y: 0, width: CGRectGetWidth(view.bounds), height: CGRectGetHeight(view.bounds))), belowSubview: controlBar)
+            view.insertSubview(GridView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height)), belowSubview: controlBar)
             
             scrollView = UIScrollView(frame: view.bounds)
             scrollView.delegate = self
@@ -87,18 +73,14 @@ class CanvasViewController: RHAViewController, UIGestureRecognizerDelegate, UISc
         }
     }
     
-    func setUpWithSize(size: CGSize)
-    {
-        if let canvas = canvas {
-            canvas.removeFromSuperview()
-            self.canvas = nil
-            CacheController.sharedController.invalidateCache()
-        }
+    func setUpWithSize(_ size: CGSize) {
+        canvas?.removeFromSuperview()
+        canvas = nil
         
         canvas = DrawableView(frame: CGRect(x: 0, y: 0, width: size.width, height: size.height))
         canvas.layer.magnificationFilter = kCAFilterLinear
         canvas.center = view.center
-        canvas.userInteractionEnabled = true
+        canvas.isUserInteractionEnabled = true
         canvas.alpha = 0.0
 
         scrollView.addSubview(canvas)
@@ -110,8 +92,8 @@ class CanvasViewController: RHAViewController, UIGestureRecognizerDelegate, UISc
         let minScale = min(scaleWidth, scaleHeight);
         scrollView.minimumZoomScale = minScale;
         
-        let canvasTransformValue = CGRectGetWidth(view.frame) / CGRectGetWidth(canvas.frame)
-        canvas.transform = CGAffineTransformMakeScale(canvasTransformValue, canvasTransformValue)
+        let canvasTransformValue = view.frame.width / canvas.frame.width
+        canvas.transform = CGAffineTransform(scaleX: canvasTransformValue, y: canvasTransformValue)
         
         scrollView.maximumZoomScale = 12.5
         scrollView.minimumZoomScale = 0.25
@@ -119,124 +101,71 @@ class CanvasViewController: RHAViewController, UIGestureRecognizerDelegate, UISc
         
         centerScrollViewContents()
         
-        UIView.animateWithDuration(0.25, animations: {
+        UIView.animate(withDuration: 0.25, animations: {
             self.canvas.alpha = 1.0
         })
     }
     
     //MARK: - Actions
+    @objc private func actionButtonPressed() {
+        let ac = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        ac.addAction(
+            UIAlertAction(title: "Share", style: .default) { action in
+                let activityViewcontroller = UIActivityViewController(activityItems: ["Made with Doodler", URL(string: "http://apple.co/1IUYyFk")!, self.canvas.imageByCapturing], applicationActivities: nil)
+                activityViewcontroller.excludedActivityTypes = [
+                    UIActivityTypeAssignToContact, UIActivityTypeAddToReadingList, UIActivityTypePrint
+                ]
+                
+                self.present(activityViewcontroller, animated: true, completion: {})
+            }
+        )
+        ac.addAction(
+            UIAlertAction(title: "Select Color", style: .default) { action in
+                MenuController.sharedController.colorPickerVC.delegate = self
+                self.present(StyledNavigationController(rootViewController: MenuController.sharedController.colorPickerVC), animated: true, completion: nil)
+            }
+        )
+        if canvas.history.canReset {
+            ac.addAction(
+                UIAlertAction(title: "Clear Screen", style: .destructive) { action in
+                    let alert = UIAlertController(title: "Clear Screen", message: "Would you like to clear the screen?", preferredStyle: .alert)
+                    
+                    alert.addAction(
+                        UIAlertAction(title: "Clear", style: .destructive) { action in
+                            self.canvas.clear()
+                        }
+                    )
+                    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                    
+                    self.present(alert, animated: true, completion: nil)
+                }
+            )
+        }
+        if canvas.history.canUndo {
+            ac.addAction(
+                UIAlertAction(title: "Undo", style: .default) { action in
+                    self.canvas.undo()
+                }
+            )
+        }
+        if canvas.history.canRedo {
+            ac.addAction(
+                UIAlertAction(title: "Redo", style: .default) { action in
+                    self.canvas.redo()
+                }
+            )
+        }
+        ac.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        present(ac, animated: true, completion: nil)
+    }
+    
     func clearScreen()
     {
-        let alert = UIAlertController(title: "Clear Screen", message: "Would you like to clear the screen?", preferredStyle: .Alert)
-        
-        alert.addAction(UIAlertAction(title: "Clear", style: .Default, handler: { action in
-            self.canvas.clear()
-        }))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
-
-        presentViewController(alert, animated: true, completion: nil)
     }
     
-    func colorButtonTapped()
-    {
-        MenuController.sharedController.colorPickerVC.delegate = self
-        
-        if isIPad() {
-            popOverView = UIPopoverController(contentViewController: RHANavigationViewController(rootViewController: MenuController.sharedController.colorPickerVC))
-            
-            if let popOver = popOverView {
-                popOver.popoverContentSize = CGSize(width: 320, height: 525)
-                popOver.backgroundColor = MenuController.sharedController.colorPickerVC.view.backgroundColor
-                popOver.presentPopoverFromBarButtonItem(colorButton, permittedArrowDirections: .Down, animated: true)
-            }
-        }
-        else {
-            presentViewController(RHANavigationViewController(rootViewController: MenuController.sharedController.colorPickerVC), animated: true, completion: nil)
-        }
-    }
-    
-    func undoButtonTapped()
-    {
-        canvas.undo()
-    }
-    
-    func shareButtonTapped()
-    {
-        let activityViewcontroller = UIActivityViewController(activityItems: ["Made with Doodler", NSURL(string: "http://apple.co/1IUYyFk")!, canvas.imageByCapturing()], applicationActivities: [NewDocumentActivity()])
-        activityViewcontroller.excludedActivityTypes = [
-            UIActivityTypeAssignToContact, UIActivityTypeAddToReadingList, UIActivityTypePrint
-        ]
-        
-//        if !isIOS8OrLater() {
-//            activityViewcontroller.completionHandler = { (activityType, completed: Bool) in
-//                if activityType == nil {
-//                    return
-//                }
-//                
-//                if activityType == kActivityTypeNewDocument {
-//                    delay(0.25) {
-//                        self.setUpWithSize(self.kDefaultCanvasSize)
-//                    }
-//                }
-//                
-//                if activityType == UIActivityTypeSaveToCameraRoll && completed {
-//                    RAAudioEngine.sharedEngine.play(.SaveSoundEffect)
-//                    
-////                    self.showMessageBannerWithText("Image Saved", color: UIColor(hex: 0x27ae60)) {
-////                        let alert = SCLAlertView()
-////                        alert.showCloseButton = false
-////                        alert.addButton("Yes, please") {
-////                            delay(0.25) {
-////                                self.setUpWithSize(self.kDefaultCanvasSize)
-////                            }
-////                        }
-////                        alert.addButton("No, thanks") { }
-////                        alert.showInfo("New Document", subTitle: "Would you like to create a new document?")
-////                    }
-//                }
-//            }
-//        }
-//        else {
-//            activityViewcontroller.completionWithItemsHandler = { (activityType: String!, completed: Bool, returnedItems: [AnyObject]!, activityError: NSError!) in
-//                if activityType == nil {
-//                    return
-//                }
-//                
-//                if activityType == kActivityTypeNewDocument {
-//                    delay(0.25) {
-//                        self.setUpWithSize(self.kDefaultCanvasSize)
-//                    }
-//                }
-//                
-//                if activityType == UIActivityTypeSaveToCameraRoll {
-//                    RAAudioEngine.sharedEngine.play(.SaveSoundEffect)
-//                    
-//                    self.showMessageBannerWithText("Image Saved", color: UIColor(hex: 0x27ae60)) {
-//                        let alert = UIAlertController(title: "New Document", message: "Would you like to create a new document?", preferredStyle: .Alert)
-//                        alert.addAction(UIAlertAction(title: "Yes, please", style: .Default, handler: { action in
-//                            delay(0.25) {
-//                                self.setUpWithSize(self.kDefaultCanvasSize)
-//                            }
-//                        }))
-//                        alert.addAction(UIAlertAction(title: "No, thanks", style: .Cancel, handler: nil))
-//                    }
-//                }
-//            }
-//        }
-        
-        if isIPad() {
-            popOverView = UIPopoverController(contentViewController: activityViewcontroller)
-            if let popOver = popOverView {
-                popOver.presentPopoverFromBarButtonItem(shareButton, permittedArrowDirections: .Down, animated: true)
-            }
-        }
-        else {
-            presentViewController(activityViewcontroller, animated: true, completion: {})
-        }
-    }
-    
-    @IBAction func drawingSegmentWasChanged(sender: UISegmentedControl)
-    {
+    @IBAction func drawingSegmentWasChanged(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
             SettingsController.sharedController.enableEraser()
         } else if sender.selectedSegmentIndex == 1 {
@@ -244,42 +173,37 @@ class CanvasViewController: RHAViewController, UIGestureRecognizerDelegate, UISc
         }
     }
     
-    @IBAction func strokeSliderUpdated(sender: UISlider)
-    {
+    @IBAction func strokeSliderUpdated(_ sender: UISlider) {
         SettingsController.sharedController.setStrokeWidth(sender.value)
         strokeSizeView.strokeSize = CGFloat(sender.value)
         updateInfoForInfoView("Size: \(Int(sender.value))")
     }
     
     //MARK: - Helper Functions
-    func updateInfoForInfoView(info: String)
-    {
+    func updateInfoForInfoView(_ info: String) {
         infoLabel.text = info
         infoView.show()
     }
     
-    func showToolbar()
-    {
+    func showToolbar() {
         controlBarBottomConstraint.constant = 0
         
-        UIView.animateWithDuration(0.4, delay: 0.0, usingSpringWithDamping: 1.05, initialSpringVelocity: 0.125, options: [], animations: {
+        UIView.animate(withDuration: 0.4, delay: 0.0, usingSpringWithDamping: 1.05, initialSpringVelocity: 0.125, options: [], animations: {
             self.view.layoutIfNeeded()
         },
         completion: nil)
     }
     
-    func hideToolbar()
-    {
-        controlBarBottomConstraint.constant = -CGRectGetHeight(controlBar.bounds)
+    func hideToolbar() {
+        controlBarBottomConstraint.constant = -controlBar.bounds.height
         
-        UIView.animateWithDuration(0.4, delay: 0.0, usingSpringWithDamping: 1.05, initialSpringVelocity: 0.125, options: [], animations: {
+        UIView.animate(withDuration: 0.4, delay: 0.0, usingSpringWithDamping: 1.05, initialSpringVelocity: 0.125, options: [], animations: {
             self.view.layoutIfNeeded()
         },
         completion: nil)
     }
     
-    func centerScrollViewContents()
-    {
+    func centerScrollViewContents() {
         let boundsSize = scrollView.bounds.size
         var contentsFrame = canvas.frame
         
@@ -298,24 +222,23 @@ class CanvasViewController: RHAViewController, UIGestureRecognizerDelegate, UISc
         canvas.frame = contentsFrame
     }
     
-    func showMessageBannerWithText(text: String, color: UIColor, completion: (() -> Void)?)
-    {
+    func showMessageBannerWithText(_ text: String, color: UIColor, completion: (() -> Void)?) {
         let bannerHeight: CGFloat = 54.0
         let banner = UIView(frame: CGRect(x: 0, y: -bannerHeight - 25, width: self.view.frame.size.width, height: bannerHeight * 2))
         banner.backgroundColor = color
         
         let label = UILabel(frame: CGRect(x: 0, y: 13, width: banner.frame.width, height: (bannerHeight * 2)))
-        label.textAlignment = .Center
+        label.textAlignment = .center
         label.text = text
         label.font = UIFont(name: "AvenirNext-Medium", size: 37.0)
         label.textColor = UIColor(hex: 0xecf0f1)
         banner.addSubview(label)
         self.view.addSubview(banner)
         let b = banner.bounds
-        UIView.animateWithDuration(0.93, delay: 0.0, usingSpringWithDamping: 0.3, initialSpringVelocity: 5.0, options: .CurveEaseOut, animations: { () -> Void in
+        UIView.animate(withDuration: 0.93, delay: 0.0, usingSpringWithDamping: 0.3, initialSpringVelocity: 5.0, options: .curveEaseOut, animations: { () -> Void in
             banner.center = CGPoint(x: b.origin.x + b.size.width/2, y: bannerHeight/2)
         }) { _ in
-            UIView.animateWithDuration(0.93, delay: 0.69, usingSpringWithDamping: 0.7, initialSpringVelocity: 4.0, options: .CurveEaseIn, animations: { () -> Void in
+            UIView.animate(withDuration: 0.93, delay: 0.69, usingSpringWithDamping: 0.7, initialSpringVelocity: 4.0, options: .curveEaseIn, animations: { () -> Void in
                 banner.center = CGPoint(x: b.origin.x + b.size.width/2, y: -bannerHeight)
                 }) { _ in
                     completion!()
@@ -325,13 +248,11 @@ class CanvasViewController: RHAViewController, UIGestureRecognizerDelegate, UISc
     }
     
     //MARK: - UIScrollViewDelegate
-    func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView?
-    {
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return canvas
     }
     
-    func scrollViewDidZoom(scrollView: UIScrollView)
-    {
+    func scrollViewDidZoom(_ scrollView: UIScrollView) {
         let scale = Int(scrollView.zoomScale * 100)
         updateInfoForInfoView("\(scale)%")
         
@@ -354,17 +275,13 @@ class CanvasViewController: RHAViewController, UIGestureRecognizerDelegate, UISc
     }
     
     //MARK: - ColorPickerViewControllerDelegate Methods -
-    func colorPickerViewControllerDidPickColor(color: UIColor)
-    {
+    func colorPickerViewControllerDidPickColor(_ color: UIColor) {
         SettingsController.sharedController.setStrokeColor(color)
-        
-        colorButtonView.color = color
     }
     
     //MARK: - Motion Event Delegate
-    override func motionEnded(motion: UIEventSubtype, withEvent event: UIEvent?)
-    {
-        if motion == .MotionShake {
+    override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
+        if motion == .motionShake {
             clearScreen()
         }
     }

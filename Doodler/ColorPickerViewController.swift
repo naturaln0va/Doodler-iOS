@@ -7,10 +7,10 @@ import UIKit
 
 protocol ColorPickerViewControllerDelegate
 {
-    func colorPickerViewControllerDidPickColor(color: UIColor)
+    func colorPickerViewControllerDidPickColor(_ color: UIColor)
 }
 
-class ColorPickerViewController: RHAViewController, SaturationBrightnessPickerViewDelegate
+class ColorPickerViewController: UIViewController, SaturationBrightnessPickerViewDelegate
 {
     
     @IBOutlet weak var colorPreView: ColorPreView!
@@ -27,15 +27,15 @@ class ColorPickerViewController: RHAViewController, SaturationBrightnessPickerVi
         super.viewDidLoad()
         
         title = "Choose"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: "doneButtonPressed")
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Cancel, target: self, action: "cancelButtonPressed")
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(ColorPickerViewController.doneButtonPressed))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(ColorPickerViewController.cancelButtonPressed))
         
         huePickerView.layer.cornerRadius = 4
         huePickerView.delegate = saturationBrightnessPickerView
         saturationBrightnessPickerView.delegate = self
     }
     
-    override func viewWillAppear(animated: Bool)
+    override func viewWillAppear(_ animated: Bool)
     {
         let currentColor = SettingsController.sharedController.currentStrokeColor()
         saturationBrightnessPickerView.setColorToDisplay(currentColor)
@@ -46,11 +46,11 @@ class ColorPickerViewController: RHAViewController, SaturationBrightnessPickerVi
         currentColorLabel.text = currentColor.hexString()
         
         if currentColor.isDarkColor() {
-            previousColorLabel.textColor = UIColor.whiteColor()
-            currentColorLabel.textColor = UIColor.whiteColor()
+            previousColorLabel.textColor = UIColor.white
+            currentColorLabel.textColor = UIColor.white
         } else {
-            previousColorLabel.textColor = UIColor.blackColor()
-            currentColorLabel.textColor = UIColor.blackColor()
+            previousColorLabel.textColor = UIColor.black
+            currentColorLabel.textColor = UIColor.black
         }
         
         if let hue = SettingsController.sharedController.currentStrokeColor().hsb()!.first {
@@ -58,40 +58,30 @@ class ColorPickerViewController: RHAViewController, SaturationBrightnessPickerVi
         }
     }
     
-    func doneButtonPressed()
-    {
-        delegate?.colorPickerViewControllerDidPickColor(saturationBrightnessPickerView.currentColor())
+    func doneButtonPressed() {
+        delegate?.colorPickerViewControllerDidPickColor(saturationBrightnessPickerView.currentColor)
         
         dismiss()
     }
     
-    func cancelButtonPressed()
-    {
+    func cancelButtonPressed() {
         dismiss()
     }
     
-    private func dismiss()
-    {
-        if isIPad() {
-            if let popOver = MenuController.sharedController.canvasVC.popOverView {
-                popOver.dismissPopoverAnimated(true)
-            }
-        }
-        else {
-            dismissViewControllerAnimated(true, completion: nil)
-        }
+    private func dismiss() {
+        dismiss(animated: true, completion: nil)
     }
     
     //MARK: - SaturationBrightnessPickerViewDelegate Methods -
-    func saturationBrightnessPickerViewDidUpdateColor(color: UIColor)
+    func saturationBrightnessPickerViewDidUpdateColor(_ color: UIColor)
     {
         colorPreView.newColor = color
         currentColorLabel.text = color.hexString()
         
         if color.isDarkColor() {
-            currentColorLabel.textColor = UIColor.whiteColor()
+            currentColorLabel.textColor = UIColor.white
         } else {
-            currentColorLabel.textColor = UIColor.blackColor()
+            currentColorLabel.textColor = UIColor.black
         }
     }
     

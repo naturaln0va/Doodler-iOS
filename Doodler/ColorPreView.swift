@@ -1,12 +1,8 @@
-//
-//  Created by Ryan Ackermann on 7/17/15.
-//  Copyright (c) 2015 Ryan Ackermann. All rights reserved.
-//
 
 import UIKit
 
-class ColorPreView: UIView
-{
+class ColorPreView: UIView {
+    
     var previousColor: UIColor? {
         didSet {
             setNeedsDisplay()
@@ -18,18 +14,19 @@ class ColorPreView: UIView
         }
     }
     
-    override func drawRect(rect: CGRect)
+    override func draw(_ rect: CGRect)
     {
         let ctx = UIGraphicsGetCurrentContext()
         
         if let previous = previousColor {
             previous.set()
-            CGContextFillRect(ctx, CGRect(x: 0, y: 0, width: rect.width / 2, height: rect.height))
+            ctx?.fill(CGRect(x: 0, y: 0, width: rect.width / 2, height: rect.height))
         }
         
         if let new = newColor {
             new.set()
-            CGContextFillRect(ctx, CGRect(x: rect.width / 2, y: 0, width: rect.width / 2, height: rect.height))
+            ctx?.fill(CGRect(x: rect.width / 2, y: 0, width: rect.width / 2, height: rect.height))
         }
     }
+    
 }

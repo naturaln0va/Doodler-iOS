@@ -1,20 +1,11 @@
-//
-//  SaturationBrightnessPickerView.swift
-//
-//  Created by Ryan Ackermann on 8/13/15.
-//  Copyright (c) 2015 Ryan Ackermann. All rights reserved.
-//  Find me on Twitter @naturaln0va.
-//  Under The MIT License (MIT). See license.txt for more info.
 
 import UIKit
 
-protocol SaturationBrightnessPickerViewDelegate
-{
-    func saturationBrightnessPickerViewDidUpdateColor(color: UIColor)
+protocol SaturationBrightnessPickerViewDelegate {
+    func saturationBrightnessPickerViewDidUpdateColor(_ color: UIColor)
 }
 
-class SaturationBrightnessPickerView: UIView, HuePickerViewDelegate
-{
+class SaturationBrightnessPickerView: UIView, HuePickerViewDelegate {
     
     private let inset: CGFloat = 15
     private let reticuleSize: CGFloat = 25
@@ -22,59 +13,54 @@ class SaturationBrightnessPickerView: UIView, HuePickerViewDelegate
     
     private var hue: CGFloat = 1.0 {
         didSet {
-            delegate?.saturationBrightnessPickerViewDidUpdateColor(currentColor())
+            delegate?.saturationBrightnessPickerViewDidUpdateColor(currentColor)
             setNeedsDisplay()
         }
     }
     
     private var saturation: CGFloat = 0.5 {
         didSet {
-            delegate?.saturationBrightnessPickerViewDidUpdateColor(currentColor())
+            delegate?.saturationBrightnessPickerViewDidUpdateColor(currentColor)
             setNeedsDisplay()
         }
     }
     
     private var brightness: CGFloat = 0.5 {
         didSet {
-            delegate?.saturationBrightnessPickerViewDidUpdateColor(currentColor())
+            delegate?.saturationBrightnessPickerViewDidUpdateColor(currentColor)
             setNeedsDisplay()
         }
     }
+    
+    var currentColor: UIColor {
+        return UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: 1.0)
+    }
 
-    override init(frame: CGRect)
-    {
+    override init(frame: CGRect) {
         super.init(frame: frame)
         
         commonInit()
     }
     
-    required init?(coder aDecoder: NSCoder)
-    {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
         commonInit()
     }
     
-    private func commonInit()
-    {
+    private func commonInit() {
         clipsToBounds = false
-        backgroundColor = UIColor.blackColor()
+        backgroundColor = UIColor.black
         
         layer.cornerRadius = 4
-        layer.borderColor = UIColor.whiteColor().CGColor
+        layer.borderColor = UIColor.white.cgColor
         layer.borderWidth = 1
         
-        opaque = false
-        bounds = CGRectInset(bounds, -inset, -inset)
+        isOpaque = false
+        bounds = bounds.insetBy(dx: -inset, dy: -inset)
     }
     
-    func currentColor() -> UIColor
-    {
-        return UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: 1.0)
-    }
-    
-    func setColorToDisplay(color: UIColor)
-    {
+    func setColorToDisplay(_ color: UIColor) {
         if let comps = color.hsb() {
             hue = comps[0]
             saturation = comps[1]
@@ -82,55 +68,52 @@ class SaturationBrightnessPickerView: UIView, HuePickerViewDelegate
         }
     }
     
-    override func drawRect(rect: CGRect)
-    {
-        let rectToDraw = CGRectInset(rect, inset, inset)
+    override func draw(_ rect: CGRect) {
+        let rectToDraw = rect.insetBy(dx: inset, dy: inset)
         
         let ctx = UIGraphicsGetCurrentContext()
         let colorSpace = CGColorSpaceCreateDeviceRGB()
         
-        CGContextSaveGState(ctx)
-        CGContextClipToRect(ctx, rectToDraw)
+        ctx?.saveGState()
+        ctx?.clip(to: rectToDraw)
         
-        let colors = [UIColor(hue: hue, saturation: 1.0, brightness: 1.0, alpha: 1.0).CGColor,
-            UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).CGColor]
+        let colors = [UIColor(hue: hue, saturation: 1.0, brightness: 1.0, alpha: 1.0).cgColor,
+            UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).cgColor]
         
-        let gradient = CGGradientCreateWithColors(colorSpace, colors, [CGFloat(0.0), CGFloat(1.0)])
-        CGContextDrawLinearGradient(ctx, gradient, CGPoint(x: rectToDraw.size.width, y: 0), CGPoint.zero, [])
+        let gradient = CGGradient(colorsSpace: colorSpace, colors: colors, locations: [CGFloat(0.0), CGFloat(1.0)])
+        ctx?.drawLinearGradient(gradient!, start: CGPoint(x: rectToDraw.size.width, y: 0), end: CGPoint.zero, options: [])
         
-        let desaturatedColors = [UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.0).CGColor,
-            UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0).CGColor]
+        let desaturatedColors = [UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.0).cgColor,
+            UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0).cgColor]
         
-        let desaturatedGradient = CGGradientCreateWithColors(colorSpace, desaturatedColors, [CGFloat(0.0), CGFloat(1.0)])
-        CGContextDrawLinearGradient(ctx, desaturatedGradient, CGPoint.zero, CGPoint(x: 0, y: rectToDraw.size.height), [])
+        let desaturatedGradient = CGGradient(colorsSpace: colorSpace, colors: desaturatedColors, locations: [CGFloat(0.0), CGFloat(1.0)])
+        ctx?.drawLinearGradient(desaturatedGradient!, start: CGPoint.zero, end: CGPoint(x: 0, y: rectToDraw.size.height), options: [])
         
-        CGContextRestoreGState(ctx)
+        ctx?.restoreGState()
         
-        let adjustedPoint = CGPoint(x: saturation * CGRectGetWidth(rectToDraw), y: CGRectGetHeight(rectToDraw) - (brightness * CGRectGetHeight(rectToDraw)))
+        let adjustedPoint = CGPoint(x: saturation * rectToDraw.width, y: rectToDraw.height - (brightness * rectToDraw.height))
         let reticuleRect = CGRect(x: adjustedPoint.x - (reticuleSize / 2), y: adjustedPoint.y - (reticuleSize / 2), width: reticuleSize, height: reticuleSize)
         
-        CGContextAddEllipseInRect(ctx, CGRectInset(reticuleRect, 4, 4))
-        CGContextSetFillColorWithColor(ctx, currentColor().CGColor)
-        CGContextSetStrokeColorWithColor(ctx, currentColor().isDarkColor() ? UIColor.whiteColor().CGColor : UIColor.blackColor().CGColor)
-        CGContextSetLineWidth(ctx, 1)
-        CGContextClosePath(ctx)
-        CGContextDrawPath(ctx, .EOFill)
+        ctx?.addEllipse(inRect: reticuleRect.insetBy(dx: 4, dy: 4))
+        ctx?.setFillColor(currentColor.cgColor)
+        ctx?.setStrokeColor(currentColor.isDarkColor() ? UIColor.white.cgColor : UIColor.black.cgColor)
+        ctx?.setLineWidth(1)
+        ctx?.closePath()
+        ctx?.drawPath(using: .eoFill)
     }
     
     //MARK: - HuePickerViewDelegate -
-    func huePickerViewDidUpdateHue(hue: CGFloat)
-    {
+    func huePickerViewDidUpdateHue(_ hue: CGFloat) {
         self.hue = hue
     }
     
     //MARK: - Touches -
-    private func handleTouches(touches: Set<NSObject>)
-    {
+    private func handleTouches(_ touches: Set<NSObject>) {
         let touch = touches.first as! UITouch
-        let point = touch.locationInView(self)
+        let point = touch.location(in: self)
         
-        let width = CGRectGetWidth(bounds) - (inset * 2)
-        let height = CGRectGetHeight(bounds) - (inset * 2)
+        let width = bounds.width - (inset * 2)
+        let height = bounds.height - (inset * 2)
         
         if point.x < 0 {
             saturation = 0
@@ -155,18 +138,15 @@ class SaturationBrightnessPickerView: UIView, HuePickerViewDelegate
         setNeedsDisplay()
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?)
-    {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         handleTouches(touches)
     }
     
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?)
-    {
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         handleTouches(touches)
     }
 
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?)
-    {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         handleTouches(touches)
     }
     
