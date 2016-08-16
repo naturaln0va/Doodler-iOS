@@ -16,6 +16,10 @@ class DrawableView: UIView {
     
     var history = History()
     
+    var doodle: Doodle {
+        return Doodle(date: Date(), image: imageByCapturing, history: history)
+    }
+    
     private var drawingComponents = [DrawComponent]()
     
     private var bufferImage: UIImage? {
@@ -53,8 +57,8 @@ class DrawableView: UIView {
         let mid2 = midPoint(points[0], point2: points[1])
         
         let subPath = CGMutablePath()
-        subPath.moveTo(nil, x: mid1.x, y: mid1.y)
-        subPath.addQuadCurve(nil, cpx: points[1].x, cpy: points[1].y, endingAtX: mid2.x, y: mid2.y)
+        subPath.move(to: CGPoint(x: mid1.x, y: mid1.y))
+        subPath.addQuadCurve(to: CGPoint(x: points[1].x, y: points[1].y), control: CGPoint(x: mid2.x, y: mid2.y))
         
         let boxOffset = CGFloat(SettingsController.sharedController.currentStrokeWidth())
         let drawBounds = subPath.boundingBox.insetBy(dx: -boxOffset, dy: -boxOffset)
@@ -101,7 +105,7 @@ class DrawableView: UIView {
     //MARK: - UITouch Event Handling -
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         // incase the user is trying to zoom out of the canvas
-        if event?.allTouches?.count > 1 { return }
+        if (event?.allTouches?.count ?? 0) > 1 { return }
         
         if let touch = touches.first {
             previousPoint = touch.previousLocation(in: self)
@@ -112,7 +116,7 @@ class DrawableView: UIView {
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         // incase the user is trying to zoom out of the canvas
-        if event?.allTouches?.count > 1 { return }
+        if (event?.allTouches?.count ?? 0) > 1 { return }
         
         guard let firstTouch = touches.first else { return }
         
@@ -138,7 +142,7 @@ class DrawableView: UIView {
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         // incase the user is trying to zoom out of the canvas
-        if event?.allTouches?.count > 1 { return }
+        if (event?.allTouches?.count ?? 0) > 1 { return }
         
         let drawColor = SettingsController.sharedController.currentDrawColor().cgColor
         let drawWidth = CGFloat(SettingsController.sharedController.currentStrokeWidth())

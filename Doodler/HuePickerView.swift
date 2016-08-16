@@ -48,7 +48,7 @@ class HuePickerView: UIView {
             UIColor(red: 0.0, green: 1.0, blue: 0.0, alpha: 1.0).cgColor,
             UIColor(red: 1.0, green: 1.0, blue: 0.0, alpha: 1.0).cgColor,
             UIColor(red: 1.0, green: 0.0, blue: 0.0, alpha: 1.0).cgColor
-        ]
+        ] as CFArray
         
         let gradient = CGGradient(colorsSpace: colorSpace, colors: colors, locations: locations)
         ctx?.drawLinearGradient(gradient!, start: CGPoint(x: rect.width, y: 0), end: CGPoint.zero, options: [])

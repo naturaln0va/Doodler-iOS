@@ -11,12 +11,12 @@ class StyledNavigationController: UINavigationController
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationBar.barTintColor = UIColor.barMainColor
-        navigationBar.tintColor = UIColor.barTintColor
+        navigationBar.barTintColor = UIColor.barTintColor
+        navigationBar.tintColor = UIColor.tintColor
         navigationBar.isTranslucent = false
         
         navigationBar.titleTextAttributes = [
-            NSForegroundColorAttributeName: UIColor.barTintColor
+            NSForegroundColorAttributeName: UIColor.tintColor
         ]
     }
 }

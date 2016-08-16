@@ -7,6 +7,10 @@ class MenuController {
     
     var presenterViewController: UIViewController?
     
+    lazy var doodlesNC: StyledNavigationController = {
+        return StyledNavigationController(rootViewController: DoodlesViewController())
+    }()
+    
     lazy var canvasVC: CanvasViewController = {
         return CanvasViewController()
     }()
@@ -16,7 +20,7 @@ class MenuController {
     }()
         
     func showInWindow(_ window: UIWindow) {
-        window.rootViewController = canvasVC
+        window.rootViewController = doodlesNC
         window.makeKeyAndVisible()
     }
     

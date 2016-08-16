@@ -1,8 +1,12 @@
 
 import UIKit
 
-class CanvasViewController: UIViewController, UIGestureRecognizerDelegate, UIScrollViewDelegate, ColorPickerViewControllerDelegate
-{
+protocol CanvasViewControllerDelegate: class {
+    func canvasViewControllerDidDismiss()
+}
+
+class CanvasViewController: UIViewController, UIGestureRecognizerDelegate, UIScrollViewDelegate, ColorPickerViewControllerDelegate {
+    
     private let kDefaultCanvasSize = CGSize(
         width: UIScreen.main.bounds.size.width,
         height: UIScreen.main.bounds.size.height
@@ -10,8 +14,10 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate, UIScr
     
     var canvas: DrawableView!
     var scrollView: UIScrollView!
-    var hasBeingInitiallySetup = false
-    var lastCanvasZoomScale: Int?
+    var hasLayedOut = false
+    var lastCanvasZoomScale = 0
+    
+    weak var delegate: CanvasViewControllerDelegate?
     
     //Outlets
     @IBOutlet var controlBar: UIToolbar!
@@ -24,7 +30,7 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate, UIScr
     @IBOutlet var strokeSizeView: StrokeSizeView!
     @IBOutlet var controlBarBottomConstraint: NSLayoutConstraint!
     
-    //MARK: - VC Delegate
+    //MARK: - ViewController Delegate
     override var canBecomeFirstResponder: Bool {
         return true
     }
@@ -57,11 +63,17 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate, UIScr
         
         actionButton.target = self
         actionButton.action = #selector(CanvasViewController.actionButtonPressed)
+        
+        backButton.target = self
+        backButton.action = #selector(CanvasViewController.backButtonPressed)
+        
+        view.backgroundColor = UIColor.backgroundColor
     }
     
     override func viewWillLayoutSubviews() {
-        if !hasBeingInitiallySetup {
-            hasBeingInitiallySetup = true
+        super.viewWillLayoutSubviews()
+        if !hasLayedOut {
+            hasLayedOut = true
             view.insertSubview(GridView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height)), belowSubview: controlBar)
             
             scrollView = UIScrollView(frame: view.bounds)
@@ -114,7 +126,7 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate, UIScr
             UIAlertAction(title: "Share", style: .default) { action in
                 let activityViewcontroller = UIActivityViewController(activityItems: ["Made with Doodler", URL(string: "http://apple.co/1IUYyFk")!, self.canvas.imageByCapturing], applicationActivities: nil)
                 activityViewcontroller.excludedActivityTypes = [
-                    UIActivityTypeAssignToContact, UIActivityTypeAddToReadingList, UIActivityTypePrint
+                    .assignToContact, .addToReadingList, .print
                 ]
                 
                 self.present(activityViewcontroller, animated: true, completion: {})
@@ -129,16 +141,7 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate, UIScr
         if canvas.history.canReset {
             ac.addAction(
                 UIAlertAction(title: "Clear Screen", style: .destructive) { action in
-                    let alert = UIAlertController(title: "Clear Screen", message: "Would you like to clear the screen?", preferredStyle: .alert)
-                    
-                    alert.addAction(
-                        UIAlertAction(title: "Clear", style: .destructive) { action in
-                            self.canvas.clear()
-                        }
-                    )
-                    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-                    
-                    self.present(alert, animated: true, completion: nil)
+                    self.clearScreen()
                 }
             )
         }
@@ -161,8 +164,22 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate, UIScr
         present(ac, animated: true, completion: nil)
     }
     
-    func clearScreen()
-    {
+    @objc private func backButtonPressed() {
+        DocumentsController.sharedController.save(doodle: canvas.doodle)
+        delegate?.canvasViewControllerDidDismiss()
+    }
+    
+    private func clearScreen() {
+        let alert = UIAlertController(title: "Clear Screen", message: "Would you like to clear the screen?", preferredStyle: .alert)
+        
+        alert.addAction(
+            UIAlertAction(title: "Clear", style: .destructive) { action in
+                self.canvas.clear()
+            }
+        )
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        present(alert, animated: true, completion: nil)
     }
     
     @IBAction func drawingSegmentWasChanged(_ sender: UISegmentedControl) {
@@ -222,31 +239,6 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate, UIScr
         canvas.frame = contentsFrame
     }
     
-    func showMessageBannerWithText(_ text: String, color: UIColor, completion: (() -> Void)?) {
-        let bannerHeight: CGFloat = 54.0
-        let banner = UIView(frame: CGRect(x: 0, y: -bannerHeight - 25, width: self.view.frame.size.width, height: bannerHeight * 2))
-        banner.backgroundColor = color
-        
-        let label = UILabel(frame: CGRect(x: 0, y: 13, width: banner.frame.width, height: (bannerHeight * 2)))
-        label.textAlignment = .center
-        label.text = text
-        label.font = UIFont(name: "AvenirNext-Medium", size: 37.0)
-        label.textColor = UIColor(hex: 0xecf0f1)
-        banner.addSubview(label)
-        self.view.addSubview(banner)
-        let b = banner.bounds
-        UIView.animate(withDuration: 0.93, delay: 0.0, usingSpringWithDamping: 0.3, initialSpringVelocity: 5.0, options: .curveEaseOut, animations: { () -> Void in
-            banner.center = CGPoint(x: b.origin.x + b.size.width/2, y: bannerHeight/2)
-        }) { _ in
-            UIView.animate(withDuration: 0.93, delay: 0.69, usingSpringWithDamping: 0.7, initialSpringVelocity: 4.0, options: .curveEaseIn, animations: { () -> Void in
-                banner.center = CGPoint(x: b.origin.x + b.size.width/2, y: -bannerHeight)
-                }) { _ in
-                    completion!()
-                    banner.removeFromSuperview()
-            }
-        }
-    }
-    
     //MARK: - UIScrollViewDelegate
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return canvas
@@ -256,16 +248,17 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate, UIScr
         let scale = Int(scrollView.zoomScale * 100)
         updateInfoForInfoView("\(scale)%")
         
-        if lastCanvasZoomScale < scale && scrollView.pinchGestureRecognizer?.velocity > 2 {
+        if lastCanvasZoomScale < scale && (scrollView.pinchGestureRecognizer?.velocity ?? 0) > CGFloat(2) {
             hideToolbar()
         }
-        else if lastCanvasZoomScale > scale && scrollView.pinchGestureRecognizer?.velocity < -1 {
+        else if lastCanvasZoomScale > scale && (scrollView.pinchGestureRecognizer?.velocity ?? 0) < CGFloat(-1) {
             showToolbar()
         }
         
         if scale > 750 {
             canvas.layer.magnificationFilter = kCAFilterNearest
-        } else {
+        }
+        else {
             canvas.layer.magnificationFilter = kCAFilterLinear
         }
         

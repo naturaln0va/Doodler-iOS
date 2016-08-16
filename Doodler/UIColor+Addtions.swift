@@ -56,7 +56,7 @@ extension UIColor {
     }
     
     func isDarkColor() -> Bool {
-        return hsb()?[2] < 0.425
+        return (hsb()?[2] ?? 0) < CGFloat(0.425)
     }
     
     var redValue: CGFloat {
@@ -71,12 +71,16 @@ extension UIColor {
         return CGFloat(rgb()?[2] ?? 0)
     }
     
-    static var barMainColor: UIColor {
+    static var barTintColor: UIColor {
         return UIColor(white: 0.2, alpha: 1.0)
     }
     
-    static var barTintColor: UIColor {
+    static var tintColor: UIColor {
         return UIColor(hex: 0xe5e5e5)
+    }
+    
+    static var backgroundColor: UIColor {
+        return UIColor(hex: 0x565656)
     }
 
 }

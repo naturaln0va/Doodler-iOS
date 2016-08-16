@@ -19,6 +19,11 @@
 		6903EAB01B56AB06001BEAEC /* DrawableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6903EAAE1B56AB06001BEAEC /* DrawableView.swift */; };
 		6903EAB11B56AB06001BEAEC /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6903EAAF1B56AB06001BEAEC /* GridView.swift */; };
 		6903EAB31B56AB31001BEAEC /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6903EAB21B56AB31001BEAEC /* SettingsController.swift */; };
+		6950BA0E1D63312600887096 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6950BA0D1D63312600887096 /* LaunchScreen.storyboard */; };
+		695A98661D61E3900049AE0A /* DoodlesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695A98651D61E3900049AE0A /* DoodlesViewController.swift */; };
+		695A986A1D61E5200049AE0A /* DoodleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695A98681D61E5200049AE0A /* DoodleCell.swift */; };
+		695A986B1D61E5200049AE0A /* DoodleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 695A98691D61E5200049AE0A /* DoodleCell.xib */; };
+		695A986D1D61E7B40049AE0A /* DocumentsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695A986C1D61E7B40049AE0A /* DocumentsController.swift */; };
 		697DD4D01D60DA600032ACA5 /* UIViewController+Addtions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697DD4CF1D60DA600032ACA5 /* UIViewController+Addtions.swift */; };
 		697DD4D41D61011E0032ACA5 /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697DD4D31D61011E0032ACA5 /* History.swift */; };
 		697DD4D61D6161E60032ACA5 /* Doodle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697DD4D51D6161E60032ACA5 /* Doodle.swift */; };
@@ -35,7 +40,6 @@
 		69E9E05C1BE007ED0065DE51 /* UIKitExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E9E0591BE007ED0065DE51 /* UIKitExtensions.swift */; };
 		69E9E0641BE0083C0065DE51 /* CanvasViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69E9E0601BE0083C0065DE51 /* CanvasViewController.xib */; };
 		69E9E0651BE0083C0065DE51 /* ColorPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69E9E0611BE0083C0065DE51 /* ColorPickerViewController.xib */; };
-		69E9E0691BE008590065DE51 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69E9E0681BE008590065DE51 /* LaunchScreen.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +56,11 @@
 		6903EAAE1B56AB06001BEAEC /* DrawableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DrawableView.swift; path = Doodler/DrawableView.swift; sourceTree = SOURCE_ROOT; };
 		6903EAAF1B56AB06001BEAEC /* GridView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GridView.swift; path = Doodler/GridView.swift; sourceTree = SOURCE_ROOT; };
 		6903EAB21B56AB31001BEAEC /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsController.swift; path = Doodler/SettingsController.swift; sourceTree = SOURCE_ROOT; };
+		6950BA0D1D63312600887096 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = SOURCE_ROOT; };
+		695A98651D61E3900049AE0A /* DoodlesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoodlesViewController.swift; sourceTree = SOURCE_ROOT; };
+		695A98681D61E5200049AE0A /* DoodleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoodleCell.swift; sourceTree = SOURCE_ROOT; };
+		695A98691D61E5200049AE0A /* DoodleCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DoodleCell.xib; sourceTree = SOURCE_ROOT; };
+		695A986C1D61E7B40049AE0A /* DocumentsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentsController.swift; sourceTree = SOURCE_ROOT; };
 		697DD4CF1D60DA600032ACA5 /* UIViewController+Addtions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Addtions.swift"; sourceTree = SOURCE_ROOT; };
 		697DD4D31D61011E0032ACA5 /* History.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = History.swift; sourceTree = SOURCE_ROOT; };
 		697DD4D51D6161E60032ACA5 /* Doodle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Doodle.swift; sourceTree = SOURCE_ROOT; };
@@ -69,7 +78,6 @@
 		69E9E05E1BE007FA0065DE51 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Doodler/Project/Info.plist; sourceTree = SOURCE_ROOT; };
 		69E9E0601BE0083C0065DE51 /* CanvasViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CanvasViewController.xib; path = Doodler/CanvasViewController.xib; sourceTree = SOURCE_ROOT; };
 		69E9E0611BE0083C0065DE51 /* ColorPickerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ColorPickerViewController.xib; path = Doodler/ColorPickerViewController.xib; sourceTree = SOURCE_ROOT; };
-		69E9E0681BE008590065DE51 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LaunchScreen.xib; path = Doodler/LaunchScreen.xib; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,7 +94,7 @@
 		4880D4691A4F74430077E68B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				69E9E0681BE008590065DE51 /* LaunchScreen.xib */,
+				6950BA0D1D63312600887096 /* LaunchScreen.storyboard */,
 				69E9E05E1BE007FA0065DE51 /* Info.plist */,
 				6903EA961B56AA3B001BEAEC /* Images.xcassets */,
 				489816BE1B7D9F7400CAE108 /* Sound */,
@@ -97,6 +105,7 @@
 		4880D46A1A4F74620077E68B /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				695A98671D61E5010049AE0A /* CollectionView Cells */,
 				6903EAAE1B56AB06001BEAEC /* DrawableView.swift */,
 				6903EAAF1B56AB06001BEAEC /* GridView.swift */,
 				69E9E04A1BE005490065DE51 /* ColorPreView.swift */,
@@ -116,6 +125,7 @@
 				69E9E0601BE0083C0065DE51 /* CanvasViewController.xib */,
 				69E9E0441BE005230065DE51 /* ColorPickerViewController.swift */,
 				69E9E0611BE0083C0065DE51 /* ColorPickerViewController.xib */,
+				695A98651D61E3900049AE0A /* DoodlesViewController.swift */,
 				69E9E03E1BE004F30065DE51 /* StyledNavigationController.swift */,
 			);
 			name = ViewControllers;
@@ -146,6 +156,7 @@
 		48D5F4331B2C93B8003B8B96 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				695A986C1D61E7B40049AE0A /* DocumentsController.swift */,
 				69E9E0381BE004C50065DE51 /* MenuController.swift */,
 				6903EAB21B56AB31001BEAEC /* SettingsController.swift */,
 				48B38C541A16C4110040DE29 /* WindowController.swift */,
@@ -176,6 +187,15 @@
 				4880D4691A4F74430077E68B /* Resources */,
 			);
 			path = DrawingApp;
+			sourceTree = "<group>";
+		};
+		695A98671D61E5010049AE0A /* CollectionView Cells */ = {
+			isa = PBXGroup;
+			children = (
+				695A98681D61E5200049AE0A /* DoodleCell.swift */,
+				695A98691D61E5200049AE0A /* DoodleCell.xib */,
+			);
+			name = "CollectionView Cells";
 			sourceTree = "<group>";
 		};
 		697DD4D11D60FBF80032ACA5 /* Classes */ = {
@@ -271,11 +291,12 @@
 				69E9E0641BE0083C0065DE51 /* CanvasViewController.xib in Resources */,
 				6903EA971B56AA3B001BEAEC /* Images.xcassets in Resources */,
 				6903EAA51B56AA8E001BEAEC /* woody_click.wav in Resources */,
-				69E9E0691BE008590065DE51 /* LaunchScreen.xib in Resources */,
 				6903EAA41B56AA8E001BEAEC /* short_whoosh1.wav in Resources */,
 				6903EAA21B56AA8E001BEAEC /* fancy_toast.wav in Resources */,
 				69E9E0651BE0083C0065DE51 /* ColorPickerViewController.xib in Resources */,
 				6903EAA31B56AA8E001BEAEC /* music_marimba_chord.wav in Resources */,
+				6950BA0E1D63312600887096 /* LaunchScreen.storyboard in Resources */,
+				695A986B1D61E5200049AE0A /* DoodleCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -295,6 +316,8 @@
 				6903EA9C1B56AA6C001BEAEC /* UIColor+Addtions.swift in Sources */,
 				69E9E0451BE005230065DE51 /* ColorPickerViewController.swift in Sources */,
 				69E9E04D1BE005540065DE51 /* ColorPreviewButton.swift in Sources */,
+				695A986A1D61E5200049AE0A /* DoodleCell.swift in Sources */,
+				695A986D1D61E7B40049AE0A /* DocumentsController.swift in Sources */,
 				6903EA9D1B56AA6C001BEAEC /* UIView+Additions.swift in Sources */,
 				6903EAB31B56AB31001BEAEC /* SettingsController.swift in Sources */,
 				6903EAB11B56AB06001BEAEC /* GridView.swift in Sources */,
@@ -305,6 +328,7 @@
 				69E9E05C1BE007ED0065DE51 /* UIKitExtensions.swift in Sources */,
 				69E9E0511BE005630065DE51 /* SaturationBrightnessPickerView.swift in Sources */,
 				69E9E03F1BE004F30065DE51 /* StyledNavigationController.swift in Sources */,
+				695A98661D61E3900049AE0A /* DoodlesViewController.swift in Sources */,
 				6903EAB01B56AB06001BEAEC /* DrawableView.swift in Sources */,
 				48B38C5B1A16C4110040DE29 /* WindowController.swift in Sources */,
 			);

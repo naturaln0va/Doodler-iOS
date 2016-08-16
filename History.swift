@@ -4,8 +4,8 @@ import UIKit
 struct History {
     
     private let sizeLimit = 25
-    private var undoList = [UIImage]()
-    private var redoList = [UIImage]()
+    internal var undoList = [UIImage]()
+    internal var redoList = [UIImage]()
     
     var lastImage: UIImage? {
         return undoList.last
@@ -81,16 +81,16 @@ struct History {
 
 extension History: Serializable {
     
-    var serializedDictionary: [NSObject : AnyObject] {
+    var serializedDictionary: [String: Any] {
         return [
             "undoList": undoList,
             "redoList": redoList
         ]
     }
     
-    init?(serializedDictionary: [NSObject : AnyObject]) {
+    init?(serializedDictionary: [String: Any]) {
         guard let undoList = serializedDictionary["undoList"] as? [UIImage],
-            let redoList = serializedDictionary["redoList"] as? [UIImage] else {
+              let redoList = serializedDictionary["redoList"] as? [UIImage] else {
                 return nil
         }
         

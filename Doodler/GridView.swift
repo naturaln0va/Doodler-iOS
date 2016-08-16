@@ -17,11 +17,11 @@ class GridView: UIView {
         
         for x in 0..<Int(width) {
             for y in 0..<Int(height) {
-                ctx?.moveTo(x: CGFloat(x) * spaceBetween, y: CGFloat(y) * spaceBetween)
-                ctx?.addLineTo(x: max((CGFloat(x) * spaceBetween) + width, width), y: CGFloat(y) * spaceBetween)
+                ctx?.move(to: CGPoint(x: CGFloat(x) * spaceBetween, y: CGFloat(y) * spaceBetween))
+                ctx?.addLine(to: CGPoint(x: max((CGFloat(x) * spaceBetween) + width, width), y: CGFloat(y) * spaceBetween))
                 
-                ctx?.moveTo(x: CGFloat(x) * spaceBetween, y: CGFloat(y) * spaceBetween)
-                ctx?.addLineTo(x: CGFloat(x) * spaceBetween, y: max((CGFloat(y) * spaceBetween) + height, height))
+                ctx?.move(to: CGPoint(x: CGFloat(x) * spaceBetween, y: CGFloat(y) * spaceBetween))
+                ctx?.addLine(to: CGPoint(x: CGFloat(x) * spaceBetween, y: max((CGFloat(y) * spaceBetween) + height, height)))
             }
         }
         

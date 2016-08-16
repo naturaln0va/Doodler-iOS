@@ -11,7 +11,7 @@ struct Doodle {
 
 extension Doodle: Serializable {
     
-    var serializedDictionary: [NSObject : AnyObject] {
+    var serializedDictionary: [String : Any] {
         return [
             "date": date,
             "image": image,
@@ -19,7 +19,7 @@ extension Doodle: Serializable {
         ]
     }
     
-    init?(serializedDictionary: [NSObject : AnyObject]) {
+    init?(serializedDictionary: [String : Any]) {
         guard let date = serializedDictionary["date"] as? Date,
             let image = serializedDictionary["image"] as? UIImage,
             let historyDict = serializedDictionary["history"] as? [String : AnyObject] else {

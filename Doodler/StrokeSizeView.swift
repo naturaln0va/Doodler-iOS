@@ -44,8 +44,9 @@ class StrokeSizeView: AutoHideView {
             let path = CGMutablePath()
             let xPos = rect.midX
             let yPos = rect.midY
-            path.moveTo(nil, x: xPos, y: yPos)
-            path.addLineTo(nil, x: xPos, y: yPos)
+            
+            path.move(to: CGPoint(x: xPos, y: yPos))
+            path.addLine(to: CGPoint(x: xPos, y: yPos))
             
             ctx?.addPath(path)
             ctx?.strokePath()

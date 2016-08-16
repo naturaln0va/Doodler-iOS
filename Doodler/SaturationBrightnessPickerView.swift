@@ -80,13 +80,13 @@ class SaturationBrightnessPickerView: UIView, HuePickerViewDelegate {
         let colors = [UIColor(hue: hue, saturation: 1.0, brightness: 1.0, alpha: 1.0).cgColor,
             UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).cgColor]
         
-        let gradient = CGGradient(colorsSpace: colorSpace, colors: colors, locations: [CGFloat(0.0), CGFloat(1.0)])
+        let gradient = CGGradient(colorsSpace: colorSpace, colors: colors as CFArray, locations: [CGFloat(0.0), CGFloat(1.0)])
         ctx?.drawLinearGradient(gradient!, start: CGPoint(x: rectToDraw.size.width, y: 0), end: CGPoint.zero, options: [])
         
         let desaturatedColors = [UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.0).cgColor,
             UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0).cgColor]
         
-        let desaturatedGradient = CGGradient(colorsSpace: colorSpace, colors: desaturatedColors, locations: [CGFloat(0.0), CGFloat(1.0)])
+        let desaturatedGradient = CGGradient(colorsSpace: colorSpace, colors: desaturatedColors as CFArray, locations: [CGFloat(0.0), CGFloat(1.0)])
         ctx?.drawLinearGradient(desaturatedGradient!, start: CGPoint.zero, end: CGPoint(x: 0, y: rectToDraw.size.height), options: [])
         
         ctx?.restoreGState()
@@ -94,7 +94,7 @@ class SaturationBrightnessPickerView: UIView, HuePickerViewDelegate {
         let adjustedPoint = CGPoint(x: saturation * rectToDraw.width, y: rectToDraw.height - (brightness * rectToDraw.height))
         let reticuleRect = CGRect(x: adjustedPoint.x - (reticuleSize / 2), y: adjustedPoint.y - (reticuleSize / 2), width: reticuleSize, height: reticuleSize)
         
-        ctx?.addEllipse(inRect: reticuleRect.insetBy(dx: 4, dy: 4))
+        ctx?.addEllipse(in: reticuleRect.insetBy(dx: 4, dy: 4))
         ctx?.setFillColor(currentColor.cgColor)
         ctx?.setStrokeColor(currentColor.isDarkColor() ? UIColor.white.cgColor : UIColor.black.cgColor)
         ctx?.setLineWidth(1)

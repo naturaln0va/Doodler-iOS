@@ -16,7 +16,7 @@ class SettingsController: NSObject
     
     private let defaults = UserDefaults.standard
     
-    lazy private var baseDefaults: Dictionary<String, AnyObject> = {
+    lazy private var baseDefaults: [String: Any] = {
         return [kStrokeWidthKey: 12.0, kStrokeColorKey: [0.898, 0.078, 0.078]]
     }()
     

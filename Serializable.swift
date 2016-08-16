@@ -2,6 +2,6 @@
 import Foundation
 
 protocol Serializable {
-    var serializedDictionary: [NSObject: AnyObject] { get }
-    init?(serializedDictionary: [NSObject: AnyObject])
+    var serializedDictionary: [String: Any] { get }
+    init?(serializedDictionary: [String: Any])
 }
