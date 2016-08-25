@@ -2,7 +2,7 @@
 import UIKit
 
 struct DrawComponent {
-    var path: CGMutablePath
+    var path: CGPath
     var width: CGFloat
     var color: CGColor
 }
@@ -14,10 +14,27 @@ class DrawableView: UIView {
     private var previousPoint: CGPoint?
     private var previousPreviousPoint: CGPoint?
     
+    var doodleToEdit: Doodle? {
+        didSet {
+            if let doodle = doodleToEdit {
+                history = doodle.history
+                bufferImage = doodle.image
+                setNeedsDisplay()
+            }
+        }
+    }
     var history = History()
     
     var doodle: Doodle {
-        return Doodle(date: Date(), image: imageByCapturing, history: history)
+        let image = imageByCapturing.autoCroppedImage
+        let data = UIImagePNGRepresentation(image ?? UIImage())
+        
+        return Doodle(
+            createdDate: doodleToEdit?.createdDate ?? Date(),
+            updatedDate: Date(),
+            history: history,
+            stickerImageData: data ?? Data()
+        )
     }
     
     private var drawingComponents = [DrawComponent]()
@@ -58,7 +75,7 @@ class DrawableView: UIView {
         
         let subPath = CGMutablePath()
         subPath.move(to: CGPoint(x: mid1.x, y: mid1.y))
-        subPath.addQuadCurve(to: CGPoint(x: points[1].x, y: points[1].y), control: CGPoint(x: mid2.x, y: mid2.y))
+        subPath.addQuadCurve(to: CGPoint(x: mid2.x, y: mid2.y), control: CGPoint(x: points[1].x, y: points[1].y))
         
         let boxOffset = CGFloat(SettingsController.sharedController.currentStrokeWidth())
         let drawBounds = subPath.boundingBox.insetBy(dx: -boxOffset, dy: -boxOffset)
@@ -104,7 +121,6 @@ class DrawableView: UIView {
     
     //MARK: - UITouch Event Handling -
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        // incase the user is trying to zoom out of the canvas
         if (event?.allTouches?.count ?? 0) > 1 { return }
         
         if let touch = touches.first {
@@ -115,7 +131,6 @@ class DrawableView: UIView {
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        // incase the user is trying to zoom out of the canvas
         if (event?.allTouches?.count ?? 0) > 1 { return }
         
         guard let firstTouch = touches.first else { return }
@@ -141,7 +156,6 @@ class DrawableView: UIView {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        // incase the user is trying to zoom out of the canvas
         if (event?.allTouches?.count ?? 0) > 1 { return }
         
         let drawColor = SettingsController.sharedController.currentDrawColor().cgColor

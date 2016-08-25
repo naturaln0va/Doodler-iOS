@@ -50,12 +50,6 @@ class SaturationBrightnessPickerView: UIView, HuePickerViewDelegate {
     
     private func commonInit() {
         clipsToBounds = false
-        backgroundColor = UIColor.black
-        
-        layer.cornerRadius = 4
-        layer.borderColor = UIColor.white.cgColor
-        layer.borderWidth = 1
-        
         isOpaque = false
         bounds = bounds.insetBy(dx: -inset, dy: -inset)
     }
@@ -69,6 +63,9 @@ class SaturationBrightnessPickerView: UIView, HuePickerViewDelegate {
     }
     
     override func draw(_ rect: CGRect) {
+        backgroundColor?.setFill()
+        UIRectFill(rect)
+        
         let rectToDraw = rect.insetBy(dx: inset, dy: inset)
         
         let ctx = UIGraphicsGetCurrentContext()
@@ -94,12 +91,14 @@ class SaturationBrightnessPickerView: UIView, HuePickerViewDelegate {
         let adjustedPoint = CGPoint(x: saturation * rectToDraw.width, y: rectToDraw.height - (brightness * rectToDraw.height))
         let reticuleRect = CGRect(x: adjustedPoint.x - (reticuleSize / 2), y: adjustedPoint.y - (reticuleSize / 2), width: reticuleSize, height: reticuleSize)
         
-        ctx?.addEllipse(in: reticuleRect.insetBy(dx: 4, dy: 4))
+        ctx?.addEllipse(in: reticuleRect)
         ctx?.setFillColor(currentColor.cgColor)
-        ctx?.setStrokeColor(currentColor.isDarkColor() ? UIColor.white.cgColor : UIColor.black.cgColor)
-        ctx?.setLineWidth(1)
         ctx?.closePath()
         ctx?.drawPath(using: .eoFill)
+
+        ctx?.setLineWidth(1)
+        ctx?.setStrokeColor(currentColor.isDarkColor() ? UIColor.white.cgColor : UIColor.black.cgColor)
+        ctx?.strokeEllipse(in: reticuleRect)
     }
     
     //MARK: - HuePickerViewDelegate -

@@ -50,8 +50,14 @@ class HuePickerView: UIView {
             UIColor(red: 1.0, green: 0.0, blue: 0.0, alpha: 1.0).cgColor
         ] as CFArray
         
+        ctx?.saveGState()
+        
+        ctx?.clip(to: CGRect(x: 0, y: 0, width: rect.width, height: 8))
+        
         let gradient = CGGradient(colorsSpace: colorSpace, colors: colors, locations: locations)
         ctx?.drawLinearGradient(gradient!, start: CGPoint(x: rect.width, y: 0), end: CGPoint.zero, options: [])
+        
+        ctx?.restoreGState()
         
         let adjustedPosition = CGFloat(rect.width) * hue
         

@@ -12,7 +12,7 @@ class StyledNavigationController: UINavigationController
         super.viewDidLoad()
         
         navigationBar.barTintColor = UIColor.barTintColor
-        navigationBar.tintColor = UIColor.tintColor
+        navigationBar.tintColor = UIColor.tintColor.withAlphaComponent(0.6)
         navigationBar.isTranslucent = false
         
         navigationBar.titleTextAttributes = [

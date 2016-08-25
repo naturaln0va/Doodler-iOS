@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11191" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11198.2" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11156"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -44,7 +44,7 @@
                             </segmentedControl>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="TSM-P9-BNz"/>
-                        <barButtonItem image="action-icon" id="iOj-s2-hrl"/>
+                        <barButtonItem image="toolbox-icon" id="iOj-s2-hrl"/>
                     </items>
                     <color key="tintColor" red="0.98549717664718628" green="0.98549717664718628" blue="0.98549717664718628" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 </toolbar>
@@ -99,11 +99,11 @@
                 <constraint firstItem="Yp0-cx-6m2" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="eom-HB-Nbk"/>
                 <constraint firstItem="Yp0-cx-6m2" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="vu6-co-WCA"/>
             </constraints>
-            <point key="canvasLocation" x="-201" y="296"/>
+            <point key="canvasLocation" x="-444" y="249"/>
         </view>
     </objects>
     <resources>
-        <image name="action-icon" width="18" height="28"/>
         <image name="back-arrow-icon" width="22" height="19"/>
+        <image name="toolbox-icon" width="22" height="22"/>
     </resources>
 </document>

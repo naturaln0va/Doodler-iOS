@@ -10,7 +10,7 @@ extension UIColor {
         self.init(red: red, green: green, blue: blue, alpha: alpha);
     }
     
-    func hexString() -> String? {
+    var hexString: String? {
         var redValue: CGFloat = 0
         var greenValue: CGFloat = 0
         var blueValue: CGFloat = 0

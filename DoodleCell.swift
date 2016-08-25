@@ -9,7 +9,7 @@ class DoodleCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        imageView.layer.cornerRadius = 5
+        layer.cornerRadius = 5
         imageView.clipsToBounds = true
     }
     

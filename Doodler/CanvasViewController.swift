@@ -2,7 +2,8 @@
 import UIKit
 
 protocol CanvasViewControllerDelegate: class {
-    func canvasViewControllerDidDismiss()
+    func canvasViewControllerShouldDismiss()
+    func canvasViewControllerDidSaveDoodle()
 }
 
 class CanvasViewController: UIViewController, UIGestureRecognizerDelegate, UIScrollViewDelegate, ColorPickerViewControllerDelegate {
@@ -12,9 +13,9 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate, UIScr
         height: UIScreen.main.bounds.size.height
     )
     
+    var doodleToEdit: Doodle?
     var canvas: DrawableView!
     var scrollView: UIScrollView!
-    var hasLayedOut = false
     var lastCanvasZoomScale = 0
     
     weak var delegate: CanvasViewControllerDelegate?
@@ -68,32 +69,43 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate, UIScr
         backButton.action = #selector(CanvasViewController.backButtonPressed)
         
         view.backgroundColor = UIColor.backgroundColor
+        
+        let gridView = GridView()
+        gridView.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.insertSubview(gridView, belowSubview: controlBar)
+        view.addConstraints(NSLayoutConstraint.constraints(forPinningViewToSuperview: gridView))
+        
+        scrollView = UIScrollView(frame: view.bounds)
+        scrollView.delegate = self
+        scrollView.panGestureRecognizer.minimumNumberOfTouches = 2
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.insertSubview(scrollView, belowSubview: controlBar)
+        view.addConstraints(NSLayoutConstraint.constraints(forPinningViewToSuperview: scrollView))
+        
+        setUpWithSize(kDefaultCanvasSize)
+        hideToolbar()
     }
     
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        if !hasLayedOut {
-            hasLayedOut = true
-            view.insertSubview(GridView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height)), belowSubview: controlBar)
-            
-            scrollView = UIScrollView(frame: view.bounds)
-            scrollView.delegate = self
-            scrollView.panGestureRecognizer.minimumNumberOfTouches = 2
-            view.insertSubview(scrollView, belowSubview: controlBar)
-            
-            setUpWithSize(kDefaultCanvasSize)
-        }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        showToolbar()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        hideToolbar()
     }
     
     func setUpWithSize(_ size: CGSize) {
-        canvas?.removeFromSuperview()
-        canvas = nil
-        
         canvas = DrawableView(frame: CGRect(x: 0, y: 0, width: size.width, height: size.height))
         canvas.layer.magnificationFilter = kCAFilterLinear
         canvas.center = view.center
         canvas.isUserInteractionEnabled = true
-        canvas.alpha = 0.0
+        canvas.doodleToEdit = doodleToEdit
 
         scrollView.addSubview(canvas)
         scrollView.contentSize = canvas.bounds.size
@@ -109,13 +121,9 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate, UIScr
         
         scrollView.maximumZoomScale = 12.5
         scrollView.minimumZoomScale = 0.25
-        scrollView.zoomScale = minScale;
+        scrollView.zoomScale = minScale
         
         centerScrollViewContents()
-        
-        UIView.animate(withDuration: 0.25, animations: {
-            self.canvas.alpha = 1.0
-        })
     }
     
     //MARK: - Actions
@@ -134,8 +142,8 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate, UIScr
         )
         ac.addAction(
             UIAlertAction(title: "Select Color", style: .default) { action in
-                MenuController.sharedController.colorPickerVC.delegate = self
-                self.present(StyledNavigationController(rootViewController: MenuController.sharedController.colorPickerVC), animated: true, completion: nil)
+                AppController.sharedController.colorPickerVC.delegate = self
+                self.present(StyledNavigationController(rootViewController: AppController.sharedController.colorPickerVC), animated: true, completion: nil)
             }
         )
         if canvas.history.canReset {
@@ -165,8 +173,21 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate, UIScr
     }
     
     @objc private func backButtonPressed() {
-        DocumentsController.sharedController.save(doodle: canvas.doodle)
-        delegate?.canvasViewControllerDidDismiss()
+        guard canvas.history.canReset else {
+            delegate?.canvasViewControllerShouldDismiss()
+            return
+        }
+        
+        DocumentsController.sharedController.save(doodle: canvas.doodle) { success in
+            if success {
+                self.delegate?.canvasViewControllerDidSaveDoodle()
+            }
+            else {
+                let alert = UIAlertController(title: nil, message: "Error saving doodle 😱", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+            }
+        }
     }
     
     private func clearScreen() {

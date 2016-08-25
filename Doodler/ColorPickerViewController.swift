@@ -1,17 +1,11 @@
-//
-//  Created by Ryan Ackermann on 8/13/15.
-//  Copyright (c) 2015 Ryan Ackermann. All rights reserved.
-//
 
 import UIKit
 
-protocol ColorPickerViewControllerDelegate
-{
+protocol ColorPickerViewControllerDelegate {
     func colorPickerViewControllerDidPickColor(_ color: UIColor)
 }
 
-class ColorPickerViewController: UIViewController, SaturationBrightnessPickerViewDelegate
-{
+class ColorPickerViewController: UIViewController, SaturationBrightnessPickerViewDelegate {
     
     @IBOutlet weak var colorPreView: ColorPreView!
     @IBOutlet weak var previousColorLabel: UILabel!
@@ -32,7 +26,9 @@ class ColorPickerViewController: UIViewController, SaturationBrightnessPickerVie
         
         huePickerView.layer.cornerRadius = 4
         huePickerView.delegate = saturationBrightnessPickerView
+        
         saturationBrightnessPickerView.delegate = self
+        saturationBrightnessPickerView.backgroundColor = view.backgroundColor
     }
     
     override func viewWillAppear(_ animated: Bool)
@@ -42,8 +38,8 @@ class ColorPickerViewController: UIViewController, SaturationBrightnessPickerVie
         colorPreView.previousColor = currentColor
         colorPreView.newColor = currentColor
         
-        previousColorLabel.text = currentColor.hexString()
-        currentColorLabel.text = currentColor.hexString()
+        previousColorLabel.text = currentColor.hexString
+        currentColorLabel.text = currentColor.hexString
         
         if currentColor.isDarkColor() {
             previousColorLabel.textColor = UIColor.white
@@ -76,7 +72,7 @@ class ColorPickerViewController: UIViewController, SaturationBrightnessPickerVie
     func saturationBrightnessPickerViewDidUpdateColor(_ color: UIColor)
     {
         colorPreView.newColor = color
-        currentColorLabel.text = color.hexString()
+        currentColorLabel.text = color.hexString
         
         if color.isDarkColor() {
             currentColorLabel.textColor = UIColor.white

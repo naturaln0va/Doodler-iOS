@@ -1,9 +1,9 @@
 
 import UIKit
 
-class MenuController {
+class AppController {
     
-    static let sharedController = MenuController()
+    static let sharedController = AppController()
     
     var presenterViewController: UIViewController?
     

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11198.2" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -10,39 +9,40 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="DoodleCell" customModule="Doodler" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="140" height="155"/>
+            <rect key="frame" x="0.0" y="0.0" width="140" height="168"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="140" height="155"/>
+                <rect key="frame" x="0.0" y="0.0" width="140" height="168"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hAp-lt-rpB">
                         <constraints>
-                            <constraint firstAttribute="width" secondItem="hAp-lt-rpB" secondAttribute="height" multiplier="19:17" constant="1" id="GPh-KZ-cM1"/>
+                            <constraint firstAttribute="width" secondItem="hAp-lt-rpB" secondAttribute="height" multiplier="1:1" id="mQh-Ti-T50"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Yesterday" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TVu-G0-pPh">
-                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
-                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Yesterday" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="TVu-G0-pPh">
+                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
             </view>
+            <color key="backgroundColor" red="0.16078431372549018" green="0.16078431372549018" blue="0.16078431372549018" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="hAp-lt-rpB" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="0Sx-So-Nmj"/>
                 <constraint firstAttribute="trailing" secondItem="hAp-lt-rpB" secondAttribute="trailing" id="33X-t1-HJw"/>
                 <constraint firstItem="hAp-lt-rpB" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="5Yc-a6-qO5"/>
                 <constraint firstAttribute="trailing" secondItem="TVu-G0-pPh" secondAttribute="trailing" constant="4" id="6RV-gK-kLw"/>
-                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="TVu-G0-pPh" secondAttribute="bottom" constant="4" id="dNt-hW-kPS"/>
+                <constraint firstAttribute="bottom" secondItem="TVu-G0-pPh" secondAttribute="bottom" constant="4" id="dNt-hW-kPS"/>
                 <constraint firstItem="TVu-G0-pPh" firstAttribute="top" secondItem="hAp-lt-rpB" secondAttribute="bottom" constant="4" id="xH2-Ne-F6g"/>
                 <constraint firstItem="TVu-G0-pPh" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="4" id="xf8-lo-uxa"/>
             </constraints>
-            <size key="customSize" width="147" height="155"/>
+            <size key="customSize" width="147" height="168"/>
             <connections>
                 <outlet property="dateLabel" destination="TVu-G0-pPh" id="zV3-jQ-ouO"/>
                 <outlet property="imageView" destination="hAp-lt-rpB" id="m4W-hf-XAS"/>
             </connections>
-            <point key="canvasLocation" x="-48" y="4.5"/>
+            <point key="canvasLocation" x="-225" y="-18"/>
         </collectionViewCell>
     </objects>
 </document>

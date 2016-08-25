@@ -12,10 +12,14 @@ class WindowController: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         
         if let window = window {
-            MenuController.sharedController.showInWindow(window)
+            AppController.sharedController.showInWindow(window)
         }
         
         return true
+    }
+    
+    func applicationDidReceiveMemoryWarning(_ application: UIApplication) {
+        DocumentsController.sharedController.clearCache()
     }
 
 }
