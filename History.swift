@@ -4,10 +4,10 @@ import UIKit
 struct History {
     
     private let sizeLimit = 25
-    internal var undoList = [UIImage]()
-    internal var redoList = [UIImage]()
+    internal var undoList = [CGImage]()
+    internal var redoList = [CGImage]()
     
-    var lastImage: UIImage? {
+    var lastImage: CGImage? {
         return undoList.last
     }
     
@@ -24,7 +24,7 @@ struct History {
     }
     
     // MARK: - Private
-    private mutating func appendUndo(image: UIImage?) {
+    private mutating func appendUndo(image: CGImage?) {
         guard let image = image else { return }
         
         if undoList.count >= sizeLimit {
@@ -34,7 +34,7 @@ struct History {
         undoList.append(image)
     }
     
-    private mutating func appendRedo(image: UIImage?) {
+    private mutating func appendRedo(image: CGImage?) {
         guard let image = image else { return }
         
         if redoList.count >= sizeLimit {
@@ -53,7 +53,7 @@ struct History {
     }
     
     // MARK: - Public
-    mutating func append(image: UIImage?) {
+    mutating func append(image: CGImage?) {
         appendUndo(image: image)
         resetRedo()
     }
@@ -83,8 +83,8 @@ extension History: Serializable {
     
     var serializedDictionary: [String: Any] {
         return [
-            "undoList": undoList,
-            "redoList": redoList
+            "undoList": undoList.map { UIImage(cgImage: $0) },
+            "redoList": redoList.map { UIImage(cgImage: $0) }
         ]
     }
     
@@ -94,8 +94,8 @@ extension History: Serializable {
                 return nil
         }
         
-        self.undoList = undoList
-        self.redoList = redoList
+        self.undoList = undoList.flatMap { $0.cgImage }
+        self.redoList = redoList.flatMap { $0.cgImage }
     }
     
 }

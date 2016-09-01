@@ -117,7 +117,7 @@ extension DoodlesViewController: UICollectionViewDataSource, UICollectionViewDel
         
         let doodle = sortedDoodles[indexPath.item]
         
-        cell.imageView.image = doodle.image
+        cell.imageView.image = doodle.previewImage
         cell.dateLabel.text = doodle.updatedDate.relativeString
         
         let animationKey = "animation"
@@ -165,10 +165,6 @@ extension DoodlesViewController: UICollectionViewDataSource, UICollectionViewDel
             vc.doodleToEdit = sortedDoodles[indexPath.item]
             present(vc, animated: true, completion: nil)
         }
-    }
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

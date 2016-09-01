@@ -9,7 +9,7 @@ struct DrawComponent {
 
 class DrawableView: UIView {
     
-    // MARK: - Private Variables
+    // MARK: - Private Variables -
     private var currentPoint: CGPoint?
     private var previousPoint: CGPoint?
     private var previousPreviousPoint: CGPoint?
@@ -18,7 +18,7 @@ class DrawableView: UIView {
         didSet {
             if let doodle = doodleToEdit {
                 history = doodle.history
-                bufferImage = doodle.image
+                bufferImage = doodle.history.lastImage
                 setNeedsDisplay()
             }
         }
@@ -26,31 +26,56 @@ class DrawableView: UIView {
     var history = History()
     
     var doodle: Doodle {
-        let image = imageByCapturing.autoCroppedImage
-        let data = UIImagePNGRepresentation(image ?? UIImage())
+        let stickerImage = bufferImage?.autoCroppedImage?.verticallyFlipped ?? UIImage()
+        let stickerData = UIImagePNGRepresentation(stickerImage) ?? Data()
         
         return Doodle(
             createdDate: doodleToEdit?.createdDate ?? Date(),
             updatedDate: Date(),
             history: history,
-            stickerImageData: data ?? Data()
+            stickerImageData: stickerData,
+            previewImage: imageByCapturing
         )
     }
     
     private var drawingComponents = [DrawComponent]()
     
-    private var bufferImage: UIImage? {
-        didSet {
-            drawingComponents.removeAll()
-        }
-    }
+    private lazy var bufferContext: CGContext = {
+        let scale = self.window!.screen.scale
+        var size = self.bounds.size
+        
+        size.width *= scale
+        size.height *= scale
+        let colorSpace = CGColorSpaceCreateDeviceRGB()
+        
+        let ctx = CGContext(
+            data: nil,
+            width: Int(size.width),
+            height: Int(size.height),
+            bitsPerComponent: 8,
+            bytesPerRow: 0,
+            space: colorSpace,
+            bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+        )
+        
+        ctx?.setLineCap(.round)
+        ctx?.concatenate(CGAffineTransform(scaleX: scale, y: scale))
+        
+        return ctx!
+    }()
     
-    // MARK: - Public Helpers
+    private var bufferImage: CGImage?
+    
+    // MARK: - Public Helpers -
     func clear() {
         history.clear()
+
         bufferImage = nil
+        bufferContext.clear(bounds)
+        drawingComponents.removeAll()
+        history.append(image: bufferImage)
+        
         setNeedsDisplay()
-        renderDisplayToBuffer()
     }
     
     func undo() {
@@ -90,12 +115,21 @@ class DrawableView: UIView {
         return CGPoint(x: (point1.x + point2.x) * 0.5, y: (point1.y + point2.y) * 0.5)
     }
     
-    private func renderDisplayToBuffer() {
-        DispatchQueue(label: "io.ackermann.render").async {
-            let image = self.imageByCapturing
-            self.bufferImage = image
-            self.history.append(image: image)
+    private func renderComponentsToBuffer() {
+        let ctx = bufferContext
+        
+        for comp in drawingComponents {
+            ctx.setLineCap(.round)
+            ctx.setStrokeColor(comp.color)
+            ctx.setLineWidth(comp.width)
+            
+            ctx.addPath(comp.path)
+            ctx.strokePath()
         }
+        
+        bufferImage = bufferContext.makeImage()
+        history.append(image: bufferImage)
+        drawingComponents.removeAll()
     }
     
     //MARK - UIView Lifecycle -
@@ -105,8 +139,10 @@ class DrawableView: UIView {
         UIColor.white.setFill()
         UIRectFill(rect)
         
+        bufferImage = bufferImage ?? bufferContext.makeImage()
+        
         if let img = bufferImage {
-            img.draw(at: CGPoint.zero)
+            ctx.draw(img, in: bounds)
         }
         
         for comp in drawingComponents {
@@ -164,7 +200,7 @@ class DrawableView: UIView {
         
         setupAndDrawWithPoints(points: points, withColor: drawColor, withWidth: drawWidth)
         
-        renderDisplayToBuffer()
+        renderComponentsToBuffer()
     }
     
 }

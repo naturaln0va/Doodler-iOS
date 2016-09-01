@@ -7,10 +7,7 @@ struct Doodle {
     var updatedDate: Date
     let history: History
     let stickerImageData: Data
-    
-    var image: UIImage {
-        return history.lastImage!
-    }
+    let previewImage: UIImage
     
     private var baseFileName: String {
         let formatter = DateFormatter()
@@ -44,7 +41,8 @@ extension Doodle: Serializable {
             "created": createdDate,
             "updated": updatedDate,
             "history": history.serializedDictionary,
-            "sticker": stickerImageData
+            "sticker": stickerImageData,
+            "preview": previewImage
         ]
     }
     
@@ -52,7 +50,8 @@ extension Doodle: Serializable {
         guard let createdDate = serializedDictionary["created"] as? Date,
             let updatedDate = serializedDictionary["updated"] as? Date,
             let historyDict = serializedDictionary["history"] as? [String : AnyObject],
-            let stickerImageData = serializedDictionary["sticker"] as? Data else {
+            let stickerImageData = serializedDictionary["sticker"] as? Data,
+            let previewImage = serializedDictionary["preview"] as? UIImage else {
                 return nil
         }
         
@@ -62,6 +61,7 @@ extension Doodle: Serializable {
         self.updatedDate = updatedDate
         self.history = history
         self.stickerImageData = stickerImageData
+        self.previewImage = previewImage
     }
     
 }

@@ -7,6 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		480A648A1D784A9600E98622 /* DrawableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6903EAAE1B56AB06001BEAEC /* DrawableView.swift */; };
+		487904EE1D745DCC0050E615 /* UIImage+Addtions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487904ED1D745DCC0050E615 /* UIImage+Addtions.swift */; };
+		487904F31D74A2650050E615 /* StickerLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487904F21D74A2650050E615 /* StickerLayout.swift */; };
+		487904F61D74A4F90050E615 /* StickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487904F51D74A4F90050E615 /* StickerCell.swift */; };
+		487904F91D74BAD90050E615 /* CreateDoodleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487904F71D74BAD90050E615 /* CreateDoodleCell.swift */; };
+		487905091D74C08A0050E615 /* UIImage+Addtions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487904ED1D745DCC0050E615 /* UIImage+Addtions.swift */; };
+		4879050A1D74C0900050E615 /* UIView+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6903EA9B1B56AA6C001BEAEC /* UIView+Additions.swift */; };
+		4879050B1D74C0980050E615 /* CGImage+Addtions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C3F2CA1D6642A6000D2501 /* CGImage+Addtions.swift */; };
+		4879050C1D74C09D0050E615 /* NSLayoutConstraint+Addtions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69749C151D64B69D00D1CF0B /* NSLayoutConstraint+Addtions.swift */; };
+		487905101D74C35B0050E615 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6903EAB21B56AB31001BEAEC /* SettingsController.swift */; };
+		487905121D75BDFF0050E615 /* URL+Addtions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487905111D75BDFF0050E615 /* URL+Addtions.swift */; };
+		487905131D75BEF70050E615 /* URL+Addtions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487905111D75BDFF0050E615 /* URL+Addtions.swift */; };
 		48B38C5B1A16C4110040DE29 /* WindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B38C541A16C4110040DE29 /* WindowController.swift */; };
 		48B38C611A16C4110040DE29 /* CanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B38C5A1A16C4110040DE29 /* CanvasViewController.swift */; };
 		6903EA971B56AA3B001BEAEC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6903EA961B56AA3B001BEAEC /* Images.xcassets */; };
@@ -32,7 +44,7 @@
 		697DD4D91D6162C50032ACA5 /* Serializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697DD4D81D6162C50032ACA5 /* Serializable.swift */; };
 		69BEF29D1D648762007BFAF6 /* DoodleLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BEF29C1D648762007BFAF6 /* DoodleLayout.swift */; };
 		69BEF2A01D649156007BFAF6 /* Date+Relative.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BEF29F1D649156007BFAF6 /* Date+Relative.swift */; };
-		69C3F2CB1D6642A6000D2501 /* UIImage+Addtions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C3F2CA1D6642A6000D2501 /* UIImage+Addtions.swift */; };
+		69C3F2CB1D6642A6000D2501 /* CGImage+Addtions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C3F2CA1D6642A6000D2501 /* CGImage+Addtions.swift */; };
 		69D3805F1D6A981E00BED7E1 /* Messages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69D3805E1D6A981E00BED7E1 /* Messages.framework */; };
 		69D380621D6A981E00BED7E1 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D380611D6A981E00BED7E1 /* MessagesViewController.swift */; };
 		69D380651D6A981E00BED7E1 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 69D380631D6A981E00BED7E1 /* MainInterface.storyboard */; };
@@ -44,7 +56,7 @@
 		69D380771D6B206D00BED7E1 /* DocumentsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695A986C1D61E7B40049AE0A /* DocumentsController.swift */; };
 		69D380781D6B208700BED7E1 /* UIColor+Addtions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6903EA9A1B56AA6C001BEAEC /* UIColor+Addtions.swift */; };
 		69D380791D6B20B800BED7E1 /* Serializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697DD4D81D6162C50032ACA5 /* Serializable.swift */; };
-		69E9E0391BE004C50065DE51 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E9E0381BE004C50065DE51 /* MenuController.swift */; };
+		69E9E0391BE004C50065DE51 /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E9E0381BE004C50065DE51 /* AppController.swift */; };
 		69E9E03F1BE004F30065DE51 /* StyledNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E9E03E1BE004F30065DE51 /* StyledNavigationController.swift */; };
 		69E9E0451BE005230065DE51 /* ColorPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E9E0441BE005230065DE51 /* ColorPickerViewController.swift */; };
 		69E9E04B1BE005490065DE51 /* ColorPreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E9E04A1BE005490065DE51 /* ColorPreView.swift */; };
@@ -83,6 +95,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		487904ED1D745DCC0050E615 /* UIImage+Addtions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Addtions.swift"; sourceTree = SOURCE_ROOT; };
+		487904F21D74A2650050E615 /* StickerLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StickerLayout.swift; sourceTree = "<group>"; };
+		487904F51D74A4F90050E615 /* StickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StickerCell.swift; sourceTree = "<group>"; };
+		487904F71D74BAD90050E615 /* CreateDoodleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateDoodleCell.swift; sourceTree = "<group>"; };
+		487905111D75BDFF0050E615 /* URL+Addtions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URL+Addtions.swift"; sourceTree = SOURCE_ROOT; };
 		48B38C541A16C4110040DE29 /* WindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WindowController.swift; path = Doodler/WindowController.swift; sourceTree = SOURCE_ROOT; };
 		48B38C5A1A16C4110040DE29 /* CanvasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CanvasViewController.swift; path = Doodler/CanvasViewController.swift; sourceTree = SOURCE_ROOT; };
 		48FA2ECA1A0C100F002CE8B9 /* Doodler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Doodler.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -109,7 +126,7 @@
 		697DD4D81D6162C50032ACA5 /* Serializable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Serializable.swift; sourceTree = SOURCE_ROOT; };
 		69BEF29C1D648762007BFAF6 /* DoodleLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoodleLayout.swift; sourceTree = SOURCE_ROOT; };
 		69BEF29F1D649156007BFAF6 /* Date+Relative.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Relative.swift"; sourceTree = SOURCE_ROOT; };
-		69C3F2CA1D6642A6000D2501 /* UIImage+Addtions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Addtions.swift"; sourceTree = SOURCE_ROOT; };
+		69C3F2CA1D6642A6000D2501 /* CGImage+Addtions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGImage+Addtions.swift"; sourceTree = SOURCE_ROOT; };
 		69D3805C1D6A981E00BED7E1 /* Sticker Doodler.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Sticker Doodler.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		69D3805E1D6A981E00BED7E1 /* Messages.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Messages.framework; path = System/Library/Frameworks/Messages.framework; sourceTree = SDKROOT; };
 		69D380611D6A981E00BED7E1 /* MessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
@@ -119,7 +136,7 @@
 		69D380701D6B1F7600BED7E1 /* DoodleBrowserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoodleBrowserViewController.swift; sourceTree = "<group>"; };
 		69D3807B1D6B22D000BED7E1 /* Sticker Doodler.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Sticker Doodler.entitlements"; sourceTree = "<group>"; };
 		69D3807C1D6B234100BED7E1 /* Doodler.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; name = Doodler.entitlements; path = Doodler/Doodler.entitlements; sourceTree = SOURCE_ROOT; };
-		69E9E0381BE004C50065DE51 /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MenuController.swift; path = Doodler/MenuController.swift; sourceTree = SOURCE_ROOT; };
+		69E9E0381BE004C50065DE51 /* AppController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppController.swift; path = Doodler/AppController.swift; sourceTree = SOURCE_ROOT; };
 		69E9E03E1BE004F30065DE51 /* StyledNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StyledNavigationController.swift; path = Doodler/StyledNavigationController.swift; sourceTree = SOURCE_ROOT; };
 		69E9E0441BE005230065DE51 /* ColorPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ColorPickerViewController.swift; path = Doodler/ColorPickerViewController.swift; sourceTree = SOURCE_ROOT; };
 		69E9E04A1BE005490065DE51 /* ColorPreView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ColorPreView.swift; path = Doodler/ColorPreView.swift; sourceTree = SOURCE_ROOT; };
@@ -153,6 +170,47 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		480A64881D784A6500E98622 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				480A64891D784A7900E98622 /* Views */,
+			);
+			name = Shared;
+			sourceTree = "<group>";
+		};
+		480A64891D784A7900E98622 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				6903EAAE1B56AB06001BEAEC /* DrawableView.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		487904F11D749A9C0050E615 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				487904FB1D74BAE00050E615 /* CollectionView Cells */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		487904F41D74A2680050E615 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				487904F21D74A2650050E615 /* StickerLayout.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		487904FB1D74BAE00050E615 /* CollectionView Cells */ = {
+			isa = PBXGroup;
+			children = (
+				487904F71D74BAD90050E615 /* CreateDoodleCell.swift */,
+				487904F51D74A4F90050E615 /* StickerCell.swift */,
+			);
+			name = "CollectionView Cells";
+			sourceTree = "<group>";
+		};
 		4880D4691A4F74430077E68B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -169,7 +227,6 @@
 			isa = PBXGroup;
 			children = (
 				695A98671D61E5010049AE0A /* CollectionView Cells */,
-				6903EAAE1B56AB06001BEAEC /* DrawableView.swift */,
 				69E9E04A1BE005490065DE51 /* ColorPreView.swift */,
 				69E9E04C1BE005540065DE51 /* ColorPreviewButton.swift */,
 				6903EAAF1B56AB06001BEAEC /* GridView.swift */,
@@ -200,10 +257,12 @@
 				69BEF29F1D649156007BFAF6 /* Date+Relative.swift */,
 				69749C151D64B69D00D1CF0B /* NSLayoutConstraint+Addtions.swift */,
 				6903EA9A1B56AA6C001BEAEC /* UIColor+Addtions.swift */,
-				69C3F2CA1D6642A6000D2501 /* UIImage+Addtions.swift */,
+				69C3F2CA1D6642A6000D2501 /* CGImage+Addtions.swift */,
 				69E9E0591BE007ED0065DE51 /* UIKitExtensions.swift */,
 				6903EA9B1B56AA6C001BEAEC /* UIView+Additions.swift */,
 				697DD4CF1D60DA600032ACA5 /* UIViewController+Addtions.swift */,
+				487904ED1D745DCC0050E615 /* UIImage+Addtions.swift */,
+				487905111D75BDFF0050E615 /* URL+Addtions.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -222,8 +281,8 @@
 		48D5F4331B2C93B8003B8B96 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				69E9E0381BE004C50065DE51 /* AppController.swift */,
 				695A986C1D61E7B40049AE0A /* DocumentsController.swift */,
-				69E9E0381BE004C50065DE51 /* MenuController.swift */,
 				6903EAB21B56AB31001BEAEC /* SettingsController.swift */,
 				48B38C541A16C4110040DE29 /* WindowController.swift */,
 			);
@@ -233,7 +292,8 @@
 		48FA2EC11A0C100F002CE8B9 = {
 			isa = PBXGroup;
 			children = (
-				48FA2ECC1A0C100F002CE8B9 /* DrawingApp */,
+				48FA2ECC1A0C100F002CE8B9 /* Doodler */,
+				480A64881D784A6500E98622 /* Shared */,
 				69D380601D6A981E00BED7E1 /* Sticker Doodler */,
 				69D3805D1D6A981E00BED7E1 /* Frameworks */,
 				48FA2ECB1A0C100F002CE8B9 /* Products */,
@@ -249,12 +309,13 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		48FA2ECC1A0C100F002CE8B9 /* DrawingApp */ = {
+		48FA2ECC1A0C100F002CE8B9 /* Doodler */ = {
 			isa = PBXGroup;
 			children = (
 				697DD4D11D60FBF80032ACA5 /* Classes */,
 				4880D4691A4F74430077E68B /* Resources */,
 			);
+			name = Doodler;
 			path = DrawingApp;
 			sourceTree = "<group>";
 		};
@@ -327,6 +388,8 @@
 		69D380721D6B1F7D00BED7E1 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				487904F41D74A2680050E615 /* Model */,
+				487904F11D749A9C0050E615 /* Views */,
 				69D380731D6B1F8400BED7E1 /* ViewControllers */,
 			);
 			name = Classes;
@@ -476,7 +539,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				697DD4D91D6162C50032ACA5 /* Serializable.swift in Sources */,
-				69E9E0391BE004C50065DE51 /* MenuController.swift in Sources */,
+				69E9E0391BE004C50065DE51 /* AppController.swift in Sources */,
 				69E9E04B1BE005490065DE51 /* ColorPreView.swift in Sources */,
 				697DD4D61D6161E60032ACA5 /* Doodle.swift in Sources */,
 				69E9E0531BE0056D0065DE51 /* AutoHideView.swift in Sources */,
@@ -491,6 +554,7 @@
 				6903EAB31B56AB31001BEAEC /* SettingsController.swift in Sources */,
 				69BEF2A01D649156007BFAF6 /* Date+Relative.swift in Sources */,
 				6903EAB11B56AB06001BEAEC /* GridView.swift in Sources */,
+				487905131D75BEF70050E615 /* URL+Addtions.swift in Sources */,
 				69E9E0571BE007D80065DE51 /* StrokeSizeView.swift in Sources */,
 				6977CC731D652798006FD1E1 /* DoodleAnimator.swift in Sources */,
 				697DD4D01D60DA600032ACA5 /* UIViewController+Addtions.swift in Sources */,
@@ -500,10 +564,11 @@
 				69E9E05C1BE007ED0065DE51 /* UIKitExtensions.swift in Sources */,
 				69E9E0511BE005630065DE51 /* SaturationBrightnessPickerView.swift in Sources */,
 				69E9E03F1BE004F30065DE51 /* StyledNavigationController.swift in Sources */,
+				487904EE1D745DCC0050E615 /* UIImage+Addtions.swift in Sources */,
 				695A98661D61E3900049AE0A /* DoodlesViewController.swift in Sources */,
 				6903EAB01B56AB06001BEAEC /* DrawableView.swift in Sources */,
 				48B38C5B1A16C4110040DE29 /* WindowController.swift in Sources */,
-				69C3F2CB1D6642A6000D2501 /* UIImage+Addtions.swift in Sources */,
+				69C3F2CB1D6642A6000D2501 /* CGImage+Addtions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -511,12 +576,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				487905101D74C35B0050E615 /* SettingsController.swift in Sources */,
+				487905121D75BDFF0050E615 /* URL+Addtions.swift in Sources */,
+				487905091D74C08A0050E615 /* UIImage+Addtions.swift in Sources */,
 				69D380791D6B20B800BED7E1 /* Serializable.swift in Sources */,
 				69D380751D6B200600BED7E1 /* Doodle.swift in Sources */,
 				69D380781D6B208700BED7E1 /* UIColor+Addtions.swift in Sources */,
+				4879050A1D74C0900050E615 /* UIView+Additions.swift in Sources */,
+				487904F61D74A4F90050E615 /* StickerCell.swift in Sources */,
+				487904F91D74BAD90050E615 /* CreateDoodleCell.swift in Sources */,
+				487904F31D74A2650050E615 /* StickerLayout.swift in Sources */,
+				4879050B1D74C0980050E615 /* CGImage+Addtions.swift in Sources */,
 				69D380771D6B206D00BED7E1 /* DocumentsController.swift in Sources */,
+				480A648A1D784A9600E98622 /* DrawableView.swift in Sources */,
 				69D380711D6B1F7600BED7E1 /* DoodleBrowserViewController.swift in Sources */,
 				69D380761D6B200A00BED7E1 /* History.swift in Sources */,
+				4879050C1D74C09D0050E615 /* NSLayoutConstraint+Addtions.swift in Sources */,
 				69D380621D6A981E00BED7E1 /* MessagesViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -742,6 +817,7 @@
 				69D3806E1D6A981E00BED7E1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

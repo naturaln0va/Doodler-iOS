@@ -9,6 +9,11 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>Sticker Doodler.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
@@ -18,6 +23,11 @@
 			<true/>
 		</dict>
 		<key>48FA2EDE1A0C100F002CE8B9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>69D3805B1D6A981E00BED7E1</key>
 		<dict>
 			<key>primary</key>
 			<true/>
