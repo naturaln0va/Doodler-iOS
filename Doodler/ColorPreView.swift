@@ -14,8 +14,7 @@ class ColorPreView: UIView {
         }
     }
     
-    override func draw(_ rect: CGRect)
-    {
+    override func draw(_ rect: CGRect) {
         let ctx = UIGraphicsGetCurrentContext()
         
         if let previous = previousColor {

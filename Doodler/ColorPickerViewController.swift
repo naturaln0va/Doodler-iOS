@@ -16,8 +16,7 @@ class ColorPickerViewController: UIViewController, SaturationBrightnessPickerVie
     
     var delegate: ColorPickerViewControllerDelegate?
     
-    override func viewDidLoad()
-    {
+    override func viewDidLoad() {
         super.viewDidLoad()
         
         title = "Choose"
@@ -31,8 +30,7 @@ class ColorPickerViewController: UIViewController, SaturationBrightnessPickerVie
         saturationBrightnessPickerView.backgroundColor = view.backgroundColor
     }
     
-    override func viewWillAppear(_ animated: Bool)
-    {
+    override func viewWillAppear(_ animated: Bool) {
         let currentColor = SettingsController.sharedController.currentStrokeColor()
         saturationBrightnessPickerView.setColorToDisplay(currentColor)
         colorPreView.previousColor = currentColor
@@ -69,8 +67,7 @@ class ColorPickerViewController: UIViewController, SaturationBrightnessPickerVie
     }
     
     //MARK: - SaturationBrightnessPickerViewDelegate Methods -
-    func saturationBrightnessPickerViewDidUpdateColor(_ color: UIColor)
-    {
+    func saturationBrightnessPickerViewDidUpdateColor(_ color: UIColor) {
         colorPreView.newColor = color
         currentColorLabel.text = color.hexString
         

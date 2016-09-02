@@ -46,7 +46,7 @@ extension DoodleAnimator: UIViewControllerAnimatedTransitioning {
             
             if let frame = originFrame, let imageView = imageView {
                 finalVC.canvas.alpha = 0
-                finalVC.strokeSizeSlider.alpha = 0
+                finalVC.strokeSlider.alpha = 0
                 
                 animatingImageView = UIImageView(frame: frame)
                 animatingImageView?.image = imageView.image
@@ -70,7 +70,7 @@ extension DoodleAnimator: UIViewControllerAnimatedTransitioning {
                     finalVC.canvas.frame = finalVC.view.frame
                 }, completion: { _ in
                     finalVC.canvas.alpha = 1
-                    finalVC.strokeSizeSlider.alpha = 1
+                    finalVC.strokeSlider.alpha = 1
                     animatingImageView?.removeFromSuperview()
                     transitionContext.completeTransition(true)
                 }

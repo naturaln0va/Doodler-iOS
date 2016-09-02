@@ -6,32 +6,96 @@ protocol CanvasViewControllerDelegate: class {
     func canvasViewControllerDidSaveDoodle()
 }
 
-class CanvasViewController: UIViewController, UIGestureRecognizerDelegate, UIScrollViewDelegate, ColorPickerViewControllerDelegate {
-    
-    private let kDefaultCanvasSize = CGSize(
-        width: UIScreen.main.bounds.size.width,
-        height: UIScreen.main.bounds.size.height
-    )
+class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
     
     var doodleToEdit: Doodle?
-    var canvas: DrawableView!
-    var scrollView: UIScrollView!
     var lastCanvasZoomScale = 0
     
     weak var delegate: CanvasViewControllerDelegate?
     
-    //Outlets
-    @IBOutlet var controlBar: UIToolbar!
-    @IBOutlet var backButton: UIBarButtonItem!
-    @IBOutlet var actionButton: UIBarButtonItem!
-    @IBOutlet var drawingSegmentedControl: UISegmentedControl!
-    @IBOutlet var strokeSizeSlider: UISlider!
-    @IBOutlet var infoView: AutoHideView!
-    @IBOutlet var infoLabel: UILabel!
-    @IBOutlet var strokeSizeView: StrokeSizeView!
-    @IBOutlet var controlBarBottomConstraint: NSLayoutConstraint!
+    fileprivate var toolBarBottomConstraint: NSLayoutConstraint!
     
-    //MARK: - ViewController Delegate
+    var canvas: DrawableView!
+    
+    lazy var strokeSlider: UISlider = {
+        let view = UISlider()
+        
+        view.minimumValue = 1
+        view.maximumValue = 100
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.setThumbImage(UIImage(named: "knob"), for: UIControlState.normal)
+        view.addTarget(self, action: #selector(sliderUpdated(_:)), for: .valueChanged)
+        view.setMinimumTrackImage(UIImage(named: "slider"), for: UIControlState.normal)
+        view.setMaximumTrackImage(UIImage(named: "slider"), for: UIControlState.normal)
+        view.setValue(SettingsController.sharedController.currentStrokeWidth(), animated: false)
+        
+        return view
+    }()
+    
+    fileprivate lazy var strokeSizeView: StrokeSizeView = {
+        let view = StrokeSizeView()
+        
+        view.alpha = 0
+        view.clipsToBounds = true
+        view.layer.borderWidth = 4
+        view.layer.cornerRadius = 20
+        view.layer.borderColor = UIColor.white.cgColor
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
+    fileprivate lazy var toolbar: UIToolbar = {
+        let view = UIToolbar()
+
+        view.isTranslucent = true
+        view.tintColor = UIColor.white
+        view.barTintColor = UIColor.black
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
+    fileprivate lazy var segmentedControl: UISegmentedControl = {
+        let view = UISegmentedControl(items: ["Draw", "Erase"])
+        
+        view.selectedSegmentIndex = 0
+        view.apportionsSegmentWidthsByContent = true
+        view.addTarget(self, action: #selector(segmentWasChanged(_:)), for: .valueChanged)
+        
+        return view
+    }()
+    
+    fileprivate lazy var scrollView: UIScrollView = {
+        let view = UIScrollView()
+        
+        view.delegate = self
+        view.minimumZoomScale = 0.25
+        view.maximumZoomScale = 12.5
+        view.panGestureRecognizer.minimumNumberOfTouches = 2
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
+    fileprivate let colorButton = ColorPreviewButton(
+        frame: CGRect(origin: .zero, size: CGSize(width: 27, height: 27))
+    )
+    
+    fileprivate lazy var backButton = UIBarButtonItem(
+        image: UIImage(named: "back-arrow-icon"),
+        style: .plain,
+        target: self,
+        action: #selector(backButtonPressed)
+    )
+    fileprivate var actionButton = UIBarButtonItem(
+        image: UIImage(named: "toolbox-icon"),
+        style: .plain,
+        target: self,
+        action: #selector(actionButtonPressed)
+    )
+    
+    //MARK: - ViewController Delegate -
     override var canBecomeFirstResponder: Bool {
         return true
     }
@@ -43,48 +107,75 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate, UIScr
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        strokeSizeView.alpha = 0
-        strokeSizeView.layer.cornerRadius = 10
-        strokeSizeView.layer.borderColor = UIColor.white.cgColor
-        strokeSizeView.layer.borderWidth = 1
-        strokeSizeView.clipsToBounds = true
-        
-        drawingSegmentedControl.selectedSegmentIndex = 1
-        SettingsController.sharedController.disableEraser()
-        
-        infoView.alpha = 0
-        infoView.layer.cornerRadius = 10
-        infoView.layer.borderColor = UIColor.white.cgColor
-        infoView.layer.borderWidth = 1
-        
-        strokeSizeSlider.setValue(SettingsController.sharedController.currentStrokeWidth(), animated: false)
-        strokeSizeSlider.setMinimumTrackImage(UIImage(named: "slider"), for: UIControlState())
-        strokeSizeSlider.setMaximumTrackImage(UIImage(named: "slider"), for: UIControlState())
-        strokeSizeSlider.setThumbImage(UIImage(named: "knob"), for: UIControlState())
-        
-        actionButton.target = self
-        actionButton.action = #selector(CanvasViewController.actionButtonPressed)
-        
-        backButton.target = self
-        backButton.action = #selector(CanvasViewController.backButtonPressed)
-        
         view.backgroundColor = UIColor.backgroundColor
+        SettingsController.sharedController.disableEraser()
         
         let gridView = GridView()
         gridView.translatesAutoresizingMaskIntoConstraints = false
         
-        view.insertSubview(gridView, belowSubview: controlBar)
-        view.addConstraints(NSLayoutConstraint.constraints(forPinningViewToSuperview: gridView))
+        view.addSubview(gridView)
+        view.addConstraints(
+            NSLayoutConstraint.constraints(forPinningViewToSuperview: gridView)
+        )
         
-        scrollView = UIScrollView(frame: view.bounds)
-        scrollView.delegate = self
-        scrollView.panGestureRecognizer.minimumNumberOfTouches = 2
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        
-        view.insertSubview(scrollView, belowSubview: controlBar)
+        view.addSubview(scrollView)
         view.addConstraints(NSLayoutConstraint.constraints(forPinningViewToSuperview: scrollView))
         
-        setUpWithSize(kDefaultCanvasSize)
+        view.addSubview(toolbar)
+        view.addConstraints(
+            NSLayoutConstraint.constraints(
+                withVisualFormats: [
+                    "H:|[bar]|",
+                    ],
+                views: ["bar": toolbar]
+            )
+        )
+        toolBarBottomConstraint = NSLayoutConstraint(
+            item: view,
+            attribute: .bottom,
+            relatedBy: .equal,
+            toItem: toolbar,
+            attribute: .bottom,
+            multiplier: 1,
+            constant: 0
+        )
+        view.addConstraint(toolBarBottomConstraint)
+        
+        view.addSubview(strokeSizeView)
+        view.addConstraints(
+            NSLayoutConstraint.constraints(
+                forConstrainingView: strokeSizeView,
+                toSize: CGSize(width: 125, height: 125)
+            )
+        )
+        view.addConstraints(
+            NSLayoutConstraint.constraints(forCenteringView: strokeSizeView)
+        )
+        
+        view.addSubview(strokeSlider)
+        view.addConstraints(
+            NSLayoutConstraint.constraints(
+                withVisualFormats: [
+                    "H:|-12-[slider]-12-|",
+                    "V:|[slider]"
+                ],
+                views: ["slider": strokeSlider]
+            )
+        )
+        
+        
+        toolbar.items = [
+            backButton,
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+            UIBarButtonItem(customView: segmentedControl),
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+            actionButton,
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+            UIBarButtonItem(customView: colorButton),
+        ]
+        
+        colorButton.color = SettingsController.sharedController.currentStrokeColor()
+        
         hideToolbar()
     }
     
@@ -100,33 +191,25 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate, UIScr
         hideToolbar()
     }
     
-    func setUpWithSize(_ size: CGSize) {
-        canvas = DrawableView(frame: CGRect(x: 0, y: 0, width: size.width, height: size.height))
-        canvas.layer.magnificationFilter = kCAFilterLinear
-        canvas.center = view.center
-        canvas.isUserInteractionEnabled = true
-        canvas.doodleToEdit = doodleToEdit
-
-        scrollView.addSubview(canvas)
-        scrollView.contentSize = canvas.bounds.size
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
         
-        let scrollViewFrame = scrollView.frame
-        let scaleWidth = scrollViewFrame.size.width / scrollView.contentSize.width
-        let scaleHeight = scrollViewFrame.size.height / scrollView.contentSize.height
-        let minScale = min(scaleWidth, scaleHeight);
-        scrollView.minimumZoomScale = minScale;
-        
-        let canvasTransformValue = view.frame.width / canvas.frame.width
-        canvas.transform = CGAffineTransform(scaleX: canvasTransformValue, y: canvasTransformValue)
-        
-        scrollView.maximumZoomScale = 12.5
-        scrollView.minimumZoomScale = 0.25
-        scrollView.zoomScale = minScale
-        
-        centerScrollViewContents()
+        if view.frame.width > 0 && canvas == nil {
+            canvas = DrawableView()
+            
+            canvas.frame = view.frame
+            canvas.doodleToEdit = doodleToEdit
+            canvas.isUserInteractionEnabled = true
+            canvas.layer.magnificationFilter = kCAFilterLinear
+            
+            scrollView.addSubview(canvas)
+            scrollView.contentSize = canvas.bounds.size
+            
+            centerScrollViewContents()
+        }
     }
     
-    //MARK: - Actions
+    //MARK: - Actions -
     @objc private func actionButtonPressed() {
         let ac = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
@@ -142,8 +225,9 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate, UIScr
         )
         ac.addAction(
             UIAlertAction(title: "Select Color", style: .default) { action in
-                AppController.sharedController.colorPickerVC.delegate = self
-                self.present(StyledNavigationController(rootViewController: AppController.sharedController.colorPickerVC), animated: true, completion: nil)
+//                let vc = ColorPickerViewController()
+//                vc.delegate = self
+//                self.present(StyledNavigationController(rootViewController: vc), animated: true, completion: nil)
             }
         )
         if canvas.history.canReset {
@@ -203,28 +287,24 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate, UIScr
         present(alert, animated: true, completion: nil)
     }
     
-    @IBAction func drawingSegmentWasChanged(_ sender: UISegmentedControl) {
+    func segmentWasChanged(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
             SettingsController.sharedController.enableEraser()
-        } else if sender.selectedSegmentIndex == 1 {
+        }
+        else if sender.selectedSegmentIndex == 1 {
             SettingsController.sharedController.disableEraser()
         }
     }
     
-    @IBAction func strokeSliderUpdated(_ sender: UISlider) {
+    func sliderUpdated(_ sender: UISlider) {
         SettingsController.sharedController.setStrokeWidth(sender.value)
         strokeSizeView.strokeSize = CGFloat(sender.value)
-        updateInfoForInfoView("Size: \(Int(sender.value))")
     }
     
-    //MARK: - Helper Functions
-    func updateInfoForInfoView(_ info: String) {
-        infoLabel.text = info
-        infoView.show()
-    }
+    //MARK: - Helpers -
     
     func showToolbar() {
-        controlBarBottomConstraint.constant = 0
+        toolBarBottomConstraint.constant = 0
         
         UIView.animate(withDuration: 0.4, delay: 0.0, usingSpringWithDamping: 1.05, initialSpringVelocity: 0.125, options: [], animations: {
             self.view.layoutIfNeeded()
@@ -233,7 +313,7 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate, UIScr
     }
     
     func hideToolbar() {
-        controlBarBottomConstraint.constant = -controlBar.bounds.height
+        toolBarBottomConstraint.constant = -toolbar.bounds.height
         
         UIView.animate(withDuration: 0.4, delay: 0.0, usingSpringWithDamping: 1.05, initialSpringVelocity: 0.125, options: [], animations: {
             self.view.layoutIfNeeded()
@@ -260,14 +340,23 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate, UIScr
         canvas.frame = contentsFrame
     }
     
-    //MARK: - UIScrollViewDelegate
+    //MARK: - Motion Event Delegate -
+    override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
+        if motion == .motionShake {
+            clearScreen()
+        }
+    }
+}
+
+extension CanvasViewController: UIScrollViewDelegate {
+    
+    //MARK: - UIScrollViewDelegate -
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return canvas
     }
     
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
         let scale = Int(scrollView.zoomScale * 100)
-        updateInfoForInfoView("\(scale)%")
         
         if lastCanvasZoomScale < scale && (scrollView.pinchGestureRecognizer?.velocity ?? 0) > CGFloat(2) {
             hideToolbar()
@@ -288,16 +377,13 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate, UIScr
         centerScrollViewContents()
     }
     
+}
+
+extension CanvasViewController: ColorPickerViewControllerDelegate {
+    
     //MARK: - ColorPickerViewControllerDelegate Methods -
     func colorPickerViewControllerDidPickColor(_ color: UIColor) {
         SettingsController.sharedController.setStrokeColor(color)
     }
     
-    //MARK: - Motion Event Delegate
-    override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
-        if motion == .motionShake {
-            clearScreen()
-        }
-    }
 }
-
