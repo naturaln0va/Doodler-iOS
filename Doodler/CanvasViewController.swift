@@ -27,7 +27,7 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
         view.addTarget(self, action: #selector(sliderUpdated(_:)), for: .valueChanged)
         view.setMinimumTrackImage(UIImage(named: "slider"), for: UIControlState.normal)
         view.setMaximumTrackImage(UIImage(named: "slider"), for: UIControlState.normal)
-        view.setValue(SettingsController.sharedController.currentStrokeWidth(), animated: false)
+        view.setValue(SettingsController.sharedController.strokeWidth, animated: false)
         
         return view
     }()
@@ -59,8 +59,8 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
     fileprivate lazy var segmentedControl: UISegmentedControl = {
         let view = UISegmentedControl(items: ["Draw", "Erase"])
         
+        view.frame.size.width = 175
         view.selectedSegmentIndex = 0
-        view.apportionsSegmentWidthsByContent = true
         view.addTarget(self, action: #selector(segmentWasChanged(_:)), for: .valueChanged)
         
         return view
@@ -163,7 +163,6 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
             )
         )
         
-        
         toolbar.items = [
             backButton,
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
@@ -174,7 +173,8 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
             UIBarButtonItem(customView: colorButton),
         ]
         
-        colorButton.color = SettingsController.sharedController.currentStrokeColor()
+        colorButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(colorButtonPressed)))
+        colorButton.color = SettingsController.sharedController.strokeColor
         
         hideToolbar()
     }
@@ -196,6 +196,7 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
         
         if view.frame.width > 0 && canvas == nil {
             canvas = DrawableView()
+            canvas.backgroundColor = .white
             
             canvas.frame = view.frame
             canvas.doodleToEdit = doodleToEdit
@@ -223,13 +224,6 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
                 self.present(activityViewcontroller, animated: true, completion: {})
             }
         )
-        ac.addAction(
-            UIAlertAction(title: "Select Color", style: .default) { action in
-//                let vc = ColorPickerViewController()
-//                vc.delegate = self
-//                self.present(StyledNavigationController(rootViewController: vc), animated: true, completion: nil)
-            }
-        )
         if canvas.history.canReset {
             ac.addAction(
                 UIAlertAction(title: "Clear Screen", style: .destructive) { action in
@@ -254,6 +248,14 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
         ac.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
         present(ac, animated: true, completion: nil)
+    }
+    
+    @objc private func colorButtonPressed() {
+        let picker = ColorPickerViewController()
+        picker.delegate = self
+        picker.preferredContentSize = CGSize(width: 300, height: 420)
+        picker.setupPopoverInView(sourceView: self.view, barButtonItem: self.toolbar.items?.last)
+        self.present(picker, animated: true, completion: nil)
     }
     
     @objc private func backButtonPressed() {
@@ -289,10 +291,10 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
     
     func segmentWasChanged(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
-            SettingsController.sharedController.enableEraser()
+            SettingsController.sharedController.disableEraser()
         }
         else if sender.selectedSegmentIndex == 1 {
-            SettingsController.sharedController.disableEraser()
+            SettingsController.sharedController.enableEraser()
         }
     }
     
@@ -346,6 +348,7 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
             clearScreen()
         }
     }
+    
 }
 
 extension CanvasViewController: UIScrollViewDelegate {
@@ -383,6 +386,7 @@ extension CanvasViewController: ColorPickerViewControllerDelegate {
     
     //MARK: - ColorPickerViewControllerDelegate Methods -
     func colorPickerViewControllerDidPickColor(_ color: UIColor) {
+        colorButton.color = color
         SettingsController.sharedController.setStrokeColor(color)
     }
     

@@ -4,8 +4,7 @@ import UIKit
 let kSettingsControllerStrokeWidthDidChange: String = "kSettingsControllerStrokeWidthDidChange"
 let kSettingsControllerStrokeColorDidChange: String = "kSettingsControllerStrokeColorDidChange"
 
-class SettingsController: NSObject
-{
+class SettingsController: NSObject {
     // Singleton Instance
     static let sharedController = SettingsController()
     
@@ -20,67 +19,49 @@ class SettingsController: NSObject
         return [kStrokeWidthKey: 12.0, kStrokeColorKey: [0.898, 0.078, 0.078]]
     }()
     
-    override init()
-    {
+    override init() {
         super.init()
         loadSettings()
     }
     
     //MARK: - Public
-    func currentStrokeWidth() -> Float
-    {
+    var strokeWidth: Float {
         return defaults.float(forKey: SettingsController.kStrokeWidthKey)
     }
     
-    func setStrokeWidth(_ width: Float)
-    {
+    func setStrokeWidth(_ width: Float) {
         defaults.set(width, forKey: SettingsController.kStrokeWidthKey)
         defaults.synchronize()
         NotificationCenter.default.post(name: Notification.Name(rawValue: kSettingsControllerStrokeWidthDidChange), object: nil)
     }
     
-    func enableEraser()
-    {
+    func enableEraser() {
         defaults.set(true, forKey: SettingsController.kEraserEnabledKey)
         defaults.synchronize()
     }
     
-    func disableEraser()
-    {
+    func disableEraser() {
         defaults.set(false, forKey: SettingsController.kEraserEnabledKey)
         defaults.synchronize()
     }
     
-    func isEraserEnabled() -> Bool
-    {
+    var eraserEnabled: Bool {
         return defaults.bool(forKey: SettingsController.kEraserEnabledKey)
     }
     
-    func currentStrokeColor() -> UIColor
-    {
+    var strokeColor: UIColor {
         let colorComponents = defaults.array(forKey: SettingsController.kStrokeColorKey) as! [CGFloat]
         return UIColor(red: colorComponents[0], green: colorComponents[1], blue: colorComponents[2], alpha: 1.0)
     }
     
-    func currentDrawColor() -> UIColor
-    {
-        if isEraserEnabled() {
-            return UIColor.white
-        }
-        let colorComponents = defaults.array(forKey: SettingsController.kStrokeColorKey) as! [CGFloat]
-        return UIColor(red: colorComponents[0], green: colorComponents[1], blue: colorComponents[2], alpha: 1.0)
-    }
-    
-    func setStrokeColor(_ color: UIColor)
-    {
+    func setStrokeColor(_ color: UIColor) {
         defaults.set(color.rgb(), forKey: SettingsController.kStrokeColorKey)
         defaults.synchronize()
         NotificationCenter.default.post(name: Notification.Name(rawValue: kSettingsControllerStrokeColorDidChange), object: nil)
     }
     
     // MARK: - Private
-    private func loadSettings()
-    {
+    private func loadSettings() {
         defaults.register(defaults: baseDefaults)
     }
 }

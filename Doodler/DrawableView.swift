@@ -2,9 +2,10 @@
 import UIKit
 
 struct DrawComponent {
-    var path: CGPath
-    var width: CGFloat
-    var color: CGColor
+    let path: CGPath
+    let width: CGFloat
+    let color: CGColor
+    let blendMode: CGBlendMode
 }
 
 class DrawableView: UIView {
@@ -102,10 +103,17 @@ class DrawableView: UIView {
         subPath.move(to: CGPoint(x: mid1.x, y: mid1.y))
         subPath.addQuadCurve(to: CGPoint(x: mid2.x, y: mid2.y), control: CGPoint(x: points[1].x, y: points[1].y))
         
-        let boxOffset = CGFloat(SettingsController.sharedController.currentStrokeWidth())
+        let boxOffset = CGFloat(SettingsController.sharedController.strokeWidth)
         let drawBounds = subPath.boundingBox.insetBy(dx: -boxOffset, dy: -boxOffset)
         
-        drawingComponents.append(DrawComponent(path: subPath, width: width, color: color))
+        drawingComponents.append(
+            DrawComponent(
+                path: subPath,
+                width: width,
+                color: color,
+                blendMode: SettingsController.sharedController.eraserEnabled ? .clear : .normal
+            )
+        )
         
         setNeedsDisplay(drawBounds)
     }
@@ -119,6 +127,7 @@ class DrawableView: UIView {
         let ctx = bufferContext
         
         for comp in drawingComponents {
+            ctx.setBlendMode(comp.blendMode)
             ctx.setLineCap(.round)
             ctx.setStrokeColor(comp.color)
             ctx.setLineWidth(comp.width)
@@ -136,7 +145,8 @@ class DrawableView: UIView {
     override func draw(_ rect: CGRect) {
         guard let ctx = UIGraphicsGetCurrentContext() else { return }
         
-        UIColor.white.setFill()
+        let bgColor = backgroundColor ?? .white
+        bgColor.setFill()
         UIRectFill(rect)
         
         bufferImage = bufferImage ?? bufferContext.makeImage()
@@ -147,7 +157,7 @@ class DrawableView: UIView {
         
         for comp in drawingComponents {
             ctx.setLineCap(.round)
-            ctx.setStrokeColor(comp.color)
+            ctx.setStrokeColor(SettingsController.sharedController.eraserEnabled ? bgColor.cgColor : comp.color)
             ctx.setLineWidth(comp.width)
             
             ctx.addPath(comp.path)
@@ -176,7 +186,7 @@ class DrawableView: UIView {
         let dx = point.x - currentPoint!.x
         let dy = point.y - currentPoint!.y
         
-        if (dx * dx + dy * dy) < CGFloat(SettingsController.sharedController.currentStrokeWidth()) {
+        if (dx * dx + dy * dy) < CGFloat(SettingsController.sharedController.strokeWidth) {
             return
         }
         
@@ -184,8 +194,8 @@ class DrawableView: UIView {
         previousPoint = firstTouch.previousLocation(in: self)
         currentPoint = firstTouch.location(in: self)
         
-        let drawColor = SettingsController.sharedController.currentDrawColor().cgColor
-        let drawWidth = CGFloat(SettingsController.sharedController.currentStrokeWidth())
+        let drawColor = SettingsController.sharedController.strokeColor.cgColor
+        let drawWidth = CGFloat(SettingsController.sharedController.strokeWidth)
         let points = [currentPoint!, previousPoint!, previousPreviousPoint!]
         
         setupAndDrawWithPoints(points: points, withColor: drawColor, withWidth: drawWidth)
@@ -194,8 +204,8 @@ class DrawableView: UIView {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         if (event?.allTouches?.count ?? 0) > 1 { return }
         
-        let drawColor = SettingsController.sharedController.currentDrawColor().cgColor
-        let drawWidth = CGFloat(SettingsController.sharedController.currentStrokeWidth())
+        let drawColor = SettingsController.sharedController.strokeColor.cgColor
+        let drawWidth = CGFloat(SettingsController.sharedController.strokeWidth)
         let points = [currentPoint!, previousPoint!, previousPreviousPoint!]
         
         setupAndDrawWithPoints(points: points, withColor: drawColor, withWidth: drawWidth)

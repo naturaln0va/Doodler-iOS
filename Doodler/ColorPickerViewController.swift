@@ -18,11 +18,7 @@ class ColorPickerViewController: UIViewController, SaturationBrightnessPickerVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        title = "Choose"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(ColorPickerViewController.doneButtonPressed))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(ColorPickerViewController.cancelButtonPressed))
-        
+                
         huePickerView.layer.cornerRadius = 4
         huePickerView.delegate = saturationBrightnessPickerView
         
@@ -31,7 +27,7 @@ class ColorPickerViewController: UIViewController, SaturationBrightnessPickerVie
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        let currentColor = SettingsController.sharedController.currentStrokeColor()
+        let currentColor = SettingsController.sharedController.strokeColor
         saturationBrightnessPickerView.setColorToDisplay(currentColor)
         colorPreView.previousColor = currentColor
         colorPreView.newColor = currentColor
@@ -47,23 +43,15 @@ class ColorPickerViewController: UIViewController, SaturationBrightnessPickerVie
             currentColorLabel.textColor = UIColor.black
         }
         
-        if let hue = SettingsController.sharedController.currentStrokeColor().hsb()!.first {
+        if let hue = SettingsController.sharedController.strokeColor.hsb()!.first {
             huePickerView.hue = hue
         }
     }
     
-    func doneButtonPressed() {
-        delegate?.colorPickerViewControllerDidPickColor(saturationBrightnessPickerView.currentColor)
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         
-        dismiss()
-    }
-    
-    func cancelButtonPressed() {
-        dismiss()
-    }
-    
-    private func dismiss() {
-        dismiss(animated: true, completion: nil)
+        delegate?.colorPickerViewControllerDidPickColor(saturationBrightnessPickerView.currentColor)
     }
     
     //MARK: - SaturationBrightnessPickerViewDelegate Methods -

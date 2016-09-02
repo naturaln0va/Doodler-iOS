@@ -17,6 +17,7 @@
 		480A64921D79031600E98622 /* StrokeSizeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E9E0561BE007D80065DE51 /* StrokeSizeView.swift */; };
 		480BC7681D790A73007245F1 /* ColorPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E9E0441BE005230065DE51 /* ColorPickerViewController.swift */; };
 		480BC7691D790C13007245F1 /* ColorPreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E9E04A1BE005490065DE51 /* ColorPreView.swift */; };
+		4864FADB1D798C3300746A05 /* UIViewController+Addtions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697DD4CF1D60DA600032ACA5 /* UIViewController+Addtions.swift */; };
 		487904EE1D745DCC0050E615 /* UIImage+Addtions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487904ED1D745DCC0050E615 /* UIImage+Addtions.swift */; };
 		487904F31D74A2650050E615 /* StickerLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487904F21D74A2650050E615 /* StickerLayout.swift */; };
 		487904F61D74A4F90050E615 /* StickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487904F51D74A4F90050E615 /* StickerCell.swift */; };
@@ -206,6 +207,7 @@
 			isa = PBXGroup;
 			children = (
 				69749C151D64B69D00D1CF0B /* NSLayoutConstraint+Addtions.swift */,
+				697DD4CF1D60DA600032ACA5 /* UIViewController+Addtions.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -258,8 +260,6 @@
 		4880D46B1A4F749C0077E68B /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				69E9E0441BE005230065DE51 /* ColorPickerViewController.swift */,
-				69E9E0611BE0083C0065DE51 /* ColorPickerViewController.xib */,
 				695A98651D61E3900049AE0A /* DoodlesViewController.swift */,
 				69E9E03E1BE004F30065DE51 /* StyledNavigationController.swift */,
 			);
@@ -274,7 +274,6 @@
 				69C3F2CA1D6642A6000D2501 /* CGImage+Addtions.swift */,
 				69E9E0591BE007ED0065DE51 /* UIKitExtensions.swift */,
 				6903EA9B1B56AA6C001BEAEC /* UIView+Additions.swift */,
-				697DD4CF1D60DA600032ACA5 /* UIViewController+Addtions.swift */,
 				487904ED1D745DCC0050E615 /* UIImage+Addtions.swift */,
 				487905111D75BDFF0050E615 /* URL+Addtions.swift */,
 			);
@@ -307,6 +306,8 @@
 			isa = PBXGroup;
 			children = (
 				48B38C5A1A16C4110040DE29 /* CanvasViewController.swift */,
+				69E9E0441BE005230065DE51 /* ColorPickerViewController.swift */,
+				69E9E0611BE0083C0065DE51 /* ColorPickerViewController.xib */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -620,6 +621,7 @@
 				480A648A1D784A9600E98622 /* DrawableView.swift in Sources */,
 				69D380711D6B1F7600BED7E1 /* DoodleBrowserViewController.swift in Sources */,
 				69D380761D6B200A00BED7E1 /* History.swift in Sources */,
+				4864FADB1D798C3300746A05 /* UIViewController+Addtions.swift in Sources */,
 				480A64911D785F0D00E98622 /* CanvasViewController.swift in Sources */,
 				4879050C1D74C09D0050E615 /* NSLayoutConstraint+Addtions.swift in Sources */,
 				69D380621D6A981E00BED7E1 /* MessagesViewController.swift in Sources */,

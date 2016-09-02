@@ -14,11 +14,7 @@ class AppController {
     lazy var canvasVC: CanvasViewController = {
         return CanvasViewController()
     }()
-    
-    lazy var colorPickerVC: ColorPickerViewController = {
-        return ColorPickerViewController()
-    }()
-        
+            
     func showInWindow(_ window: UIWindow) {
         window.rootViewController = doodlesNC
         window.makeKeyAndVisible()
