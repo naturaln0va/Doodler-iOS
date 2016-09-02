@@ -40,9 +40,17 @@ class DoodleBrowserViewController: UICollectionViewController {
         stickers.removeAll()
         for url in DocumentsController.sharedController.stickerURLs() where url.pathExtension.lowercased() == "png" {
             do {
+                var stickerDescription = "Created with Doodler."
+                
+                if let createdDate = url.createdDate {
+                    let formatter = DateFormatter()
+                    formatter.dateStyle = .medium
+                    stickerDescription = "Created on \(formatter.string(from: createdDate))."
+                }
+                
                 let sticker = try MSSticker(
                     contentsOfFileURL: url,
-                    localizedDescription: NSUUID().uuidString
+                    localizedDescription: stickerDescription
                 )
                 stickers.append(sticker)
             }

@@ -185,8 +185,11 @@
 			isa = PBXGroup;
 			children = (
 				4864FADC1D799CA700746A05 /* Assets */,
-				48F7CED21D791A4800A3E13B /* ViewControllers */,
+				4864FAE21D79A44C00746A05 /* Controllers */,
 				480A64901D7852CC00E98622 /* Extensions */,
+				4864FAE11D79A41400746A05 /* Helpers */,
+				4864FAE01D79A3F200746A05 /* Model */,
+				48F7CED21D791A4800A3E13B /* ViewControllers */,
 				480A64891D784A7900E98622 /* Views */,
 			);
 			name = Shared;
@@ -210,8 +213,13 @@
 		480A64901D7852CC00E98622 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				69C3F2CA1D6642A6000D2501 /* CGImage+Addtions.swift */,
 				69749C151D64B69D00D1CF0B /* NSLayoutConstraint+Addtions.swift */,
+				6903EA9A1B56AA6C001BEAEC /* UIColor+Addtions.swift */,
+				487904ED1D745DCC0050E615 /* UIImage+Addtions.swift */,
+				6903EA9B1B56AA6C001BEAEC /* UIView+Additions.swift */,
 				697DD4CF1D60DA600032ACA5 /* UIViewController+Addtions.swift */,
+				487905111D75BDFF0050E615 /* URL+Addtions.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -222,6 +230,32 @@
 				4864FADD1D799CBC00746A05 /* Images.xcassets */,
 			);
 			name = Assets;
+			sourceTree = "<group>";
+		};
+		4864FAE01D79A3F200746A05 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				697DD4D51D6161E60032ACA5 /* Doodle.swift */,
+				697DD4D31D61011E0032ACA5 /* History.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		4864FAE11D79A41400746A05 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				697DD4D81D6162C50032ACA5 /* Serializable.swift */,
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
+		4864FAE21D79A44C00746A05 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				695A986C1D61E7B40049AE0A /* DocumentsController.swift */,
+				6903EAB21B56AB31001BEAEC /* SettingsController.swift */,
+			);
+			name = Controllers;
 			sourceTree = "<group>";
 		};
 		487904F11D749A9C0050E615 /* Views */ = {
@@ -282,12 +316,7 @@
 			isa = PBXGroup;
 			children = (
 				69BEF29F1D649156007BFAF6 /* Date+Relative.swift */,
-				6903EA9A1B56AA6C001BEAEC /* UIColor+Addtions.swift */,
-				69C3F2CA1D6642A6000D2501 /* CGImage+Addtions.swift */,
 				69E9E0591BE007ED0065DE51 /* UIKitExtensions.swift */,
-				6903EA9B1B56AA6C001BEAEC /* UIView+Additions.swift */,
-				487904ED1D745DCC0050E615 /* UIImage+Addtions.swift */,
-				487905111D75BDFF0050E615 /* URL+Addtions.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -307,8 +336,6 @@
 			isa = PBXGroup;
 			children = (
 				69E9E0381BE004C50065DE51 /* AppController.swift */,
-				695A986C1D61E7B40049AE0A /* DocumentsController.swift */,
-				6903EAB21B56AB31001BEAEC /* SettingsController.swift */,
 				48B38C541A16C4110040DE29 /* WindowController.swift */,
 			);
 			name = Controllers;
@@ -380,8 +407,6 @@
 			isa = PBXGroup;
 			children = (
 				69BEF29E1D648768007BFAF6 /* CollectionView Layouts */,
-				697DD4D51D6161E60032ACA5 /* Doodle.swift */,
-				697DD4D31D61011E0032ACA5 /* History.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -390,7 +415,6 @@
 			isa = PBXGroup;
 			children = (
 				6977CC721D652798006FD1E1 /* DoodleAnimator.swift */,
-				697DD4D81D6162C50032ACA5 /* Serializable.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
