@@ -85,6 +85,8 @@ class DrawableView: UIView {
         
         bufferImage = history.lastImage
         setNeedsDisplay()
+        
+        renderBufferInBufferContext()
     }
     
     func redo() {
@@ -93,6 +95,8 @@ class DrawableView: UIView {
         
         bufferImage = history.lastImage
         setNeedsDisplay()
+        
+        renderBufferInBufferContext()
     }
     
     func setupAndDrawWithPoints(points: [CGPoint], withColor color: CGColor, withWidth width: CGFloat) {
@@ -121,6 +125,17 @@ class DrawableView: UIView {
     //MARK: - Private API -
     private func midPoint(_ point1: CGPoint, point2: CGPoint) -> CGPoint {
         return CGPoint(x: (point1.x + point2.x) * 0.5, y: (point1.y + point2.y) * 0.5)
+    }
+    
+    private func renderBufferInBufferContext() {
+        let ctx = bufferContext
+        
+        if let image = bufferImage {
+            ctx.clear(bounds)
+            ctx.draw(image, in: bounds)
+        }
+        
+        drawingComponents.removeAll()
     }
     
     private func renderComponentsToBuffer() {

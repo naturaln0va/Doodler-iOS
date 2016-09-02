@@ -52,8 +52,6 @@ class DoodlesViewController: UIViewController {
         view.addSubview(collectionView)                
         view.addConstraints(NSLayoutConstraint.constraints(forPinningViewToSuperview: collectionView))
         
-        doodles = DocumentsController.sharedController.doodles()
-        
         timer = Timer.scheduledTimer(
             timeInterval: 60,
             target: self,
@@ -61,6 +59,14 @@ class DoodlesViewController: UIViewController {
             userInfo: nil, 
             repeats: true
         )
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        DocumentsController.sharedController.clearCache()
+        doodles = DocumentsController.sharedController.doodles()
+        collectionView.reloadData()
     }
     
     override func setEditing(_ editing: Bool, animated: Bool) {

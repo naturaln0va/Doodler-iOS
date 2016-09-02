@@ -20,6 +20,7 @@
 		4864FADB1D798C3300746A05 /* UIViewController+Addtions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697DD4CF1D60DA600032ACA5 /* UIViewController+Addtions.swift */; };
 		4864FADE1D799CBC00746A05 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4864FADD1D799CBC00746A05 /* Images.xcassets */; };
 		4864FADF1D799D4000746A05 /* ColorPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69E9E0611BE0083C0065DE51 /* ColorPickerViewController.xib */; };
+		4864FAE31D79AB2900746A05 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4864FADD1D799CBC00746A05 /* Images.xcassets */; };
 		487904EE1D745DCC0050E615 /* UIImage+Addtions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487904ED1D745DCC0050E615 /* UIImage+Addtions.swift */; };
 		487904F31D74A2650050E615 /* StickerLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487904F21D74A2650050E615 /* StickerLayout.swift */; };
 		487904F61D74A4F90050E615 /* StickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487904F51D74A4F90050E615 /* StickerCell.swift */; };
@@ -569,6 +570,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4864FAE31D79AB2900746A05 /* Images.xcassets in Resources */,
 				6903EA971B56AA3B001BEAEC /* Images.xcassets in Resources */,
 				6903EAA51B56AA8E001BEAEC /* woody_click.wav in Resources */,
 				6903EAA41B56AA8E001BEAEC /* short_whoosh1.wav in Resources */,

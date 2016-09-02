@@ -7,8 +7,58 @@ class DocumentsController {
     
     private let fileManager = FileManager.default
     private let fileQueue = DispatchQueue(label: "io.ackermann.documents.io")
-    private let doodleSavePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last
-    private let stickerSavePath = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.io.ackermann.doodlesharing")
+    private let doodleSavePath: URL? = {
+        guard let url = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.io.ackermann.doodlesharing") else {
+            print("Failed to create the doodle documents directory.")
+            return nil
+        }
+        
+        var wholeURL = url
+        
+        wholeURL.appendPathComponent("/doodles")
+        
+        if !FileManager.default.fileExists(atPath: url.absoluteString) {
+            do {
+                try FileManager.default.createDirectory(at: wholeURL, withIntermediateDirectories: false, attributes: nil)
+            }
+            catch let error as NSError {
+                if error.code == 516 {
+                    return wholeURL
+                }
+                
+                print("Error creating the doodle documents directory. Error: \(error)")
+                return nil
+            }
+        }
+        
+        return wholeURL
+    }()
+    private let stickerSavePath: URL? = {
+        guard let url = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.io.ackermann.doodlesharing") else {
+            print("Failed to create the doodle documents directory.")
+            return nil
+        }
+        
+        var wholeURL = url
+        
+        wholeURL.appendPathComponent("/stickers")
+        
+        if !FileManager.default.fileExists(atPath: url.absoluteString) {
+            do {
+                try FileManager.default.createDirectory(at: wholeURL, withIntermediateDirectories: false, attributes: nil)
+            }
+            catch let error as NSError {
+                if error.code == 516 {
+                    return wholeURL
+                }
+                
+                print("Error creating the doodle documents directory. Error: \(error)")
+                return nil
+            }
+        }
+        
+        return wholeURL
+    }()
     private var cachedDoodles: [Doodle]?
     
     func clearCache() {
@@ -54,7 +104,10 @@ class DocumentsController {
     }
     
     func save(doodle: Doodle, completion: @escaping (Bool) -> Void) {
-        guard let savePath = doodleSavePath else { return }
+        guard let savePath = doodleSavePath else {
+            DispatchQueue.main.async { completion(false) }
+            return
+        }
         var fullFilePath = savePath
         fullFilePath.appendPathComponent(doodle.fileName)
         

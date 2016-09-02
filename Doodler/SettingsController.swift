@@ -13,7 +13,7 @@ class SettingsController: NSObject {
     static internal let kStrokeColorKey = "strokeColorKey"
     static internal let kEraserEnabledKey = "eraserEnabledKey"
     
-    private let defaults = UserDefaults.standard
+    private let defaults = UserDefaults(suiteName: "group.io.ackermann.doodlesharing") ?? UserDefaults.standard
     
     lazy private var baseDefaults: [String: Any] = {
         return [kStrokeWidthKey: 12.0, kStrokeColorKey: [0.898, 0.078, 0.078]]

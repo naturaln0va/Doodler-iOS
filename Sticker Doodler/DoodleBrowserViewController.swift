@@ -65,6 +65,7 @@ class DoodleBrowserViewController: UICollectionViewController {
             return rhsCreatedDate > lhsCreatedDate
         })
         collectionView?.reloadData()
+        collectionView?.collectionViewLayout.invalidateLayout()
     }
     
     // MARK: UICollectionViewDataSource
