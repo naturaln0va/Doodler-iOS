@@ -40,7 +40,10 @@ class DoodleBrowserViewController: UICollectionViewController {
         stickers.removeAll()
         for url in DocumentsController.sharedController.stickerURLs() where url.pathExtension.lowercased() == "png" {
             do {
-                let sticker = try MSSticker(contentsOfFileURL: url, localizedDescription: NSUUID().uuidString)
+                let sticker = try MSSticker(
+                    contentsOfFileURL: url,
+                    localizedDescription: NSUUID().uuidString
+                )
                 stickers.append(sticker)
             }
             catch let error {
@@ -51,7 +54,6 @@ class DoodleBrowserViewController: UICollectionViewController {
             guard let rhsCreatedDate = rhs.imageFileURL.createdDate, let lhsCreatedDate = lhs.imageFileURL.createdDate else {
                 return false
             }
-            print("Right side date: \(rhsCreatedDate). Left side date: \(lhsCreatedDate).")
             return rhsCreatedDate > lhsCreatedDate
         })
         collectionView?.reloadData()

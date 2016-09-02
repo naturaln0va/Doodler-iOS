@@ -21,9 +21,17 @@ class MessagesViewController: MSMessagesAppViewController {
     private func presentViewController(with presentationStyle: MSMessagesAppPresentationStyle) {
         let controller: UIViewController
         
-        let vc = DoodleBrowserViewController()
-        vc.delegate = self
-        controller = vc
+        if presentationStyle == .expanded {
+            let vc = CanvasViewController()
+            vc.delegate = self
+            vc.shouldInsetLayoutForMessages = true
+            controller = vc
+        }
+        else {
+            let vc = DoodleBrowserViewController()
+            vc.delegate = self
+            controller = vc
+        }
         
         for child in childViewControllers {
             child.willMove(toParentViewController: nil)
@@ -31,18 +39,25 @@ class MessagesViewController: MSMessagesAppViewController {
             child.removeFromParentViewController()
         }
         
+        controller.view.translatesAutoresizingMaskIntoConstraints = false
         addChildViewController(controller)
         
-        controller.view.frame = view.bounds
-        controller.view.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(controller.view)
-        
-        controller.view.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        controller.view.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        controller.view.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        controller.view.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        view.addConstraints(NSLayoutConstraint.constraints(forPinningViewToSuperview: controller.view))
         
         controller.didMove(toParentViewController: self)
+    }
+    
+}
+
+extension MessagesViewController: CanvasViewControllerDelegate {
+    
+    func canvasViewControllerDidSaveDoodle() {
+        requestPresentationStyle(.compact)
+    }
+    
+    func canvasViewControllerShouldDismiss() {
+        requestPresentationStyle(.compact)
     }
     
 }

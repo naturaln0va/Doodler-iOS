@@ -18,6 +18,8 @@
 		480BC7681D790A73007245F1 /* ColorPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E9E0441BE005230065DE51 /* ColorPickerViewController.swift */; };
 		480BC7691D790C13007245F1 /* ColorPreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E9E04A1BE005490065DE51 /* ColorPreView.swift */; };
 		4864FADB1D798C3300746A05 /* UIViewController+Addtions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697DD4CF1D60DA600032ACA5 /* UIViewController+Addtions.swift */; };
+		4864FADE1D799CBC00746A05 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4864FADD1D799CBC00746A05 /* Images.xcassets */; };
+		4864FADF1D799D4000746A05 /* ColorPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69E9E0611BE0083C0065DE51 /* ColorPickerViewController.xib */; };
 		487904EE1D745DCC0050E615 /* UIImage+Addtions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487904ED1D745DCC0050E615 /* UIImage+Addtions.swift */; };
 		487904F31D74A2650050E615 /* StickerLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487904F21D74A2650050E615 /* StickerLayout.swift */; };
 		487904F61D74A4F90050E615 /* StickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487904F51D74A4F90050E615 /* StickerCell.swift */; };
@@ -104,6 +106,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4864FADD1D799CBC00746A05 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		487904ED1D745DCC0050E615 /* UIImage+Addtions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Addtions.swift"; sourceTree = SOURCE_ROOT; };
 		487904F21D74A2650050E615 /* StickerLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StickerLayout.swift; sourceTree = "<group>"; };
 		487904F51D74A4F90050E615 /* StickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StickerCell.swift; sourceTree = "<group>"; };
@@ -181,6 +184,7 @@
 		480A64881D784A6500E98622 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				4864FADC1D799CA700746A05 /* Assets */,
 				48F7CED21D791A4800A3E13B /* ViewControllers */,
 				480A64901D7852CC00E98622 /* Extensions */,
 				480A64891D784A7900E98622 /* Views */,
@@ -210,6 +214,14 @@
 				697DD4CF1D60DA600032ACA5 /* UIViewController+Addtions.swift */,
 			);
 			name = Extensions;
+			sourceTree = "<group>";
+		};
+		4864FADC1D799CA700746A05 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				4864FADD1D799CBC00746A05 /* Images.xcassets */,
+			);
+			name = Assets;
 			sourceTree = "<group>";
 		};
 		487904F11D749A9C0050E615 /* Views */ = {
@@ -548,7 +560,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4864FADE1D799CBC00746A05 /* Images.xcassets in Resources */,
 				69D380671D6A981E00BED7E1 /* Assets.xcassets in Resources */,
+				4864FADF1D799D4000746A05 /* ColorPickerViewController.xib in Resources */,
 				69D380651D6A981E00BED7E1 /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -9,10 +9,11 @@ protocol CanvasViewControllerDelegate: class {
 class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
     
     var doodleToEdit: Doodle?
-    var lastCanvasZoomScale = 0
+    var shouldInsetLayoutForMessages = false
     
     weak var delegate: CanvasViewControllerDelegate?
     
+    fileprivate var lastCanvasZoomScale = 0
     fileprivate var toolBarBottomConstraint: NSLayoutConstraint!
     
     var canvas: DrawableView!
@@ -137,7 +138,7 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
             toItem: toolbar,
             attribute: .bottom,
             multiplier: 1,
-            constant: 0
+            constant: shouldInsetLayoutForMessages ? 44 : 0
         )
         view.addConstraint(toolBarBottomConstraint)
         
@@ -157,8 +158,9 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
             NSLayoutConstraint.constraints(
                 withVisualFormats: [
                     "H:|-12-[slider]-12-|",
-                    "V:|[slider]"
+                    "V:|-topSpace-[slider]"
                 ],
+                metrics: ["topSpace": shouldInsetLayoutForMessages ? 86 : 0],
                 views: ["slider": strokeSlider]
             )
         )
@@ -306,7 +308,7 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
     //MARK: - Helpers -
     
     func showToolbar() {
-        toolBarBottomConstraint.constant = 0
+        toolBarBottomConstraint.constant = shouldInsetLayoutForMessages ? 44 : 0
         
         UIView.animate(withDuration: 0.4, delay: 0.0, usingSpringWithDamping: 1.05, initialSpringVelocity: 0.125, options: [], animations: {
             self.view.layoutIfNeeded()
