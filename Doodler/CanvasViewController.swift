@@ -67,7 +67,12 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
     }()
     
     fileprivate lazy var segmentedControl: UISegmentedControl = {
-        let view = UISegmentedControl(items: ["Draw", "Erase"])
+        let view = UISegmentedControl(items:
+            [
+                NSLocalizedString("DRAW", comment: "Draw"),
+                NSLocalizedString("ERASE", comment: "Erase")
+            ]
+        )
         
         view.frame.size.width = 175
         view.selectedSegmentIndex = 0
@@ -259,7 +264,7 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
         
         UIMenuController.shared.setTargetRect(CGRect(origin: position, size: .zero), in: gestureView)
         UIMenuController.shared.setMenuVisible(true, animated: true)
-        UIMenuController.shared.menuItems = [UIMenuItem(title: "Pick Color", action: #selector(selectColor))]
+        UIMenuController.shared.menuItems = [UIMenuItem(title: NSLocalizedString("PICKCOLOR", comment: "Pick Color"), action: #selector(selectColor))]
         
         gestureView.becomeFirstResponder()
     }
@@ -273,7 +278,7 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @objc private func shareButtonPressed() {
-        let ac = UIActivityViewController(activityItems: ["Made with Doodler", URL(string: "http://apple.co/1IUYyFk")!, self.canvas.imageByCapturing], applicationActivities: nil)
+        let ac = UIActivityViewController(activityItems: [NSLocalizedString("DOODLERSHARE", comment: "Made with Doodler"), URL(string: "https://itunes.apple.com/us/app/doodler-simple-drawing/id948139703?mt=8")!, self.canvas.imageByCapturing], applicationActivities: nil)
         ac.excludedActivityTypes = [
             .assignToContact, .addToReadingList, .print
         ]
@@ -336,8 +341,8 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
                 else {
                     self.toolbar.items = previousItems
                     
-                    let alert = UIAlertController(title: nil, message: "Error saving doodle 😱", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                    let alert = UIAlertController(title: nil, message: NSLocalizedString("ERRORSAVING", comment: "Error saving doodle."), preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: NSLocalizedString("CANCEL", comment: "Cancel"), style: .cancel, handler: nil))
                     self.present(alert, animated: true, completion: nil)
                 }
             }
@@ -352,14 +357,14 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @objc fileprivate func clearScreen() {
-        let alert = UIAlertController(title: "Clear Screen", message: "Would you like to clear the screen?", preferredStyle: .alert)
+        let alert = UIAlertController(title: NSLocalizedString("CLEAR", comment: "Clear"), message: NSLocalizedString("CLEARPROMPT", comment: "Would you like to clear the screen?"), preferredStyle: .alert)
         
         alert.addAction(
-            UIAlertAction(title: "Clear", style: .destructive) { action in
+            UIAlertAction(title: NSLocalizedString("CLEAR", comment: "Clear"), style: .destructive) { action in
                 self.canvas.clear()
             }
         )
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: NSLocalizedString("CANCEL", comment: "Cancel"), style: .cancel, handler: nil))
         
         present(alert, animated: true, completion: nil)
     }
@@ -510,7 +515,7 @@ extension CanvasViewController: ActionMenuViewControllerDelegate {
     func actionMenuViewControllerDidSelectShare(vc: ActionMenuViewController) {
         vc.dismiss(animated: true, completion: nil)
         
-        let ac = UIActivityViewController(activityItems: ["Made with Doodler", URL(string: "https://itunes.apple.com/us/app/doodler-simple-drawing/id948139703?mt=8")!, self.canvas.imageByCapturing], applicationActivities: nil)
+        let ac = UIActivityViewController(activityItems: [NSLocalizedString("DOODLERSHARE", comment: "Made with Doodler"), URL(string: "https://itunes.apple.com/us/app/doodler-simple-drawing/id948139703?mt=8")!, self.canvas.imageByCapturing], applicationActivities: nil)
         ac.excludedActivityTypes = [
             .assignToContact, .addToReadingList, .print
         ]

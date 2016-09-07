@@ -13,7 +13,7 @@ class ActionMenuViewController: UIViewController {
     fileprivate lazy var shareButton: UIButton = {
         let button = UIButton()
         
-        button.setTitle("Share", for: .normal)
+        button.setTitle(NSLocalizedString("SHARE", comment: "Share"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(buttonPressed(sender:)), for: .touchUpInside)
         
@@ -22,7 +22,7 @@ class ActionMenuViewController: UIViewController {
     fileprivate lazy var clearButton: UIButton = {
         let button = UIButton()
         
-        button.setTitle("Clear", for: .normal)
+        button.setTitle(NSLocalizedString("CLEAR", comment: "Clear"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(buttonPressed(sender:)), for: .touchUpInside)
         
@@ -31,7 +31,7 @@ class ActionMenuViewController: UIViewController {
     fileprivate lazy var undoButton: UIButton = {
         let button = UIButton()
         
-        button.setTitle("Undo", for: .normal)
+        button.setTitle(NSLocalizedString("UNDO", comment: "Undo"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(buttonPressed(sender:)), for: .touchUpInside)
         
@@ -40,7 +40,7 @@ class ActionMenuViewController: UIViewController {
     fileprivate lazy var redoButton: UIButton = {
         let button = UIButton()
         
-        button.setTitle("Redo", for: .normal)
+        button.setTitle(NSLocalizedString("REDO", comment: "Redo"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(buttonPressed(sender:)), for: .touchUpInside)
         

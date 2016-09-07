@@ -36,7 +36,7 @@ class DoodlesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "Doodles"
+        title = NSLocalizedString("DOODLES", comment: "Doodles")
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .add,
@@ -149,12 +149,12 @@ extension DoodlesViewController: UICollectionViewDataSource, UICollectionViewDel
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if isEditing {
             let ac = UIAlertController(
-                title: "Warning",
-                message: "Are you sure you want to delete this doodle?",
+                title: NSLocalizedString("WARNING", comment: "Warning"),
+                message: NSLocalizedString("WARNINGPROMPT", comment: "Are you sure you want to delete this doodle?"),
                 preferredStyle: .alert
             )
             ac.addAction(
-                UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
+                UIAlertAction(title: NSLocalizedString("DELETE", comment: "Delete"), style: .destructive, handler: { _ in
                     DocumentsController.sharedController.delete(doodle: self.sortedDoodles[indexPath.item]) { success in
                         if success {
                             self.refreshView()
@@ -162,7 +162,7 @@ extension DoodlesViewController: UICollectionViewDataSource, UICollectionViewDel
                     }
                 })
             )
-            ac.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            ac.addAction(UIAlertAction(title: NSLocalizedString("CANCEL", comment: "Cancel"), style: .cancel, handler: nil))
             present(ac, animated: true, completion: nil)
         }
         else {
