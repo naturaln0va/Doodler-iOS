@@ -56,9 +56,9 @@ extension NSLayoutConstraint {
         return constraints
     }
     
-    static func constraints(withVisualFormats formats: [String], metrics: [String: Any]? = nil, views: [String: Any]) -> [NSLayoutConstraint] {
+    static func constraints(with visualFormats: [String], metrics: [String: Any]? = nil, views: [String: Any]) -> [NSLayoutConstraint] {
         var constraints = [NSLayoutConstraint]()
-        for format in formats {
+        for format in visualFormats {
             constraints.append(contentsOf:
                 NSLayoutConstraint.constraints(
                     withVisualFormat: format,

@@ -4,7 +4,7 @@ import UIKit
 class DoodleCell: UICollectionViewCell {
     
     @IBOutlet var imageView: UIImageView!
-    @IBOutlet var dateLabel: UILabel!
+    @IBOutlet var maskImageView: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

@@ -4,8 +4,8 @@ import UIKit
 struct History {
     
     private let sizeLimit = 25
-    internal var undoList = [CGImage]()
-    internal var redoList = [CGImage]()
+    fileprivate var undoList = [CGImage]()
+    fileprivate var redoList = [CGImage]()
     
     var lastImage: CGImage? {
         return undoList.last

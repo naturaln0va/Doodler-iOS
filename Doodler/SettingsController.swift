@@ -6,7 +6,7 @@ let kSettingsControllerStrokeColorDidChange: String = "kSettingsControllerStroke
 
 class SettingsController: NSObject {
     // Singleton Instance
-    static let sharedController = SettingsController()
+    static let shared = SettingsController()
     
     // Defaults Keys
     static internal let kStrokeWidthKey = "strokeWidthKey"

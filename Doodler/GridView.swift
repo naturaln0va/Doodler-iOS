@@ -4,28 +4,29 @@ import UIKit
 class GridView: UIView {
 
     override func draw(_ rect: CGRect) {
-        let width: CGFloat = bounds.width
-        let height: CGFloat = bounds.height
-        let spaceBetween: CGFloat = 18.0
-        let ctx = UIGraphicsGetCurrentContext()
+        UIColor.backgroundColor.setFill()
+        UIRectFill(rect)
         
-        ctx?.setLineWidth(1.0)
-        ctx?.setStrokeColor(UIColor(white: 1.0, alpha: 0.075).cgColor)
-        ctx?.setFillColor(UIColor(white: 0.15, alpha: 1.0).cgColor)
+        let drawSize = CGSize(width: 18, height: 18)
+        UIGraphicsBeginImageContext(drawSize)
+        let path = UIBezierPath()
         
-        ctx?.fill(bounds)
+        path.move(to: CGPoint(x: drawSize.width / 2, y: 0))
+        path.addLine(to: CGPoint(x: drawSize.width / 2, y: drawSize.height))
+
+        path.move(to: CGPoint(x: 0, y: drawSize.height / 2))
+        path.addLine(to: CGPoint(x: drawSize.width, y: drawSize.height / 2))
         
-        for x in 0..<Int(width) {
-            for y in 0..<Int(height) {
-                ctx?.move(to: CGPoint(x: CGFloat(x) * spaceBetween, y: CGFloat(y) * spaceBetween))
-                ctx?.addLine(to: CGPoint(x: max((CGFloat(x) * spaceBetween) + width, width), y: CGFloat(y) * spaceBetween))
-                
-                ctx?.move(to: CGPoint(x: CGFloat(x) * spaceBetween, y: CGFloat(y) * spaceBetween))
-                ctx?.addLine(to: CGPoint(x: CGFloat(x) * spaceBetween, y: max((CGFloat(y) * spaceBetween) + height, height)))
-            }
+        UIColor(white: 1, alpha: 0.075).setStroke()
+        path.stroke()
+        
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        if let image = image {
+            UIColor(patternImage: image).setFill()
+            UIGraphicsGetCurrentContext()?.fill(rect)
         }
-        
-        ctx?.strokePath()
     }
     
 }

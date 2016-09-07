@@ -18,7 +18,9 @@ class ColorPickerViewController: UIViewController, SaturationBrightnessPickerVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+        
+        view.backgroundColor = UIColor.darkGray.withAlphaComponent(0.45)
+        
         huePickerView.layer.cornerRadius = 4
         huePickerView.delegate = saturationBrightnessPickerView
         
@@ -27,7 +29,7 @@ class ColorPickerViewController: UIViewController, SaturationBrightnessPickerVie
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        let currentColor = SettingsController.sharedController.strokeColor
+        let currentColor = SettingsController.shared.strokeColor
         saturationBrightnessPickerView.setColorToDisplay(currentColor)
         colorPreView.previousColor = currentColor
         colorPreView.newColor = currentColor
@@ -38,12 +40,13 @@ class ColorPickerViewController: UIViewController, SaturationBrightnessPickerVie
         if currentColor.isDarkColor() {
             previousColorLabel.textColor = UIColor.white
             currentColorLabel.textColor = UIColor.white
-        } else {
+        }
+        else {
             previousColorLabel.textColor = UIColor.black
             currentColorLabel.textColor = UIColor.black
         }
         
-        if let hue = SettingsController.sharedController.strokeColor.hsb()!.first {
+        if let hue = SettingsController.shared.strokeColor.hsb()!.first {
             huePickerView.hue = hue
         }
     }
@@ -61,7 +64,8 @@ class ColorPickerViewController: UIViewController, SaturationBrightnessPickerVie
         
         if color.isDarkColor() {
             currentColorLabel.textColor = UIColor.white
-        } else {
+        }
+        else {
             currentColorLabel.textColor = UIColor.black
         }
     }

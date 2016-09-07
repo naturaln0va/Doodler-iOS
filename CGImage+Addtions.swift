@@ -2,7 +2,7 @@
 import UIKit
 
 extension CGImage {
-    
+        
     var autoCroppedImage: UIImage? {
         var minX = 0
         var maxX = 0
@@ -22,11 +22,12 @@ extension CGImage {
         guard let adjustedImageRef = adjustedRGBABitmapContext else {
             return nil
         }
-
+        
         adjustedImageRef.draw(self, in: CGRect(x: 0, y: 0, width: width, height: height))
         
         let pixelData = adjustedImageRef.makeImage()?.dataProvider?.data ?? Data() as CFData
         let data: UnsafePointer<UInt8> = CFDataGetBytePtr(pixelData)
+
         let threshold: UInt8 = 95
         
         print("Alpha information: \(alphaInfo.rawValue)")

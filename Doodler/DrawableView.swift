@@ -21,28 +21,18 @@ class DrawableView: UIView {
                 history = doodle.history
                 bufferImage = doodle.history.lastImage
                 setNeedsDisplay()
+                
+                renderBufferInContext()
             }
         }
     }
     var history = History()
     
-    var doodle: Doodle {
-        let stickerImage = bufferImage?.autoCroppedImage?.verticallyFlipped ?? UIImage()
-        let stickerData = UIImagePNGRepresentation(stickerImage) ?? Data()
-        
-        return Doodle(
-            createdDate: doodleToEdit?.createdDate ?? Date(),
-            updatedDate: Date(),
-            history: history,
-            stickerImageData: stickerData,
-            previewImage: imageByCapturing
-        )
-    }
-    
     private var drawingComponents = [DrawComponent]()
-    
-    private lazy var bufferContext: CGContext = {
-        let scale = self.window!.screen.scale
+        
+    var bufferImage: CGImage?
+    private lazy var bufferContext: CGContext? = {
+        let scale = UIScreen.main.scale
         var size = self.bounds.size
         
         size.width *= scale
@@ -62,17 +52,15 @@ class DrawableView: UIView {
         ctx?.setLineCap(.round)
         ctx?.concatenate(CGAffineTransform(scaleX: scale, y: scale))
         
-        return ctx!
+        return ctx
     }()
-    
-    private var bufferImage: CGImage?
     
     // MARK: - Public Helpers -
     func clear() {
         history.clear()
 
         bufferImage = nil
-        bufferContext.clear(bounds)
+        bufferContext?.clear(bounds)
         drawingComponents.removeAll()
         history.append(image: bufferImage)
         
@@ -86,7 +74,7 @@ class DrawableView: UIView {
         bufferImage = history.lastImage
         setNeedsDisplay()
         
-        renderBufferInBufferContext()
+        renderBufferInContext()
     }
     
     func redo() {
@@ -96,7 +84,7 @@ class DrawableView: UIView {
         bufferImage = history.lastImage
         setNeedsDisplay()
         
-        renderBufferInBufferContext()
+        renderBufferInContext()
     }
     
     func setupAndDrawWithPoints(points: [CGPoint], withColor color: CGColor, withWidth width: CGFloat) {
@@ -107,7 +95,7 @@ class DrawableView: UIView {
         subPath.move(to: CGPoint(x: mid1.x, y: mid1.y))
         subPath.addQuadCurve(to: CGPoint(x: mid2.x, y: mid2.y), control: CGPoint(x: points[1].x, y: points[1].y))
         
-        let boxOffset = CGFloat(SettingsController.sharedController.strokeWidth)
+        let boxOffset = CGFloat(SettingsController.shared.strokeWidth)
         let drawBounds = subPath.boundingBox.insetBy(dx: -boxOffset, dy: -boxOffset)
         
         drawingComponents.append(
@@ -115,7 +103,7 @@ class DrawableView: UIView {
                 path: subPath,
                 width: width,
                 color: color,
-                blendMode: SettingsController.sharedController.eraserEnabled ? .clear : .normal
+                blendMode: SettingsController.shared.eraserEnabled ? .clear : .normal
             )
         )
         
@@ -127,12 +115,12 @@ class DrawableView: UIView {
         return CGPoint(x: (point1.x + point2.x) * 0.5, y: (point1.y + point2.y) * 0.5)
     }
     
-    private func renderBufferInBufferContext() {
+    private func renderBufferInContext() {
         let ctx = bufferContext
         
         if let image = bufferImage {
-            ctx.clear(bounds)
-            ctx.draw(image, in: bounds)
+            ctx?.clear(bounds)
+            ctx?.draw(image, in: bounds)
         }
         
         drawingComponents.removeAll()
@@ -142,16 +130,16 @@ class DrawableView: UIView {
         let ctx = bufferContext
         
         for comp in drawingComponents {
-            ctx.setBlendMode(comp.blendMode)
-            ctx.setLineCap(.round)
-            ctx.setStrokeColor(comp.color)
-            ctx.setLineWidth(comp.width)
+            ctx?.setBlendMode(comp.blendMode)
+            ctx?.setLineCap(.round)
+            ctx?.setStrokeColor(comp.color)
+            ctx?.setLineWidth(comp.width)
             
-            ctx.addPath(comp.path)
-            ctx.strokePath()
+            ctx?.addPath(comp.path)
+            ctx?.strokePath()
         }
         
-        bufferImage = bufferContext.makeImage()
+        bufferImage = bufferContext?.makeImage()
         history.append(image: bufferImage)
         drawingComponents.removeAll()
     }
@@ -164,7 +152,7 @@ class DrawableView: UIView {
         bgColor.setFill()
         UIRectFill(rect)
         
-        bufferImage = bufferImage ?? bufferContext.makeImage()
+        bufferImage = bufferImage ?? bufferContext?.makeImage()
         
         if let img = bufferImage {
             ctx.draw(img, in: bounds)
@@ -172,7 +160,7 @@ class DrawableView: UIView {
         
         for comp in drawingComponents {
             ctx.setLineCap(.round)
-            ctx.setStrokeColor(SettingsController.sharedController.eraserEnabled ? bgColor.cgColor : comp.color)
+            ctx.setStrokeColor(SettingsController.shared.eraserEnabled ? bgColor.cgColor : comp.color)
             ctx.setLineWidth(comp.width)
             
             ctx.addPath(comp.path)
@@ -201,7 +189,7 @@ class DrawableView: UIView {
         let dx = point.x - currentPoint!.x
         let dy = point.y - currentPoint!.y
         
-        if (dx * dx + dy * dy) < CGFloat(SettingsController.sharedController.strokeWidth) {
+        if (dx * dx + dy * dy) < CGFloat(SettingsController.shared.strokeWidth) {
             return
         }
         
@@ -209,8 +197,8 @@ class DrawableView: UIView {
         previousPoint = firstTouch.previousLocation(in: self)
         currentPoint = firstTouch.location(in: self)
         
-        let drawColor = SettingsController.sharedController.strokeColor.cgColor
-        let drawWidth = CGFloat(SettingsController.sharedController.strokeWidth)
+        let drawColor = SettingsController.shared.strokeColor.cgColor
+        let drawWidth = CGFloat(SettingsController.shared.strokeWidth)
         let points = [currentPoint!, previousPoint!, previousPreviousPoint!]
         
         setupAndDrawWithPoints(points: points, withColor: drawColor, withWidth: drawWidth)
@@ -219,8 +207,8 @@ class DrawableView: UIView {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         if (event?.allTouches?.count ?? 0) > 1 { return }
         
-        let drawColor = SettingsController.sharedController.strokeColor.cgColor
-        let drawWidth = CGFloat(SettingsController.sharedController.strokeWidth)
+        let drawColor = SettingsController.shared.strokeColor.cgColor
+        let drawWidth = CGFloat(SettingsController.shared.strokeWidth)
         let points = [currentPoint!, previousPoint!, previousPreviousPoint!]
         
         setupAndDrawWithPoints(points: points, withColor: drawColor, withWidth: drawWidth)

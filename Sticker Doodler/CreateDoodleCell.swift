@@ -18,7 +18,7 @@ class CreateDoodleCell: UICollectionViewCell {
             imageView.topAnchor.constraint(equalTo: topAnchor).isActive = true
             imageView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
             
-            imageView.image = UIImage(named: "new-doodle")
+            imageView.image = UIImage(named: "new-doodle")?.imageByTintingWithColor(color: UIColor(hex: 0x858e9a))
             imageView.contentMode = .center
         }
     }

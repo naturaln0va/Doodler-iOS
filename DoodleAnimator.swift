@@ -80,6 +80,8 @@ extension DoodleAnimator: UIViewControllerAnimatedTransitioning {
         else {
             guard let toVC = toViewControler else { return }
             
+            toVC.view.frame = UIScreen.main.bounds
+            
             containerView.addSubview(toVC.view)
             containerView.addSubview(finalVC.view)
             containerView.bringSubview(toFront: finalVC.view)

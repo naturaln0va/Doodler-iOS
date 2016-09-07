@@ -56,7 +56,7 @@ extension UIColor {
     }
     
     func isDarkColor() -> Bool {
-        return (hsb()?[2] ?? 0) < CGFloat(0.425)
+        return (hsb()?[2] ?? 0) < CGFloat(0.675)
     }
     
     var redValue: CGFloat {
@@ -80,7 +80,7 @@ extension UIColor {
     }
     
     static var backgroundColor: UIColor {
-        return UIColor(hex: 0x565656)
+        return UIColor(white: 0.185, alpha: 1.0)
     }
 
 }

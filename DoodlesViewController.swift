@@ -3,19 +3,28 @@ import UIKit
 
 class DoodlesViewController: UIViewController {
     
-    internal var doodles = [Doodle]()
-    internal var collectionView: UICollectionView!
-    internal var transitionAnimator: DoodleAnimator?
+    fileprivate var doodles = [Doodle]() {
+        didSet {
+            if doodles.count > 0 {
+                navigationItem.leftBarButtonItem = editButtonItem
+            }
+            else {
+                navigationItem.leftBarButtonItem = nil
+            }
+        }
+    }
     
-    internal var sortedDoodles: [Doodle] {
+    fileprivate var collectionView: UICollectionView!
+    fileprivate var transitionAnimator: DoodleAnimator?
+    fileprivate var shouldAutoPresentDoodle = true
+    
+    fileprivate var sortedDoodles: [Doodle] {
         return doodles.sorted(by: { first, second in
             return first.updatedDate > second.updatedDate
         })
     }
     
-    private var timer: Timer?
-    
-    internal lazy var wobble: CAKeyframeAnimation = {
+    fileprivate lazy var wobble: CAKeyframeAnimation = {
         let wobble = CAKeyframeAnimation(keyPath: "transform.rotation")
         wobble.duration = 0.25
         wobble.repeatCount = Float.infinity
@@ -29,7 +38,6 @@ class DoodlesViewController: UIViewController {
 
         title = "Doodles"
         
-        navigationItem.leftBarButtonItem = editButtonItem
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .add,
             target: self,
@@ -51,14 +59,6 @@ class DoodlesViewController: UIViewController {
         
         view.addSubview(collectionView)                
         view.addConstraints(NSLayoutConstraint.constraints(forPinningViewToSuperview: collectionView))
-        
-        timer = Timer.scheduledTimer(
-            timeInterval: 60,
-            target: self,
-            selector: #selector(DoodlesViewController.reloadView),
-            userInfo: nil, 
-            repeats: true
-        )
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -67,6 +67,11 @@ class DoodlesViewController: UIViewController {
         DocumentsController.sharedController.clearCache()
         doodles = DocumentsController.sharedController.doodles()
         collectionView.reloadData()
+        
+        if shouldAutoPresentDoodle && doodles.count == 0 {
+            startNewDoodle()
+            shouldAutoPresentDoodle = false
+        }
     }
     
     override func setEditing(_ editing: Bool, animated: Bool) {
@@ -78,6 +83,14 @@ class DoodlesViewController: UIViewController {
     // MARK: - Actions
     
     @objc private func addButtonPressed() {
+        startNewDoodle()
+    }
+    
+    // MARK: - Helpers
+    
+    fileprivate func startNewDoodle() {
+        setEditing(false, animated: true)
+        
         transitionAnimator = DoodleAnimator(duration: 0.5)
         transitionAnimator?.presenting = true
         
@@ -87,13 +100,7 @@ class DoodlesViewController: UIViewController {
         present(vc, animated: true, completion: nil)
     }
     
-    // MARK: - Helpers
-    
-    @objc private func reloadView() {
-        collectionView.reloadItems(at: collectionView.indexPathsForVisibleItems)
-    }
-    
-    internal func refreshView() {
+    fileprivate func refreshView() {
         let prevDoodles = doodles
         doodles = DocumentsController.sharedController.doodles()
         
@@ -124,15 +131,16 @@ extension DoodlesViewController: UICollectionViewDataSource, UICollectionViewDel
         let doodle = sortedDoodles[indexPath.item]
         
         cell.imageView.image = doodle.previewImage
-        cell.dateLabel.text = doodle.updatedDate.relativeString
         
         let animationKey = "animation"
         
         if isEditing {
             cell.layer.add(wobble, forKey: animationKey)
+            cell.maskImageView.isHidden = false
         }
         else {
             cell.layer.removeAnimation(forKey: animationKey)
+            cell.maskImageView.isHidden = true
         }
         
         return cell

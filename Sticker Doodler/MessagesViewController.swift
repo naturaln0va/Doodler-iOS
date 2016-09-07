@@ -11,8 +11,6 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     override func willTransition(to presentationStyle: MSMessagesAppPresentationStyle) {
-        // Called before the extension transitions to a new presentation style.
-        
         presentViewController(with: presentationStyle)
     }
     
@@ -24,7 +22,7 @@ class MessagesViewController: MSMessagesAppViewController {
         if presentationStyle == .expanded {
             let vc = CanvasViewController()
             vc.delegate = self
-            vc.shouldInsetLayoutForMessages = true
+            vc.isPresentingWithinMessages = true
             controller = vc
         }
         else {

@@ -7,7 +7,7 @@ protocol SaturationBrightnessPickerViewDelegate {
 
 class SaturationBrightnessPickerView: UIView, HuePickerViewDelegate {
     
-    private let inset: CGFloat = 15
+    private let inset: CGFloat = 0
     private let reticuleSize: CGFloat = 25
     var delegate: SaturationBrightnessPickerViewDelegate?
     

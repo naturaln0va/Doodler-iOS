@@ -18,32 +18,32 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <rect key="frame" x="0.0" y="0.0" width="300" height="366"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KdS-Sz-DFK" customClass="ColorPreView" customModule="Doodler" customModuleProvider="target">
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="#88CD29" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="60" translatesAutoresizingMaskIntoConstraints="NO" id="vQO-Ry-hy2">
-                            <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="18"/>
+                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="12"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="#34F2B1" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="57" translatesAutoresizingMaskIntoConstraints="NO" id="4IF-Eu-RIR">
-                            <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="18"/>
+                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="12"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
-                        <constraint firstAttribute="bottom" secondItem="vQO-Ry-hy2" secondAttribute="bottom" constant="8" id="7LG-Ky-tHu"/>
                         <constraint firstItem="vQO-Ry-hy2" firstAttribute="leading" secondItem="KdS-Sz-DFK" secondAttribute="leading" constant="8" id="9pi-Ab-eZD"/>
-                        <constraint firstAttribute="bottom" secondItem="4IF-Eu-RIR" secondAttribute="bottom" constant="8" id="QFO-JQ-kjA"/>
                         <constraint firstAttribute="height" constant="50" id="RTI-W7-esQ">
-                            <variation key="widthClass=compact" constant="50"/>
+                            <variation key="widthClass=compact" constant="25"/>
                         </constraint>
+                        <constraint firstItem="vQO-Ry-hy2" firstAttribute="centerY" secondItem="KdS-Sz-DFK" secondAttribute="centerY" id="U8z-Nb-bCL"/>
                         <constraint firstAttribute="trailing" secondItem="4IF-Eu-RIR" secondAttribute="trailing" constant="8" id="gjE-q2-Fkk"/>
                         <constraint firstAttribute="width" constant="250" id="jd4-jd-4pX"/>
+                        <constraint firstItem="4IF-Eu-RIR" firstAttribute="centerY" secondItem="KdS-Sz-DFK" secondAttribute="centerY" id="nzM-gU-Nj7"/>
                     </constraints>
                     <variation key="default">
                         <mask key="constraints">
@@ -93,21 +93,17 @@
                     </variation>
                 </view>
             </subviews>
-            <color key="backgroundColor" red="0.15000000596046448" green="0.15000000596046448" blue="0.15000000596046448" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="OUY-mE-4sy" secondAttribute="trailing" constant="40" id="38S-HQ-0VT">
                     <variation key="widthClass=compact" constant="8"/>
                 </constraint>
-                <constraint firstItem="OUY-mE-4sy" firstAttribute="top" secondItem="KdS-Sz-DFK" secondAttribute="bottom" constant="12" id="7tQ-s6-Phj"/>
                 <constraint firstItem="fkD-al-5dg" firstAttribute="top" secondItem="KdS-Sz-DFK" secondAttribute="bottom" constant="12" id="BfH-Sg-OuI"/>
                 <constraint firstItem="OUY-mE-4sy" firstAttribute="top" secondItem="KdS-Sz-DFK" secondAttribute="bottom" constant="8" id="CN2-cr-3mF">
-                    <variation key="widthClass=compact" constant="12"/>
+                    <variation key="widthClass=compact" constant="8"/>
                 </constraint>
                 <constraint firstAttribute="centerX" secondItem="OUY-mE-4sy" secondAttribute="centerX" id="H8d-UK-GuD"/>
                 <constraint firstItem="KdS-Sz-DFK" firstAttribute="width" secondItem="OUY-mE-4sy" secondAttribute="width" id="KJu-dM-ewd"/>
-                <constraint firstItem="fkD-al-5dg" firstAttribute="top" secondItem="OUY-mE-4sy" secondAttribute="bottom" constant="33" id="MVT-e4-jPk">
-                    <variation key="widthClass=compact" constant="12"/>
-                </constraint>
                 <constraint firstItem="OUY-mE-4sy" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="40" id="NAv-8f-HgY">
                     <variation key="widthClass=compact" constant="8"/>
                 </constraint>
@@ -116,13 +112,15 @@
                 <constraint firstAttribute="centerX" secondItem="KdS-Sz-DFK" secondAttribute="centerX" id="TK0-fi-ywR"/>
                 <constraint firstAttribute="centerX" secondItem="fkD-al-5dg" secondAttribute="centerX" id="Ul6-DO-Jcz"/>
                 <constraint firstAttribute="centerX" secondItem="OUY-mE-4sy" secondAttribute="centerX" id="b6U-9i-kBe"/>
-                <constraint firstItem="fkD-al-5dg" firstAttribute="top" secondItem="OUY-mE-4sy" secondAttribute="bottom" constant="12" id="gZQ-fy-u4n"/>
+                <constraint firstItem="fkD-al-5dg" firstAttribute="top" secondItem="OUY-mE-4sy" secondAttribute="bottom" constant="8" id="gZQ-fy-u4n"/>
                 <constraint firstItem="KdS-Sz-DFK" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="12" id="hJl-st-oMz">
-                    <variation key="widthClass=compact" constant="12"/>
+                    <variation key="widthClass=compact" constant="8"/>
                 </constraint>
                 <constraint firstItem="OUY-mE-4sy" firstAttribute="width" secondItem="fkD-al-5dg" secondAttribute="width" id="pDM-YW-dNw"/>
                 <constraint firstItem="OUY-mE-4sy" firstAttribute="width" secondItem="fkD-al-5dg" secondAttribute="width" id="pHf-cr-b3X"/>
             </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <variation key="default">
                 <mask key="constraints">
                     <exclude reference="RUI-Y0-Bcm"/>
@@ -132,7 +130,6 @@
                     <exclude reference="NAv-8f-HgY"/>
                     <exclude reference="pDM-YW-dNw"/>
                     <exclude reference="BfH-Sg-OuI"/>
-                    <exclude reference="MVT-e4-jPk"/>
                     <exclude reference="Qud-lI-2wa"/>
                 </mask>
             </variation>
@@ -147,11 +144,10 @@
                     <include reference="H8d-UK-GuD"/>
                     <include reference="NAv-8f-HgY"/>
                     <include reference="pDM-YW-dNw"/>
-                    <include reference="MVT-e4-jPk"/>
                     <include reference="Qud-lI-2wa"/>
                 </mask>
             </variation>
-            <point key="canvasLocation" x="266" y="322"/>
+            <point key="canvasLocation" x="170" y="196"/>
         </view>
     </objects>
 </document>
