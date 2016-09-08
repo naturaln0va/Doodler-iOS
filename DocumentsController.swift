@@ -59,19 +59,9 @@ class DocumentsController {
         
         return wholeURL
     }()
-    private var cachedDoodles: [Doodle]?
-    
-    func clearCache() {
-        cachedDoodles?.removeAll()
-        cachedDoodles = nil
-    }
     
     func doodles() -> [Doodle] {
         guard let filePath = doodleSavePath else { return [] }
-        
-        if let doodles = cachedDoodles {
-            return doodles
-        }
         
         var doodles = [Doodle]()
         
@@ -85,7 +75,6 @@ class DocumentsController {
                     }
                 }
             }
-            cachedDoodles = doodles
         }
         
         return doodles
@@ -103,9 +92,9 @@ class DocumentsController {
         return urls
     }
     
-    func save(doodle: Doodle, completion: @escaping (Bool) -> Void) {
+    func save(doodle: Doodle, completion: ((Bool) -> Void)?) {
         guard let savePath = doodleSavePath else {
-            DispatchQueue.main.async { completion(false) }
+            DispatchQueue.main.async { completion?(false) }
             return
         }
         var fullFilePath = savePath
@@ -120,7 +109,7 @@ class DocumentsController {
             }
             catch let error {
                 print("Error saving file to path: \(fullFilePath)\nError: \(error)")
-                DispatchQueue.main.async { completion(false) }
+                DispatchQueue.main.async { completion?(false) }
                 return
             }
             
@@ -135,16 +124,11 @@ class DocumentsController {
                 }
             }
             
-            if let index = self.cachedDoodles?.index(of: doodle) {
-                self.cachedDoodles?.remove(at: index)
-            }
-            
-            self.cachedDoodles?.append(doodle)
-            DispatchQueue.main.async { completion(true) }
+            DispatchQueue.main.async { completion?(true) }
         }
     }
     
-    func delete(doodle: Doodle, completion: @escaping (Bool) -> Void) {
+    func delete(doodle: Doodle, completion: ((Bool) -> Void)?) {
         guard let savePath = doodleSavePath else { return }
         var fullFilePath = savePath
         fullFilePath.appendPathComponent(doodle.fileName)
@@ -155,7 +139,7 @@ class DocumentsController {
             }
             catch {
                 print("Error deleting file at path: \(fullFilePath)\nError: \(error)")
-                DispatchQueue.main.async { completion(false) }
+                DispatchQueue.main.async { completion?(false) }
                 return
             }
             
@@ -170,11 +154,7 @@ class DocumentsController {
                 }
             }
             
-            if let index = self.cachedDoodles?.index(of: doodle) {
-                self.cachedDoodles?.remove(at: index)
-            }
-            
-            DispatchQueue.main.async { completion(true) }
+            DispatchQueue.main.async { completion?(true) }
         }
     }
     

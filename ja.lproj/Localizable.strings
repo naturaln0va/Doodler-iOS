@@ -1,0 +1,17 @@
+"CANCEL" = "キャンセル";
+"CLEAR" = "クリア";
+"CLEARPROMPT" = "あなたは、画面をクリアしますか？";
+"DELETE" = "削除";
+"DOODLES" = "いたずら書き";
+"DOODLERSHARE" = "いたずら書きする人で作られ";
+"DRAW" = "引き分け";
+"ERASE" = "消去";
+"ERRORSAVING" = "落書きを保存中にエラー。";
+"PICKCOLOR" = "色を選択してください";
+"REDO" = "遣り直す";
+"SELECT" = "選び出す";
+"SHARE" = "シェア";
+"STICKERDESCRIPTION" = "いたずら書きする人で作成しました。";
+"UNDO" = "元に戻す";
+"WARNING" = "警告";
+"WARNINGPROMPT" = "あなたはこれらのいたずら書きを削除してもよろしいですか？";

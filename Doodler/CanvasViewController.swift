@@ -154,9 +154,7 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
         view.addSubview(toolbar)
         view.addConstraints(
             NSLayoutConstraint.constraints(
-                with: [
-                    "H:|[bar]|",
-                    ],
+                with: ["H:|[bar]|"],
                 views: ["bar": toolbar]
             )
         )
@@ -291,6 +289,7 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
         let vc = ActionMenuViewController(isPresentingWithinMessages: isPresentingWithinMessages)
         
         vc.delegate = self
+        vc.drawableView = canvas
         vc.preferredContentSize = vc.contentSize
         vc.setupPopoverInView(sourceView: view, barButtonItem: actionButton)
         
@@ -383,7 +382,8 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
         strokeSizeView.strokeSize = CGFloat(sender.value)
     }
     
-    //MARK: - Helpers -
+    // MARK: - Helpers -
+    
     func refreshToolbarItems() {
         if UIDevice.current.userInterfaceIdiom == .pad {
             toolbar.items = [
@@ -532,10 +532,14 @@ extension CanvasViewController: ActionMenuViewControllerDelegate {
     
     func actionMenuViewControllerDidSelectUndo(vc: ActionMenuViewController) {
         canvas.undo()
+        
+        vc.drawableView = canvas
     }
     
     func actionMenuViewControllerDidSelectRedo(vc: ActionMenuViewController) {
         canvas.redo()
+        
+        vc.drawableView = canvas
     }
     
 }

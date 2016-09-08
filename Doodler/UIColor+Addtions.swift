@@ -82,5 +82,9 @@ extension UIColor {
     static var backgroundColor: UIColor {
         return UIColor(white: 0.185, alpha: 1.0)
     }
+    
+    static var doodlerRed: UIColor {
+        return UIColor(red: 0.898, green: 0.078, blue: 0.078, alpha: 1)
+    }
 
 }

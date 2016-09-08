@@ -18,9 +18,5 @@ class WindowController: UIResponder, UIApplicationDelegate {
         return true
     }
     
-    func applicationDidReceiveMemoryWarning(_ application: UIApplication) {
-        DocumentsController.sharedController.clearCache()
-    }
-
 }
 

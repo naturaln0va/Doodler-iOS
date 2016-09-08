@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11198.2" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -15,28 +15,19 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hAp-lt-rpB"/>
-                    <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="delete-mask-image" translatesAutoresizingMaskIntoConstraints="NO" id="TD8-5m-mdF"/>
                 </subviews>
             </view>
             <constraints>
                 <constraint firstItem="hAp-lt-rpB" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="0Sx-So-Nmj"/>
                 <constraint firstAttribute="trailing" secondItem="hAp-lt-rpB" secondAttribute="trailing" id="33X-t1-HJw"/>
                 <constraint firstItem="hAp-lt-rpB" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="5Yc-a6-qO5"/>
-                <constraint firstItem="TD8-5m-mdF" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="CQ5-ww-aSt"/>
                 <constraint firstAttribute="bottom" secondItem="hAp-lt-rpB" secondAttribute="bottom" id="PCU-gx-q8n"/>
-                <constraint firstItem="TD8-5m-mdF" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="TMh-9i-OyH"/>
-                <constraint firstAttribute="trailing" secondItem="TD8-5m-mdF" secondAttribute="trailing" id="haC-RS-Xcd"/>
-                <constraint firstAttribute="bottom" secondItem="TD8-5m-mdF" secondAttribute="bottom" id="qBr-0p-R68"/>
             </constraints>
             <size key="customSize" width="147" height="168"/>
             <connections>
                 <outlet property="imageView" destination="hAp-lt-rpB" id="m4W-hf-XAS"/>
-                <outlet property="maskImageView" destination="TD8-5m-mdF" id="hDz-F0-ppB"/>
             </connections>
             <point key="canvasLocation" x="-225" y="-18"/>
         </collectionViewCell>
     </objects>
-    <resources>
-        <image name="delete-mask-image" width="300" height="300"/>
-    </resources>
 </document>

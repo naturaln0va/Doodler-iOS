@@ -24,6 +24,8 @@ class DoodlesViewController: UIViewController {
         })
     }
     
+    fileprivate var selectedDoodles = [Doodle]()
+    
     fileprivate lazy var wobble: CAKeyframeAnimation = {
         let wobble = CAKeyframeAnimation(keyPath: "transform.rotation")
         wobble.duration = 0.25
@@ -39,9 +41,10 @@ class DoodlesViewController: UIViewController {
         title = NSLocalizedString("DOODLES", comment: "Doodles")
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(
-            barButtonSystemItem: .add,
+            image: UIImage(named: "add-icon"),
+            style: .plain,
             target: self,
-            action: #selector(DoodlesViewController.addButtonPressed)
+            action: #selector(addButtonPressed)
         )
         
         view.backgroundColor = UIColor.backgroundColor
@@ -64,7 +67,6 @@ class DoodlesViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        DocumentsController.sharedController.clearCache()
         doodles = DocumentsController.sharedController.doodles()
         collectionView.reloadData()
         
@@ -77,6 +79,38 @@ class DoodlesViewController: UIViewController {
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
         
+        title = editing ? NSLocalizedString("SELECT", comment: "Select") : NSLocalizedString("DOODLES", comment: "Doodles")
+        
+        collectionView.allowsSelection = !editing
+        collectionView.allowsMultipleSelection = editing
+        
+        if editing {
+            navigationItem.rightBarButtonItems = [
+                UIBarButtonItem(
+                    image: UIImage(named: "trash-button"),
+                    style: .plain,
+                    target: self,
+                    action: #selector(deleteButtonPressed)
+                ),
+                UIBarButtonItem(
+                    image: UIImage(named: "share-button"),
+                    style: .plain,
+                    target: self,
+                    action: #selector(shareButtonPressed)
+                )
+            ]
+        }
+        else {
+            navigationItem.rightBarButtonItems = nil
+            navigationItem.rightBarButtonItem = UIBarButtonItem(
+                image: UIImage(named: "add-icon"),
+                style: .plain,
+                target: self,
+                action: #selector(addButtonPressed)
+            )
+            selectedDoodles.removeAll()
+        }
+        
         collectionView.reloadItems(at: collectionView.indexPathsForVisibleItems)
     }
     
@@ -84,6 +118,46 @@ class DoodlesViewController: UIViewController {
     
     @objc private func addButtonPressed() {
         startNewDoodle()
+    }
+    
+    @objc private func deleteButtonPressed() {
+        guard selectedDoodles.count > 0 else { return }
+        
+        let ac = UIAlertController(
+            title: NSLocalizedString("WARNING", comment: "Warning"),
+            message: NSLocalizedString("WARNINGPROMPT", comment: "Are you sure you want to delete these doodles?"),
+            preferredStyle: .alert
+        )
+        ac.addAction(
+            UIAlertAction(title: NSLocalizedString("DELETE", comment: "Delete"), style: .destructive, handler: { _ in
+                for doodle in self.selectedDoodles {
+                    DocumentsController.sharedController.delete(doodle: doodle, completion: nil)
+                }
+                
+                self.refreshView()
+                self.setEditing(false, animated: true)
+            })
+        )
+        ac.addAction(UIAlertAction(title: NSLocalizedString("CANCEL", comment: "Cancel"), style: .cancel, handler: nil))
+        present(ac, animated: true, completion: nil)
+    }
+    
+    @objc private func shareButtonPressed() {
+        var items: [Any] = [
+            NSLocalizedString("DOODLERSHARE", comment: "Made with Doodler"),
+            URL(string: "https://itunes.apple.com/us/app/doodler-simple-drawing/id948139703?mt=8")!
+        ]
+        
+        items.append(contentsOf: selectedDoodles.map { $0.previewImage })
+        
+        let ac = UIActivityViewController(
+            activityItems: items,
+            applicationActivities: nil
+        )
+        ac.excludedActivityTypes = [.assignToContact, .addToReadingList, .print]
+        
+        ac.setupPopoverInView(sourceView: view, barButtonItem: navigationItem.rightBarButtonItem)
+        present(ac, animated: true, completion: nil)
     }
     
     // MARK: - Helpers
@@ -136,11 +210,9 @@ extension DoodlesViewController: UICollectionViewDataSource, UICollectionViewDel
         
         if isEditing {
             cell.layer.add(wobble, forKey: animationKey)
-            cell.maskImageView.isHidden = false
         }
         else {
             cell.layer.removeAnimation(forKey: animationKey)
-            cell.maskImageView.isHidden = true
         }
         
         return cell
@@ -148,22 +220,12 @@ extension DoodlesViewController: UICollectionViewDataSource, UICollectionViewDel
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if isEditing {
-            let ac = UIAlertController(
-                title: NSLocalizedString("WARNING", comment: "Warning"),
-                message: NSLocalizedString("WARNINGPROMPT", comment: "Are you sure you want to delete this doodle?"),
-                preferredStyle: .alert
-            )
-            ac.addAction(
-                UIAlertAction(title: NSLocalizedString("DELETE", comment: "Delete"), style: .destructive, handler: { _ in
-                    DocumentsController.sharedController.delete(doodle: self.sortedDoodles[indexPath.item]) { success in
-                        if success {
-                            self.refreshView()
-                        }
-                    }
-                })
-            )
-            ac.addAction(UIAlertAction(title: NSLocalizedString("CANCEL", comment: "Cancel"), style: .cancel, handler: nil))
-            present(ac, animated: true, completion: nil)
+            if let index = selectedDoodles.index(of: sortedDoodles[indexPath.item]) {
+                selectedDoodles.remove(at: index)
+            }
+            else {
+                selectedDoodles.append(sortedDoodles[indexPath.item])
+            }
         }
         else {
             if let cell = collectionView.cellForItem(at: indexPath) as? DoodleCell {

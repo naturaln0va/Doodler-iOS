@@ -4,12 +4,19 @@ import UIKit
 class DoodleCell: UICollectionViewCell {
     
     @IBOutlet var imageView: UIImageView!
-    @IBOutlet var maskImageView: UIImageView!
+    
+    override var isSelected: Bool {
+        didSet {
+            UIView.animate(withDuration: 0.75) {
+                self.layer.borderWidth = self.isSelected ? 9 : 0
+            }
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        layer.cornerRadius = 5
+        layer.borderColor = UIColor.doodlerRed.cgColor
         imageView.clipsToBounds = true
     }
     
