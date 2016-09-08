@@ -112,13 +112,13 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
         action: #selector(actionButtonPressed)
     )
     fileprivate lazy var undoButton = UIBarButtonItem(
-        title: "Undo",
+        title: NSLocalizedString("UNDO", comment: "Undo"),
         style: .plain,
         target: self,
         action: #selector(undoButtonPressed)
     )
     fileprivate lazy var redoButton = UIBarButtonItem(
-        title: "Redo",
+        title: NSLocalizedString("REDO", comment: "Redo"),
         style: .plain,
         target: self,
         action: #selector(redoButtonPressed)

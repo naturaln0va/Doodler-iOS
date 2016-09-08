@@ -41,8 +41,7 @@ class DoodlesViewController: UIViewController {
         title = NSLocalizedString("DOODLES", comment: "Doodles")
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(
-            image: UIImage(named: "add-icon"),
-            style: .plain,
+            barButtonSystemItem: .add,
             target: self,
             action: #selector(addButtonPressed)
         )
@@ -87,15 +86,13 @@ class DoodlesViewController: UIViewController {
         if editing {
             navigationItem.rightBarButtonItems = [
                 UIBarButtonItem(
-                    image: UIImage(named: "trash-button"),
-                    style: .plain,
+                    barButtonSystemItem: .trash,
                     target: self,
                     action: #selector(deleteButtonPressed)
                 ),
                 UIBarButtonItem(
-                    image: UIImage(named: "share-button"),
-                    style: .plain,
-                    target: self,
+                    barButtonSystemItem: .action,
+                    target: self, 
                     action: #selector(shareButtonPressed)
                 )
             ]
@@ -103,8 +100,7 @@ class DoodlesViewController: UIViewController {
         else {
             navigationItem.rightBarButtonItems = nil
             navigationItem.rightBarButtonItem = UIBarButtonItem(
-                image: UIImage(named: "add-icon"),
-                style: .plain,
+                barButtonSystemItem: .add,
                 target: self,
                 action: #selector(addButtonPressed)
             )
@@ -130,12 +126,12 @@ class DoodlesViewController: UIViewController {
         )
         ac.addAction(
             UIAlertAction(title: NSLocalizedString("DELETE", comment: "Delete"), style: .destructive, handler: { _ in
-                for doodle in self.selectedDoodles {
-                    DocumentsController.sharedController.delete(doodle: doodle, completion: nil)
+                DocumentsController.sharedController.delete(doodles: self.selectedDoodles) { success in
+                    if success {
+                        self.refreshView()
+                        self.setEditing(false, animated: true)
+                    }
                 }
-                
-                self.refreshView()
-                self.setEditing(false, animated: true)
             })
         )
         ac.addAction(UIAlertAction(title: NSLocalizedString("CANCEL", comment: "Cancel"), style: .cancel, handler: nil))
@@ -179,7 +175,15 @@ class DoodlesViewController: UIViewController {
         doodles = DocumentsController.sharedController.doodles()
         
         if doodles.count > prevDoodles.count {
-            collectionView.insertItems(at: [IndexPath(item: 0, section: 0)])
+            if collectionView.numberOfSections == 0 {
+                collectionView.insertSections(IndexSet([0]))
+            }
+            else {
+                collectionView.insertItems(at: [IndexPath(item: 0, section: 0)])
+            }
+        }
+        else if doodles.count == 0 {
+            collectionView.deleteSections(IndexSet([0]))
         }
         else if doodles.count < prevDoodles.count {
             if let deletedDoodle = prevDoodles.filter({ doodles.contains($0) }).last, let itemToDelete = prevDoodles.index(of: deletedDoodle) {
@@ -241,6 +245,10 @@ extension DoodlesViewController: UICollectionViewDataSource, UICollectionViewDel
             vc.doodleToEdit = sortedDoodles[indexPath.item]
             present(vc, animated: true, completion: nil)
         }
+    }
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return sortedDoodles.count > 0 ? 1 : 0
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

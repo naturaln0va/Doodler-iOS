@@ -128,33 +128,40 @@ class DocumentsController {
         }
     }
     
-    func delete(doodle: Doodle, completion: ((Bool) -> Void)?) {
-        guard let savePath = doodleSavePath else { return }
-        var fullFilePath = savePath
-        fullFilePath.appendPathComponent(doodle.fileName)
+    func delete(doodles: [Doodle], completion: ((Bool) -> Void)?) {
+        guard let savePath = doodleSavePath else {
+            DispatchQueue.main.async { completion?(false) }
+            return
+        }
         
-        fileQueue.async {
-            do {
-                try self.fileManager.removeItem(at: fullFilePath)
-            }
-            catch {
-                print("Error deleting file at path: \(fullFilePath)\nError: \(error)")
-                DispatchQueue.main.async { completion?(false) }
-                return
-            }
+        for doodle in doodles {
+            let fullFilePath = savePath.appendingPathComponent(doodle.fileName)
             
-            if let stickerSavePath = self.stickerSavePath {
-                let fullStickerSavePath = stickerSavePath.appendingPathComponent(doodle.stickerFileName)
-                
+            fileQueue.async {
                 do {
-                    try self.fileManager.removeItem(at: fullStickerSavePath)
+                    try self.fileManager.removeItem(at: fullFilePath)
                 }
-                catch let error {
-                    print("Error deleting sticker at path: \(fullStickerSavePath)\nError: \(error)")
+                catch {
+                    print("Error deleting file at path: \(fullFilePath)\nError: \(error)")
+                    DispatchQueue.main.async { completion?(false) }
+                    return
                 }
+                
+                if let stickerSavePath = self.stickerSavePath {
+                    let fullStickerSavePath = stickerSavePath.appendingPathComponent(doodle.stickerFileName)
+                    
+                    do {
+                        try self.fileManager.removeItem(at: fullStickerSavePath)
+                    }
+                    catch let error {
+                        print("Error deleting sticker at path: \(fullStickerSavePath)\nError: \(error)")
+                        DispatchQueue.main.async { completion?(false) }
+                        return
+                    }
+                }
+                
+                DispatchQueue.main.async { completion?(true) }
             }
-            
-            DispatchQueue.main.async { completion?(true) }
         }
     }
     
