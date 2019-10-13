@@ -42,14 +42,14 @@ extension UIImage {
         
         let pixelInfo: Int = ((Int(width) * Int(position.y)) + Int(position.x)) * 4
         
-        let r = Float(data[pixelInfo + 0]) / 255
-        let g = Float(data[pixelInfo + 1]) / 255
-        let b = Float(data[pixelInfo + 2]) / 255
-        let a = Float(data[pixelInfo + 3]) / 255
+        let r = CGFloat(data[pixelInfo + 0]) / 255
+        let g = CGFloat(data[pixelInfo + 1]) / 255
+        let b = CGFloat(data[pixelInfo + 2]) / 255
+        let a = CGFloat(data[pixelInfo + 3]) / 255
         
         if a == 0 { return nil }
         
-        return UIColor(colorLiteralRed: r, green: g, blue: b, alpha: a)
+        return UIColor(red: r, green: g, blue: b, alpha: a)
     }
     
     func scale(toSize size: CGSize) -> UIImage? {

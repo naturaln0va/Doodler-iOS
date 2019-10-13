@@ -24,7 +24,7 @@ class StrokeSizeView: AutoHideView {
         timer = Timer.scheduledTimer(
             timeInterval: animationDuration * 2,
             target: self,
-            selector: #selector(StrokeSizeView.hide),
+            selector: #selector(hide),
             userInfo: nil,
             repeats: false
         )

@@ -31,19 +31,19 @@ class MessagesViewController: MSMessagesAppViewController {
             controller = vc
         }
         
-        for child in childViewControllers {
-            child.willMove(toParentViewController: nil)
+        for child in children {
+            child.willMove(toParent: nil)
             child.view.removeFromSuperview()
-            child.removeFromParentViewController()
+            child.removeFromParent()
         }
         
         controller.view.translatesAutoresizingMaskIntoConstraints = false
-        addChildViewController(controller)
+        addChild(controller)
         
         view.addSubview(controller.view)
         view.addConstraints(NSLayoutConstraint.constraints(forPinningViewToSuperview: controller.view))
         
-        controller.didMove(toParentViewController: self)
+        controller.didMove(toParent: self)
     }
     
 }

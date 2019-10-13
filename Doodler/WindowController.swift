@@ -6,7 +6,7 @@ class WindowController: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         application.applicationSupportsShakeToEdit = true
         
         window = UIWindow(frame: UIScreen.main.bounds)
@@ -17,6 +17,6 @@ class WindowController: UIResponder, UIApplicationDelegate {
         
         return true
     }
-    
+        
 }
 

@@ -147,7 +147,7 @@ extension CGImage {
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        print("final image size: \(image?.size)")
+        print("final image size: \(image?.size ?? .zero)")
         
         return image
     }

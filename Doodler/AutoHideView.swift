@@ -17,10 +17,10 @@ class AutoHideView: UIView {
             }
         }
         
-        timer = Timer.scheduledTimer(timeInterval: animationDuration * 2, target: self, selector: #selector(AutoHideView.hide), userInfo: nil, repeats: false)
+        timer = Timer.scheduledTimer(timeInterval: animationDuration * 2, target: self, selector: #selector(hide), userInfo: nil, repeats: false)
     }
     
-    func hide() {
+    @objc func hide() {
         UIView.animate(withDuration: animationDuration) {
             self.alpha = 0
         }

@@ -13,13 +13,13 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
     
     weak var delegate: CanvasViewControllerDelegate?
     
-    fileprivate var lastCanvasZoomScale = 0
-    fileprivate var pendingPickedColor: UIColor?
-    fileprivate var toolBarBottomConstraint: NSLayoutConstraint!
+    private var lastCanvasZoomScale = 0
+    private var pendingPickedColor: UIColor?
+    private var toolBarBottomConstraint: NSLayoutConstraint!
     
     var canvas: DrawableView!
     
-    fileprivate lazy var gridView: GridView = {
+    private lazy var gridView: GridView = {
         let view = GridView()
         
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -33,16 +33,16 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
         view.minimumValue = 1
         view.maximumValue = 100
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.setThumbImage(UIImage(named: "knob"), for: UIControlState.normal)
+        view.setThumbImage(UIImage(named: "knob"), for: .normal)
         view.addTarget(self, action: #selector(sliderUpdated(_:)), for: .valueChanged)
-        view.setMinimumTrackImage(UIImage(named: "slider"), for: UIControlState.normal)
-        view.setMaximumTrackImage(UIImage(named: "slider"), for: UIControlState.normal)
+        view.setMinimumTrackImage(UIImage(named: "slider"), for: .normal)
+        view.setMaximumTrackImage(UIImage(named: "slider"), for: .normal)
         view.setValue(SettingsController.shared.strokeWidth, animated: false)
         
         return view
     }()
     
-    fileprivate lazy var strokeSizeView: StrokeSizeView = {
+    private lazy var strokeSizeView: StrokeSizeView = {
         let view = StrokeSizeView()
         
         view.alpha = 0
@@ -55,7 +55,7 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
         return view
     }()
     
-    fileprivate lazy var toolbar: UIToolbar = {
+    private lazy var toolbar: UIToolbar = {
         let view = UIToolbar()
 
         view.isTranslucent = true
@@ -66,7 +66,7 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
         return view
     }()
     
-    fileprivate lazy var segmentedControl: UISegmentedControl = {
+    private lazy var segmentedControl: UISegmentedControl = {
         let view = UISegmentedControl(items:
             [
                 NSLocalizedString("DRAW", comment: "Draw"),
@@ -81,7 +81,7 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
         return view
     }()
     
-    fileprivate lazy var scrollView: UIScrollView = {
+    private lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
         
         view.delegate = self
@@ -93,37 +93,37 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
         return view
     }()
     
-    fileprivate let colorButton = ColorPreviewButton(
+    private let colorButton = ColorPreviewButton(
         frame: CGRect(origin: .zero, size: CGSize(width: 27, height: 27))
     )
     
-    fileprivate var segmentBarButton: UIBarButtonItem!
-    fileprivate var colorPickerBarButton: UIBarButtonItem!
-    fileprivate lazy var backButton = UIBarButtonItem(
+    private var segmentBarButton: UIBarButtonItem!
+    private var colorPickerBarButton: UIBarButtonItem!
+    private lazy var backButton = UIBarButtonItem(
         image: UIImage(named: "back-arrow-icon"),
         style: .plain,
         target: self,
         action: #selector(backButtonPressed)
     )
-    fileprivate lazy var actionButton = UIBarButtonItem(
+    private lazy var actionButton = UIBarButtonItem(
         image: UIImage(named: "toolbox-icon"),
         style: .plain,
         target: self,
         action: #selector(actionButtonPressed)
     )
-    fileprivate lazy var undoButton = UIBarButtonItem(
+    private lazy var undoButton = UIBarButtonItem(
         title: NSLocalizedString("UNDO", comment: "Undo"),
         style: .plain,
         target: self,
         action: #selector(undoButtonPressed)
     )
-    fileprivate lazy var redoButton = UIBarButtonItem(
+    private lazy var redoButton = UIBarButtonItem(
         title: NSLocalizedString("REDO", comment: "Redo"),
         style: .plain,
         target: self,
         action: #selector(redoButtonPressed)
     )
-    fileprivate lazy var shareButton = UIBarButtonItem(
+    private lazy var shareButton = UIBarButtonItem(
         image: UIImage(named: "share-button"),
         style: .plain,
         target: self,
@@ -158,16 +158,11 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
                 views: ["bar": toolbar]
             )
         )
-        toolBarBottomConstraint = NSLayoutConstraint(
-            item: view,
-            attribute: .bottom,
-            relatedBy: .equal,
-            toItem: toolbar,
-            attribute: .bottom,
-            multiplier: 1,
+        toolBarBottomConstraint = view.bottomAnchor.constraint(
+            equalTo: toolbar.bottomAnchor,
             constant: isPresentingWithinMessages ? 44 : 0
         )
-        view.addConstraint(toolBarBottomConstraint)
+        toolBarBottomConstraint.isActive = true
         
         view.addSubview(strokeSizeView)
         view.addConstraints(
@@ -225,7 +220,7 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
             
             canvas.doodleToEdit = doodleToEdit
             canvas.isUserInteractionEnabled = true
-            canvas.layer.magnificationFilter = kCAFilterLinear
+            canvas.layer.magnificationFilter = .linear
             canvas.addGestureRecognizer(
                 UILongPressGestureRecognizer(target: self, action: #selector(handle(longPress:)))
             )
@@ -251,7 +246,7 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     //MARK: - Actions -
-    func handle(longPress gesture: UILongPressGestureRecognizer) {
+    @objc private func handle(longPress gesture: UILongPressGestureRecognizer) {
         guard let gestureView = gesture.view else { return }
         guard gesture.state == .began else { return }
         
@@ -312,7 +307,7 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
             return
         }
         
-        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .white)
+        let activityIndicator = UIActivityIndicatorView(style: .white)
         activityIndicator.tintColor = isPresentingWithinMessages ? UIColor(red: 0.52,  green: 0.56,  blue: 0.6, alpha: 1.0) : .white
         activityIndicator.startAnimating()
         
@@ -323,7 +318,7 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
         
         DispatchQueue(label: "io.ackermann.imageCreate").async {
             let stickerImage = self.canvas.bufferImage?.autoCroppedImage?.verticallyFlipped ?? UIImage()
-            let stickerData = UIImagePNGRepresentation(stickerImage) ?? Data()
+            let stickerData = stickerImage.pngData() ?? Data()
             
             let doodle =  Doodle(
                 createdDate: self.doodleToEdit?.createdDate ?? Date(),
@@ -355,7 +350,7 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
-    @objc fileprivate func clearScreen() {
+    @objc private func clearScreen() {
         let alert = UIAlertController(title: NSLocalizedString("CLEAR", comment: "Clear"), message: NSLocalizedString("CLEARPROMPT", comment: "Would you like to clear the screen?"), preferredStyle: .alert)
         
         alert.addAction(
@@ -368,7 +363,7 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
         present(alert, animated: true, completion: nil)
     }
     
-    func segmentWasChanged(_ sender: UISegmentedControl) {
+    @objc private func segmentWasChanged(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
             SettingsController.shared.disableEraser()
         }
@@ -377,8 +372,8 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
-    func sliderUpdated(_ sender: UISlider) {
-        SettingsController.shared.setStrokeWidth(sender.value)
+    @objc private func sliderUpdated(_ sender: UISlider) {
+        SettingsController.shared.strokeWidth = sender.value
         strokeSizeView.strokeSize = CGFloat(sender.value)
     }
     
@@ -462,10 +457,13 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     //MARK: - Motion Event Delegate -
-    override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
-        if motion == .motionShake {
-            clearScreen()
+    
+    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+        guard motion == .motionShake else {
+            return
         }
+        
+        clearScreen()
     }
     
 }
@@ -488,10 +486,10 @@ extension CanvasViewController: UIScrollViewDelegate {
         }
         
         if scale > 675 {
-            canvas.layer.magnificationFilter = kCAFilterNearest
+            canvas.layer.magnificationFilter = .nearest
         }
         else {
-            canvas.layer.magnificationFilter = kCAFilterLinear
+            canvas.layer.magnificationFilter = .linear
         }
         
         lastCanvasZoomScale = scale

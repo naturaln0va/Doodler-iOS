@@ -3,7 +3,7 @@ import UIKit
 
 class DoodlesViewController: UIViewController {
     
-    fileprivate var doodles = [Doodle]() {
+    private var doodles = [Doodle]() {
         didSet {
             if doodles.count > 0 {
                 navigationItem.leftBarButtonItem = editButtonItem
@@ -14,23 +14,24 @@ class DoodlesViewController: UIViewController {
         }
     }
     
-    fileprivate var collectionView: UICollectionView!
-    fileprivate var transitionAnimator: DoodleAnimator?
-    fileprivate var shouldAutoPresentDoodle = true
+    private var collectionView: UICollectionView!
+    private var transitionAnimator: DoodleAnimator?
+    private var shouldAutoPresentDoodle = true
     
-    fileprivate var sortedDoodles: [Doodle] {
+    private var sortedDoodles: [Doodle] {
         return doodles.sorted(by: { first, second in
             return first.updatedDate > second.updatedDate
         })
     }
     
-    fileprivate var selectedDoodles = [Doodle]()
+    private var selectedDoodles = [Doodle]()
     
-    fileprivate lazy var wobble: CAKeyframeAnimation = {
+    private lazy var wobble: CAKeyframeAnimation = {
         let wobble = CAKeyframeAnimation(keyPath: "transform.rotation")
         wobble.duration = 0.25
         wobble.repeatCount = Float.infinity
-        wobble.values = [0.0, -M_PI_4/25, 0.0, M_PI_4/25, 0.0]
+        let fracPi = Float.pi / 180
+        wobble.values = [0.0, -fracPi, 0.0, fracPi, 0.0]
         wobble.keyTimes = [0.0, 0.25, 0.5, 0.75, 1.0]
         return wobble
     }()
@@ -158,7 +159,7 @@ class DoodlesViewController: UIViewController {
     
     // MARK: - Helpers
     
-    fileprivate func startNewDoodle() {
+    private func startNewDoodle() {
         setEditing(false, animated: true)
         
         transitionAnimator = DoodleAnimator(duration: 0.5)
@@ -170,7 +171,7 @@ class DoodlesViewController: UIViewController {
         present(vc, animated: true, completion: nil)
     }
     
-    fileprivate func refreshView() {
+    private func refreshView() {
         let prevDoodles = doodles
         doodles = DocumentsController.sharedController.doodles()
         
@@ -186,7 +187,7 @@ class DoodlesViewController: UIViewController {
             collectionView.deleteSections(IndexSet([0]))
         }
         else if doodles.count < prevDoodles.count {
-            if let deletedDoodle = prevDoodles.filter({ doodles.contains($0) }).last, let itemToDelete = prevDoodles.index(of: deletedDoodle) {
+            if let deletedDoodle = prevDoodles.filter({ doodles.contains($0) }).last, let itemToDelete = prevDoodles.firstIndex(of: deletedDoodle) {
                 collectionView.deleteItems(at: [IndexPath(item: itemToDelete, section: 0)])
             }
         }
@@ -224,7 +225,7 @@ extension DoodlesViewController: UICollectionViewDataSource, UICollectionViewDel
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if isEditing {
-            if let index = selectedDoodles.index(of: sortedDoodles[indexPath.item]) {
+            if let index = selectedDoodles.firstIndex(of: sortedDoodles[indexPath.item]) {
                 selectedDoodles.remove(at: index)
             }
             else {

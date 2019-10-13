@@ -3,13 +3,15 @@ import UIKit
 
 class DoodleAnimator: NSObject {
     
+    typealias CompletionBlock = () -> Void
+    
     let duration: Double
     var presenting: Bool = false
     var originFrame: CGRect? = nil
     var imageView: UIImageView? = nil
-    var dismissCompletionBlock: ((Void) -> Void)?
+    var dismissCompletionBlock: CompletionBlock?
     
-    init(duration: Double, originatingFrame frame: CGRect? = nil, completion: ((Void) -> Void)? = nil) {
+    init(duration: Double, originatingFrame frame: CGRect? = nil, completion: CompletionBlock? = nil) {
         self.duration = duration
         self.originFrame = frame
         self.dismissCompletionBlock = completion
@@ -84,7 +86,7 @@ extension DoodleAnimator: UIViewControllerAnimatedTransitioning {
             
             containerView.addSubview(toVC.view)
             containerView.addSubview(finalVC.view)
-            containerView.bringSubview(toFront: finalVC.view)
+            containerView.bringSubviewToFront(finalVC.view)
             
             UIView.animate(
                 withDuration: transitionDuration(using: transitionContext),

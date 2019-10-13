@@ -10,7 +10,7 @@ protocol ActionMenuViewControllerDelegate: class {
 
 class ActionMenuViewController: UIViewController {
     
-    fileprivate lazy var shareButton: UIButton = {
+    private lazy var shareButton: UIButton = {
         let button = UIButton()
         
         button.setTitleColor(UIColor(white: 1, alpha: 0.5), for: .highlighted)
@@ -20,7 +20,7 @@ class ActionMenuViewController: UIViewController {
         
         return button
     }()
-    fileprivate lazy var clearButton: UIButton = {
+    private lazy var clearButton: UIButton = {
         let button = UIButton()
         
         button.setTitleColor(UIColor(white: 1, alpha: 0.5), for: .highlighted)
@@ -30,7 +30,7 @@ class ActionMenuViewController: UIViewController {
         
         return button
     }()
-    fileprivate lazy var undoButton: UIButton = {
+    private lazy var undoButton: UIButton = {
         let button = UIButton()
         
         button.setTitleColor(UIColor(white: 1, alpha: 0.5), for: .highlighted)
@@ -40,7 +40,7 @@ class ActionMenuViewController: UIViewController {
         
         return button
     }()
-    fileprivate lazy var redoButton: UIButton = {
+    private lazy var redoButton: UIButton = {
         let button = UIButton()
         
         button.setTitleColor(UIColor(white: 1, alpha: 0.5), for: .highlighted)
@@ -68,7 +68,7 @@ class ActionMenuViewController: UIViewController {
     }
     
     var contentSize: CGSize {
-        return view.systemLayoutSizeFitting(UILayoutFittingExpandedSize)
+        return view.systemLayoutSizeFitting(UIView.layoutFittingExpandedSize)
     }
     
     init(isPresentingWithinMessages: Bool) {
@@ -237,7 +237,7 @@ class ActionMenuViewController: UIViewController {
     
     // MARK: - Actions
     
-    @objc fileprivate func buttonPressed(sender: UIButton) {
+    @objc private func buttonPressed(sender: UIButton) {
         switch sender {
             
         case shareButton:
