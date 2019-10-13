@@ -10,12 +10,16 @@ class StyledNavigationController: UINavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationBar.prefersLargeTitles = true
+        
         navigationBar.barTintColor = UIColor.black
         navigationBar.tintColor = UIColor.tintColor.withAlphaComponent(0.6)
         
-        navigationBar.titleTextAttributes = [
+        let baseTitleAttributes: [NSAttributedString.Key: Any] = [
             .foregroundColor: UIColor.tintColor
         ]
+        navigationBar.titleTextAttributes = baseTitleAttributes
+        navigationBar.largeTitleTextAttributes = baseTitleAttributes
     }
     
 }

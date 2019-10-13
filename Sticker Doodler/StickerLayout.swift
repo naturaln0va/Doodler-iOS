@@ -9,10 +9,10 @@ class StickerLayout: UICollectionViewFlowLayout {
         minimumLineSpacing = 10
         minimumInteritemSpacing = 10
         
-        guard let collectionView = collectionView else { return }
+        guard let cv = collectionView else { return }
         
-        let workingWidth = collectionView.bounds.width - collectionView.contentInset.left - collectionView.contentInset.right
-        let cellWidth = (workingWidth - (minimumInteritemSpacing * 2)) / 3
+        let workingWidth = cv.bounds.width - cv.contentInset.left - cv.contentInset.right
+        let cellWidth = (workingWidth - (minimumInteritemSpacing * 2)) / 3 - 8
         
         itemSize = CGSize(width: cellWidth, height: cellWidth)
     }

@@ -68,7 +68,7 @@ extension DoodleAnimator: UIViewControllerAnimatedTransitioning {
                 withDuration: transitionDuration(using: transitionContext),
                 animations: {
                     finalVC.view.alpha = 1
-                    animatingImageView?.frame = finalVC.view.frame
+                    animatingImageView?.frame = finalVC.view.bounds
                     finalVC.canvas.frame = finalVC.view.frame
                 }, completion: { _ in
                     finalVC.canvas.alpha = 1
@@ -79,15 +79,7 @@ extension DoodleAnimator: UIViewControllerAnimatedTransitioning {
             )
             
         }
-        else {
-            guard let toVC = toViewControler else { return }
-            
-            toVC.view.frame = UIScreen.main.bounds
-            
-            containerView.addSubview(toVC.view)
-            containerView.addSubview(finalVC.view)
-            containerView.bringSubviewToFront(finalVC.view)
-            
+        else {            
             UIView.animate(
                 withDuration: transitionDuration(using: transitionContext),
                 animations: {

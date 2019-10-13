@@ -3,6 +3,9 @@ import UIKit
 
 extension UIView {
     
+    /**
+     Captures the screen and returns a UIImage with its contents.
+     */
     var imageByCapturing: UIImage {
         UIGraphicsBeginImageContextWithOptions(bounds.size, isOpaque, 0.0)
         
@@ -15,4 +18,15 @@ extension UIView {
         return image!
     }
     
+    /**
+     Shows a rectangle around the view's frame.
+     
+     - Parameter color: The border color.
+     */
+    @objc(showBoundingRectWithColor:)
+    func showBoundingRect(with color: UIColor = .red) {
+        layer.borderColor = color.cgColor
+        layer.borderWidth = 1
+    }
+
 }

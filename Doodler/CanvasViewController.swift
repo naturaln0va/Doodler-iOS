@@ -47,9 +47,7 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
         
         view.alpha = 0
         view.clipsToBounds = true
-        view.layer.borderWidth = 4
-        view.layer.cornerRadius = 20
-        view.layer.borderColor = UIColor.white.cgColor
+        view.layer.cornerRadius = 8
         view.translatesAutoresizingMaskIntoConstraints = false
         
         return view
@@ -59,9 +57,9 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
         let view = UIToolbar()
 
         view.isTranslucent = true
-        view.tintColor = self.isPresentingWithinMessages ? UIColor(red: 0.52,  green: 0.56,  blue: 0.6, alpha: 1.0) : UIColor.white
-        view.barTintColor = self.isPresentingWithinMessages ? UIColor(white: 0.98899, alpha: 1.0) : UIColor.black
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.barTintColor = self.isPresentingWithinMessages ? UIColor(white: 0.98899, alpha: 1.0) : UIColor.black
+        view.tintColor = self.isPresentingWithinMessages ? UIColor(red: 0.52,  green: 0.56,  blue: 0.6, alpha: 1.0) : UIColor.white
         
         return view
     }()
@@ -76,6 +74,10 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
         
         view.frame.size.width = 175
         view.selectedSegmentIndex = 0
+        if !self.isPresentingWithinMessages {
+            view.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .normal)
+            view.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
+        }
         view.addTarget(self, action: #selector(segmentWasChanged(_:)), for: .valueChanged)
         
         return view
@@ -152,16 +154,11 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
         view.addConstraints(NSLayoutConstraint.constraints(forPinningViewToSuperview: scrollView))
         
         view.addSubview(toolbar)
-        view.addConstraints(
-            NSLayoutConstraint.constraints(
-                with: ["H:|[bar]|"],
-                views: ["bar": toolbar]
-            )
-        )
-        toolBarBottomConstraint = view.bottomAnchor.constraint(
-            equalTo: toolbar.bottomAnchor,
-            constant: isPresentingWithinMessages ? 44 : 0
-        )
+        NSLayoutConstraint.activate([
+            toolbar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            toolbar.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+        toolBarBottomConstraint = toolbar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         toolBarBottomConstraint.isActive = true
         
         view.addSubview(strokeSizeView)
@@ -176,23 +173,18 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
         )
         
         view.addSubview(strokeSlider)
-        view.addConstraints(
-            NSLayoutConstraint.constraints(
-                with: [
-                    "H:|-4-[slider]-4-|",
-                    "V:|-topSpace-[slider]"
-                ],
-                metrics: ["topSpace": isPresentingWithinMessages ? 90 : 4],
-                views: ["slider": strokeSlider]
-            )
-        )
+        NSLayoutConstraint.activate([
+            strokeSlider.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
+            strokeSlider.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
+            strokeSlider.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8)
+        ])
         
         segmentBarButton = UIBarButtonItem(customView: segmentedControl)
         colorPickerBarButton = UIBarButtonItem(customView: colorButton)
         
         colorButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(colorButtonPressed)))
         colorButton.color = SettingsController.shared.strokeColor
-        
+                
         hideToolbar()
         refreshToolbarItems()
     }
@@ -316,6 +308,8 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
         toolbar.items?.removeFirst()
         toolbar.items?.insert(UIBarButtonItem(customView: activityIndicator), at: 0)
         
+        let preview = canvas.imageByCapturing
+        
         DispatchQueue(label: "io.ackermann.imageCreate").async {
             let stickerImage = self.canvas.bufferImage?.autoCroppedImage?.verticallyFlipped ?? UIImage()
             let stickerData = stickerImage.pngData() ?? Data()
@@ -325,7 +319,7 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
                 updatedDate: Date(),
                 history: self.canvas.history,
                 stickerImageData: stickerData,
-                previewImage: self.canvas.imageByCapturing
+                previewImage: preview
             )
             
             DocumentsController.sharedController.save(doodle: doodle) { success in
@@ -415,7 +409,7 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func showToolbar() {
-        toolBarBottomConstraint.constant = isPresentingWithinMessages ? 44 : 0
+        toolBarBottomConstraint.constant = 0
         
         UIView.animate(withDuration: 0.4, delay: 0.0, usingSpringWithDamping: 1.05, initialSpringVelocity: 0.125, options: [], animations: {
             self.view.layoutIfNeeded()
@@ -424,7 +418,7 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func hideToolbar() {
-        toolBarBottomConstraint.constant = -toolbar.bounds.height
+        toolBarBottomConstraint.constant = toolbar.bounds.height + view.safeAreaInsets.bottom
         
         UIView.animate(withDuration: 0.4, delay: 0.0, usingSpringWithDamping: 1.05, initialSpringVelocity: 0.125, options: [], animations: {
             self.view.layoutIfNeeded()

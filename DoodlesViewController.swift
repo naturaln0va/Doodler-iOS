@@ -24,7 +24,18 @@ class DoodlesViewController: UIViewController {
         })
     }
     
-    private var selectedDoodles = [Doodle]()
+    private var selectedDoodles = [Doodle]() {
+        didSet {
+            guard isEditing else {
+                return
+            }
+            
+            let shouldEnableBarButton = !selectedDoodles.isEmpty
+            navigationItem.rightBarButtonItems?.forEach { item in
+                item.isEnabled = shouldEnableBarButton
+            }
+        }
+    }
     
     private lazy var wobble: CAKeyframeAnimation = {
         let wobble = CAKeyframeAnimation(keyPath: "transform.rotation")
@@ -97,6 +108,9 @@ class DoodlesViewController: UIViewController {
                     action: #selector(shareButtonPressed)
                 )
             ]
+            navigationItem.rightBarButtonItems?.forEach { item in
+                item.isEnabled = false
+            }
         }
         else {
             navigationItem.rightBarButtonItems = nil
@@ -168,6 +182,7 @@ class DoodlesViewController: UIViewController {
         let vc = CanvasViewController()
         vc.delegate = self
         vc.transitioningDelegate = self
+        vc.modalPresentationStyle = .custom
         present(vc, animated: true, completion: nil)
     }
     
@@ -225,12 +240,7 @@ extension DoodlesViewController: UICollectionViewDataSource, UICollectionViewDel
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if isEditing {
-            if let index = selectedDoodles.firstIndex(of: sortedDoodles[indexPath.item]) {
-                selectedDoodles.remove(at: index)
-            }
-            else {
-                selectedDoodles.append(sortedDoodles[indexPath.item])
-            }
+            selectedDoodles.append(sortedDoodles[indexPath.item])
         }
         else {
             if let cell = collectionView.cellForItem(at: indexPath) as? DoodleCell {
@@ -243,8 +253,19 @@ extension DoodlesViewController: UICollectionViewDataSource, UICollectionViewDel
             let vc = CanvasViewController()
             vc.delegate = self
             vc.transitioningDelegate = self
+            vc.modalPresentationStyle = .custom
             vc.doodleToEdit = sortedDoodles[indexPath.item]
             present(vc, animated: true, completion: nil)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        guard isEditing else {
+            return
+        }
+        
+        if let index = selectedDoodles.firstIndex(of: sortedDoodles[indexPath.item]) {
+            selectedDoodles.remove(at: index)
         }
     }
     
