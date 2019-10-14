@@ -69,7 +69,6 @@ extension DoodleAnimator: UIViewControllerAnimatedTransitioning {
                 withDuration: transitionDuration(using: transitionContext),
                 animations: {
                     finalVC.view.alpha = 1
-                    finalVC.canvas.alpha = 1
                     finalVC.strokeSlider.alpha = 1
 
                     animatingImageView?.frame = finalCanvasFrame
@@ -78,6 +77,7 @@ extension DoodleAnimator: UIViewControllerAnimatedTransitioning {
                         finalVC.canvas.frame = finalVC.view.frame
                     }
                 }, completion: { _ in
+                    finalVC.canvas.alpha = 1
                     animatingImageView?.removeFromSuperview()
                     transitionContext.completeTransition(true)
                 }
