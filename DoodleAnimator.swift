@@ -38,11 +38,12 @@ extension DoodleAnimator: UIViewControllerAnimatedTransitioning {
             return
         }
         
-        finalVC.view.frame = UIScreen.main.bounds
         containerView.frame = UIScreen.main.bounds
         
         if presenting {
             containerView.addSubview(finalVC.view)
+            
+            let finalCanvasFrame = finalVC.canvas.frame
             var animatingImageView: UIImageView? = nil
             finalVC.view.alpha = 0
             
@@ -53,7 +54,7 @@ extension DoodleAnimator: UIViewControllerAnimatedTransitioning {
                 animatingImageView = UIImageView(frame: frame)
                 animatingImageView?.image = imageView.image
                 
-                containerView.addSubview(animatingImageView!)
+                finalVC.view.insertSubview(animatingImageView!, belowSubview: finalVC.toolbar)
             }
             else {
                 finalVC.canvas.frame = CGRect(
@@ -68,11 +69,15 @@ extension DoodleAnimator: UIViewControllerAnimatedTransitioning {
                 withDuration: transitionDuration(using: transitionContext),
                 animations: {
                     finalVC.view.alpha = 1
-                    animatingImageView?.frame = finalVC.view.bounds
-                    finalVC.canvas.frame = finalVC.view.frame
-                }, completion: { _ in
                     finalVC.canvas.alpha = 1
                     finalVC.strokeSlider.alpha = 1
+
+                    animatingImageView?.frame = finalCanvasFrame
+                    
+                    if animatingImageView == nil {
+                        finalVC.canvas.frame = finalVC.view.frame
+                    }
+                }, completion: { _ in
                     animatingImageView?.removeFromSuperview()
                     transitionContext.completeTransition(true)
                 }

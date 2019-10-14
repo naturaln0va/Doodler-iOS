@@ -176,7 +176,7 @@ class DoodlesViewController: UIViewController {
     private func startNewDoodle() {
         setEditing(false, animated: true)
         
-        transitionAnimator = DoodleAnimator(duration: 0.5)
+        transitionAnimator = DoodleAnimator(duration: 0.35)
         transitionAnimator?.presenting = true
         
         let vc = CanvasViewController()
@@ -245,7 +245,7 @@ extension DoodlesViewController: UICollectionViewDataSource, UICollectionViewDel
         else {
             if let cell = collectionView.cellForItem(at: indexPath) as? DoodleCell {
                 let frame = cell.convert(cell.imageView.frame, to: collectionView)
-                transitionAnimator = DoodleAnimator(duration: 0.5, originatingFrame: frame)
+                transitionAnimator = DoodleAnimator(duration: 0.35, originatingFrame: frame)
                 transitionAnimator?.presenting = true
                 transitionAnimator?.imageView = cell.imageView
             }

@@ -28,6 +28,10 @@ class DrawableView: UIView {
     }
     var history = History()
     
+    var isDirty: Bool {
+        return bufferImage != doodleToEdit?.history.lastImage
+    }
+    
     private var drawingComponents = [DrawComponent]()
         
     var bufferImage: CGImage?

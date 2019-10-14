@@ -53,7 +53,23 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
         return view
     }()
     
-    private lazy var toolbar: UIToolbar = {
+    private lazy var blurStatusView: UIVisualEffectView = {
+        let style: UIBlurEffect.Style
+        
+        if #available(iOS 13.0, *) {
+            style = .systemChromeMaterialDark
+        }
+        else {
+            style = .dark
+        }
+
+        let view = UIVisualEffectView(effect: UIBlurEffect(style: style))
+        view.translatesAutoresizingMaskIntoConstraints = false
+
+        return view
+    }()
+    
+    private(set) lazy var toolbar: UIToolbar = {
         let view = UIToolbar()
 
         view.isTranslucent = true
@@ -161,6 +177,14 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
         toolBarBottomConstraint = toolbar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         toolBarBottomConstraint.isActive = true
         
+        view.addSubview(blurStatusView)
+        NSLayoutConstraint.activate([
+            blurStatusView.topAnchor.constraint(equalTo: view.topAnchor),
+            blurStatusView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            blurStatusView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            blurStatusView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+        ])
+        
         view.addSubview(strokeSizeView)
         view.addConstraints(
             NSLayoutConstraint.constraints(
@@ -205,7 +229,7 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
         super.viewWillLayoutSubviews()
         
         if view.bounds.width > 0 && canvas == nil {
-            let frameSize = doodleToEdit?.previewImage.size ?? view.frame.size
+            let frameSize = view.frame.size
             
             canvas = DrawableView(frame: CGRect(origin: .zero, size: frameSize))
             canvas.backgroundColor = .white
@@ -294,7 +318,7 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @objc private func backButtonPressed() {
-        guard canvas.history.canReset else {
+        guard canvas.history.canReset && canvas.isDirty else {
             delegate?.canvasViewControllerShouldDismiss()
             return
         }
