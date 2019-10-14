@@ -7,8 +7,8 @@ class DoodleCell: UICollectionViewCell {
     
     override var isSelected: Bool {
         didSet {
-            UIView.animate(withDuration: 0.75) {
-                self.layer.borderWidth = self.isSelected ? 9 : 0
+            UIView.animate(withDuration: 0.3) {
+                self.layer.borderWidth = self.isSelected ? 5 : 0
             }
         }
     }

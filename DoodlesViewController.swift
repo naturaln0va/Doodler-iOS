@@ -280,13 +280,21 @@ extension DoodlesViewController: UICollectionViewDataSource, UICollectionViewDel
 }
 
 extension DoodlesViewController: CanvasViewControllerDelegate {
-    
-    func canvasViewControllerShouldDismiss() {
+
+    private func deselectAndDismiss() {
+        if let indexPath = collectionView.indexPathsForSelectedItems?.first {
+            collectionView.deselectItem(at: indexPath, animated: true)
+        }
+
         dismiss(animated: true, completion: nil)
     }
     
+    func canvasViewControllerShouldDismiss() {
+        deselectAndDismiss()
+    }
+    
     func canvasViewControllerDidSaveDoodle() {
-        dismiss(animated: true, completion: nil)
+        deselectAndDismiss()
         refreshView()
     }
     
