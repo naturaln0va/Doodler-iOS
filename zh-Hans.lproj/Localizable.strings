@@ -7,6 +7,7 @@
 "DRAW" = "不分胜负";
 "ERASE" = "清除";
 "ERRORSAVING" = "错误节能涂鸦。";
+"OPENSETTINGS" = "打开设置";
 "PICKCOLOR" = "设置颜色...";
 "REDO" = "重做";
 "SELECT" = "选择";

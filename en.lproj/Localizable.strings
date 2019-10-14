@@ -7,6 +7,7 @@
 "DRAW" = "Draw";
 "ERASE" = "Erase";
 "ERRORSAVING" = "Error saving doodle.";
+"OPENSETTINGS" = "Open Settings";
 "PICKCOLOR" = "Pick Color";
 "REDO" = "Redo";
 "SELECT" = "Select";

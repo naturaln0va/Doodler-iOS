@@ -7,6 +7,7 @@
 "DRAW" = "抽卡";
 "ERASE" = "刪除";
 "ERRORSAVING" = "錯誤節能塗鴉。";
+"OPENSETTINGS" = "打開設置";
 "PICKCOLOR" = "挑选颜色";
 "REDO" = "重做";
 "SELECT" = "選擇";

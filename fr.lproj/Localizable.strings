@@ -7,6 +7,7 @@
 "DRAW" = "Match nul";
 "ERASE" = "Effacer";
 "ERRORSAVING" = "Sauver doodle Erreur.";
+"OPENSETTINGS" = "Paramètres ouverts";
 "PICKCOLOR" = "Choisissez la couleur";
 "REDO" = "Refaire";
 "SELECT" = "Sélectionner";

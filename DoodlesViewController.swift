@@ -73,6 +73,8 @@ class DoodlesViewController: UIViewController {
         
         view.addSubview(collectionView)                
         view.addConstraints(NSLayoutConstraint.constraints(forPinningViewToSuperview: collectionView))
+        
+        setupSettingsButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -210,6 +212,34 @@ class DoodlesViewController: UIViewController {
         collectionView.reloadItems(at: collectionView.indexPathsForVisibleItems)
     }
     
+    private func setupSettingsButton() {
+        let labelContainerView = UIView()
+        labelContainerView.translatesAutoresizingMaskIntoConstraints = false
+        labelContainerView.backgroundColor = UIColor(white: 1, alpha: 0.25)
+        labelContainerView.layer.cornerRadius = 16
+        
+        view.addSubview(labelContainerView)
+        NSLayoutConstraint.activate([
+            labelContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8),
+            labelContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            labelContainerView.heightAnchor.constraint(equalToConstant: 32)
+        ])
+        
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 14, weight: .medium)
+        label.text = NSLocalizedString("OPENSETTINGS", comment: "Open Settings")
+        label.textAlignment = .center
+        label.textColor = .white
+        
+        labelContainerView.addSubview(label)
+        NSLayoutConstraint.activate([
+            label.centerYAnchor.constraint(equalTo: labelContainerView.centerYAnchor),
+            label.leadingAnchor.constraint(equalTo: labelContainerView.leadingAnchor, constant: 20),
+            label.trailingAnchor.constraint(equalTo: labelContainerView.trailingAnchor, constant: -20)
+        ])
+    }
+    
 }
 
 
@@ -237,7 +267,7 @@ extension DoodlesViewController: UICollectionViewDataSource, UICollectionViewDel
         
         return cell
     }
-    
+            
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if isEditing {
             selectedDoodles.append(sortedDoodles[indexPath.item])
