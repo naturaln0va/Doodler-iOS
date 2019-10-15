@@ -5,12 +5,8 @@ class DoodlesViewController: UIViewController {
     
     private var doodles = [Doodle]() {
         didSet {
-            if doodles.count > 0 {
-                navigationItem.leftBarButtonItem = editButtonItem
-            }
-            else {
-                navigationItem.leftBarButtonItem = nil
-            }
+            toolbarItems = doodles.isEmpty ? [] : [editButtonItem]
+            navigationController?.setToolbarHidden(doodles.isEmpty, animated: doodles.isEmpty)
         }
     }
     
@@ -57,7 +53,14 @@ class DoodlesViewController: UIViewController {
             target: self,
             action: #selector(addButtonPressed)
         )
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: "gear"),
+            style: .plain,
+            target: self,
+            action: #selector(settingsButtonPressed)
+        )
         
+        doodles = DocumentsController.sharedController.doodles()
         view.backgroundColor = UIColor.backgroundColor
         
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: DoodleLayout())
@@ -73,16 +76,11 @@ class DoodlesViewController: UIViewController {
         
         view.addSubview(collectionView)                
         view.addConstraints(NSLayoutConstraint.constraints(forPinningViewToSuperview: collectionView))
-        
-        setupSettingsButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        doodles = DocumentsController.sharedController.doodles()
-        collectionView.reloadData()
-        
+                
         if shouldAutoPresentDoodle && doodles.count == 0 {
             startNewDoodle()
             shouldAutoPresentDoodle = false
@@ -173,6 +171,14 @@ class DoodlesViewController: UIViewController {
         present(ac, animated: true, completion: nil)
     }
     
+    @objc private func settingsButtonPressed() {
+        guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else {
+            return
+        }
+        
+        UIApplication.shared.open(settingsURL, options: [:])
+    }
+    
     // MARK: - Helpers
     
     private func startNewDoodle() {
@@ -210,34 +216,6 @@ class DoodlesViewController: UIViewController {
         }
         
         collectionView.reloadItems(at: collectionView.indexPathsForVisibleItems)
-    }
-    
-    private func setupSettingsButton() {
-        let labelContainerView = UIView()
-        labelContainerView.translatesAutoresizingMaskIntoConstraints = false
-        labelContainerView.backgroundColor = UIColor(white: 1, alpha: 0.25)
-        labelContainerView.layer.cornerRadius = 16
-        
-        view.addSubview(labelContainerView)
-        NSLayoutConstraint.activate([
-            labelContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8),
-            labelContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            labelContainerView.heightAnchor.constraint(equalToConstant: 32)
-        ])
-        
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 14, weight: .medium)
-        label.text = NSLocalizedString("OPENSETTINGS", comment: "Open Settings")
-        label.textAlignment = .center
-        label.textColor = .white
-        
-        labelContainerView.addSubview(label)
-        NSLayoutConstraint.activate([
-            label.centerYAnchor.constraint(equalTo: labelContainerView.centerYAnchor),
-            label.leadingAnchor.constraint(equalTo: labelContainerView.leadingAnchor, constant: 20),
-            label.trailingAnchor.constraint(equalTo: labelContainerView.trailingAnchor, constant: -20)
-        ])
     }
     
 }

@@ -19,6 +19,7 @@
 		480BC7691D790C13007245F1 /* ColorPreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E9E04A1BE005490065DE51 /* ColorPreView.swift */; };
 		4814280C1D80372000D94A45 /* ActionMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4814280B1D80372000D94A45 /* ActionMenuViewController.swift */; };
 		4814280D1D80372500D94A45 /* ActionMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4814280B1D80372000D94A45 /* ActionMenuViewController.swift */; };
+		48631EB42356033D0066B4CB /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 48631EB32356033D0066B4CB /* Settings.bundle */; };
 		4864FADB1D798C3300746A05 /* UIViewController+Addtions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697DD4CF1D60DA600032ACA5 /* UIViewController+Addtions.swift */; };
 		4864FADE1D799CBC00746A05 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4864FADD1D799CBC00746A05 /* Images.xcassets */; };
 		4864FADF1D799D4000746A05 /* ColorPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69E9E0611BE0083C0065DE51 /* ColorPickerViewController.xib */; };
@@ -39,10 +40,6 @@
 		6903EA971B56AA3B001BEAEC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6903EA961B56AA3B001BEAEC /* Images.xcassets */; };
 		6903EA9C1B56AA6C001BEAEC /* UIColor+Addtions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6903EA9A1B56AA6C001BEAEC /* UIColor+Addtions.swift */; };
 		6903EA9D1B56AA6C001BEAEC /* UIView+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6903EA9B1B56AA6C001BEAEC /* UIView+Additions.swift */; };
-		6903EAA21B56AA8E001BEAEC /* fancy_toast.wav in Resources */ = {isa = PBXBuildFile; fileRef = 6903EA9E1B56AA8E001BEAEC /* fancy_toast.wav */; };
-		6903EAA31B56AA8E001BEAEC /* music_marimba_chord.wav in Resources */ = {isa = PBXBuildFile; fileRef = 6903EA9F1B56AA8E001BEAEC /* music_marimba_chord.wav */; };
-		6903EAA41B56AA8E001BEAEC /* short_whoosh1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 6903EAA01B56AA8E001BEAEC /* short_whoosh1.wav */; };
-		6903EAA51B56AA8E001BEAEC /* woody_click.wav in Resources */ = {isa = PBXBuildFile; fileRef = 6903EAA11B56AA8E001BEAEC /* woody_click.wav */; };
 		6903EAB01B56AB06001BEAEC /* DrawableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6903EAAE1B56AB06001BEAEC /* DrawableView.swift */; };
 		6903EAB11B56AB06001BEAEC /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6903EAAF1B56AB06001BEAEC /* GridView.swift */; };
 		6903EAB31B56AB31001BEAEC /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6903EAB21B56AB31001BEAEC /* SettingsController.swift */; };
@@ -112,6 +109,7 @@
 
 /* Begin PBXFileReference section */
 		4814280B1D80372000D94A45 /* ActionMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionMenuViewController.swift; sourceTree = "<group>"; };
+		48631EB32356033D0066B4CB /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = SOURCE_ROOT; };
 		4864FADD1D799CBC00746A05 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		487904ED1D745DCC0050E615 /* UIImage+Addtions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Addtions.swift"; sourceTree = SOURCE_ROOT; };
 		487904F21D74A2650050E615 /* StickerLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StickerLayout.swift; sourceTree = "<group>"; };
@@ -124,10 +122,6 @@
 		6903EA961B56AA3B001BEAEC /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Assets/Images.xcassets; sourceTree = SOURCE_ROOT; };
 		6903EA9A1B56AA6C001BEAEC /* UIColor+Addtions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIColor+Addtions.swift"; path = "Doodler/UIColor+Addtions.swift"; sourceTree = SOURCE_ROOT; };
 		6903EA9B1B56AA6C001BEAEC /* UIView+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIView+Additions.swift"; path = "Doodler/UIView+Additions.swift"; sourceTree = SOURCE_ROOT; };
-		6903EA9E1B56AA8E001BEAEC /* fancy_toast.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = fancy_toast.wav; path = Assets/sound/fancy_toast.wav; sourceTree = SOURCE_ROOT; };
-		6903EA9F1B56AA8E001BEAEC /* music_marimba_chord.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = music_marimba_chord.wav; path = Assets/sound/music_marimba_chord.wav; sourceTree = SOURCE_ROOT; };
-		6903EAA01B56AA8E001BEAEC /* short_whoosh1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = short_whoosh1.wav; path = Assets/sound/short_whoosh1.wav; sourceTree = SOURCE_ROOT; };
-		6903EAA11B56AA8E001BEAEC /* woody_click.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = woody_click.wav; path = Assets/sound/woody_click.wav; sourceTree = SOURCE_ROOT; };
 		6903EAAE1B56AB06001BEAEC /* DrawableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DrawableView.swift; path = Doodler/DrawableView.swift; sourceTree = SOURCE_ROOT; };
 		6903EAAF1B56AB06001BEAEC /* GridView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GridView.swift; path = Doodler/GridView.swift; sourceTree = SOURCE_ROOT; };
 		6903EAB21B56AB31001BEAEC /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsController.swift; path = Doodler/SettingsController.swift; sourceTree = SOURCE_ROOT; };
@@ -312,7 +306,7 @@
 				6950BA0D1D63312600887096 /* LaunchScreen.storyboard */,
 				69E9E05E1BE007FA0065DE51 /* Info.plist */,
 				6903EA961B56AA3B001BEAEC /* Images.xcassets */,
-				489816BE1B7D9F7400CAE108 /* Sound */,
+				48631EB32356033D0066B4CB /* Settings.bundle */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -341,17 +335,6 @@
 				69E9E0591BE007ED0065DE51 /* UIKitExtensions.swift */,
 			);
 			name = Extensions;
-			sourceTree = "<group>";
-		};
-		489816BE1B7D9F7400CAE108 /* Sound */ = {
-			isa = PBXGroup;
-			children = (
-				6903EA9E1B56AA8E001BEAEC /* fancy_toast.wav */,
-				6903EA9F1B56AA8E001BEAEC /* music_marimba_chord.wav */,
-				6903EAA01B56AA8E001BEAEC /* short_whoosh1.wav */,
-				6903EAA11B56AA8E001BEAEC /* woody_click.wav */,
-			);
-			name = Sound;
 			sourceTree = "<group>";
 		};
 		48D5F4331B2C93B8003B8B96 /* Controllers */ = {
@@ -601,14 +584,11 @@
 			files = (
 				4864FAE31D79AB2900746A05 /* Images.xcassets in Resources */,
 				6903EA971B56AA3B001BEAEC /* Images.xcassets in Resources */,
-				6903EAA51B56AA8E001BEAEC /* woody_click.wav in Resources */,
-				6903EAA41B56AA8E001BEAEC /* short_whoosh1.wav in Resources */,
-				6903EAA21B56AA8E001BEAEC /* fancy_toast.wav in Resources */,
 				69AB97B31D80DCAE006D8E1D /* Localizable.strings in Resources */,
 				69E9E0651BE0083C0065DE51 /* ColorPickerViewController.xib in Resources */,
-				6903EAA31B56AA8E001BEAEC /* music_marimba_chord.wav in Resources */,
 				6950BA0E1D63312600887096 /* LaunchScreen.storyboard in Resources */,
 				695A986B1D61E5200049AE0A /* DoodleCell.xib in Resources */,
+				48631EB42356033D0066B4CB /* Settings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -858,7 +838,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = WK4Y48HVH2;
 				INFOPLIST_FILE = "$(SRCROOT)/Doodler/Project/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.naturaln0va.$(PRODUCT_NAME:rfc1034identifier)";
@@ -881,7 +861,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = WK4Y48HVH2;
 				INFOPLIST_FILE = "$(SRCROOT)/Doodler/Project/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.naturaln0va.$(PRODUCT_NAME:rfc1034identifier)";
@@ -906,7 +886,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = WK4Y48HVH2;
 				INFOPLIST_FILE = "Sticker Doodler/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MARKETING_VERSION = 2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.naturaln0va.Doodler.Sticker-Doodler";
@@ -932,7 +912,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = WK4Y48HVH2;
 				INFOPLIST_FILE = "Sticker Doodler/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MARKETING_VERSION = 2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.naturaln0va.Doodler.Sticker-Doodler";

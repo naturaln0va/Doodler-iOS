@@ -15,6 +15,9 @@ class StyledNavigationController: UINavigationController {
         navigationBar.barTintColor = UIColor.black
         navigationBar.tintColor = UIColor.tintColor.withAlphaComponent(0.6)
         
+        toolbar.barTintColor = navigationBar.barTintColor
+        toolbar.tintColor = navigationBar.tintColor
+        
         let baseTitleAttributes: [NSAttributedString.Key: Any] = [
             .foregroundColor: UIColor.tintColor
         ]
