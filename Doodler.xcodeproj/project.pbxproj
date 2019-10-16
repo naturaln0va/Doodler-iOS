@@ -35,7 +35,7 @@
 		487905101D74C35B0050E615 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6903EAB21B56AB31001BEAEC /* SettingsController.swift */; };
 		487905121D75BDFF0050E615 /* URL+Addtions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487905111D75BDFF0050E615 /* URL+Addtions.swift */; };
 		487905131D75BEF70050E615 /* URL+Addtions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487905111D75BDFF0050E615 /* URL+Addtions.swift */; };
-		48B38C5B1A16C4110040DE29 /* WindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B38C541A16C4110040DE29 /* WindowController.swift */; };
+		48B38C5B1A16C4110040DE29 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B38C541A16C4110040DE29 /* AppDelegate.swift */; };
 		48B38C611A16C4110040DE29 /* CanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B38C5A1A16C4110040DE29 /* CanvasViewController.swift */; };
 		6903EA971B56AA3B001BEAEC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6903EA961B56AA3B001BEAEC /* Images.xcassets */; };
 		6903EA9C1B56AA6C001BEAEC /* UIColor+Addtions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6903EA9A1B56AA6C001BEAEC /* UIColor+Addtions.swift */; };
@@ -116,7 +116,7 @@
 		487904F51D74A4F90050E615 /* StickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StickerCell.swift; sourceTree = "<group>"; };
 		487904F71D74BAD90050E615 /* CreateDoodleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateDoodleCell.swift; sourceTree = "<group>"; };
 		487905111D75BDFF0050E615 /* URL+Addtions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URL+Addtions.swift"; sourceTree = SOURCE_ROOT; };
-		48B38C541A16C4110040DE29 /* WindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WindowController.swift; path = Doodler/WindowController.swift; sourceTree = SOURCE_ROOT; };
+		48B38C541A16C4110040DE29 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Doodler/AppDelegate.swift; sourceTree = SOURCE_ROOT; };
 		48B38C5A1A16C4110040DE29 /* CanvasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CanvasViewController.swift; path = Doodler/CanvasViewController.swift; sourceTree = SOURCE_ROOT; };
 		48FA2ECA1A0C100F002CE8B9 /* Doodler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Doodler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6903EA961B56AA3B001BEAEC /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Assets/Images.xcassets; sourceTree = SOURCE_ROOT; };
@@ -341,7 +341,7 @@
 			isa = PBXGroup;
 			children = (
 				69E9E0381BE004C50065DE51 /* AppController.swift */,
-				48B38C541A16C4110040DE29 /* WindowController.swift */,
+				48B38C541A16C4110040DE29 /* AppDelegate.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -640,7 +640,7 @@
 				487904EE1D745DCC0050E615 /* UIImage+Addtions.swift in Sources */,
 				695A98661D61E3900049AE0A /* DoodlesViewController.swift in Sources */,
 				6903EAB01B56AB06001BEAEC /* DrawableView.swift in Sources */,
-				48B38C5B1A16C4110040DE29 /* WindowController.swift in Sources */,
+				48B38C5B1A16C4110040DE29 /* AppDelegate.swift in Sources */,
 				4814280C1D80372000D94A45 /* ActionMenuViewController.swift in Sources */,
 				69C3F2CB1D6642A6000D2501 /* CGImage+Addtions.swift in Sources */,
 			);
