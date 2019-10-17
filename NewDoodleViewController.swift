@@ -19,6 +19,7 @@ class NewDoodleViewController: UIViewController {
         super.viewDidLoad()
 
         title = "New Doodle"
+        view.backgroundColor = .systemBackground
         navigationItem.largeTitleDisplayMode = .never
         
         aspectSwitch.onTintColor = .doodlerRed

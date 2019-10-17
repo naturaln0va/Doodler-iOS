@@ -91,6 +91,7 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
             view.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .normal)
             view.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
         }
+        view.selectedSegmentTintColor = .white
         view.addTarget(self, action: #selector(segmentWasChanged(_:)), for: .valueChanged)
         
         return view
