@@ -13,6 +13,7 @@ class SettingsController: NSObject {
         static let strokeWidthKey = "strokeWidthKey"
         static let strokeColorKey = "strokeColorKey"
         static let eraserEnabledKey = "eraserEnabledKey"
+        static let documentSizeKey = "documentSizeKey"
     }
     
     private let defaults = UserDefaults(suiteName: "group.io.ackermann.doodlesharing") ?? UserDefaults.standard
@@ -30,6 +31,7 @@ class SettingsController: NSObject {
     }
     
     //MARK: - Public
+    
     var strokeWidth: Float {
         get {
             return defaults.float(forKey: DefaultsKeys.strokeWidthKey)
@@ -37,6 +39,30 @@ class SettingsController: NSObject {
         set {
             defaults.set(newValue, forKey: DefaultsKeys.strokeWidthKey)
             NotificationCenter.default.post(name: Notification.Name(rawValue: kSettingsControllerStrokeWidthDidChange), object: nil)
+        }
+    }
+    
+    var documentSize: CGSize? {
+        get {
+            guard let value = defaults.string(forKey: DefaultsKeys.documentSizeKey) else {
+                return nil
+            }
+            
+            let comps = value.components(separatedBy: "+")
+            
+            guard comps.count == 2, let width = Int(comps[0]), let height = Int(comps[1]) else {
+                return nil
+            }
+            
+            return CGSize(width: width, height: height)
+        }
+        set {
+            guard let value = newValue else {
+                return
+            }
+            
+            let sizeStringValue = "\(Int(value.width))+\(Int(value.height))"
+            defaults.set(sizeStringValue, forKey: DefaultsKeys.documentSizeKey)
         }
     }
     

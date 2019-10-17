@@ -43,11 +43,22 @@ class NewDoodleViewController: UIViewController {
         widthTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         heightTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         
-        let screenSize = UIScreen.main.bounds.size
-        widthTextField.text = String(Int(screenSize.width))
-        heightTextField.text = String(Int(screenSize.height))
+        let width: CGFloat, height: CGFloat
         
-        aspectView.aspectRatio = screenSize.width / screenSize.height
+        if let lastSize = SettingsController.shared.documentSize {
+            width = lastSize.width
+            height = lastSize.height
+        }
+        else {
+            let screenSize = UIScreen.main.bounds.size
+            width = screenSize.width
+            height = screenSize.height
+        }
+        
+        widthTextField.text = String(Int(width))
+        heightTextField.text = String(Int(height))
+        
+        aspectView.aspectRatio = width / height
     }
     
     // MARK: - Actions
@@ -66,6 +77,7 @@ class NewDoodleViewController: UIViewController {
         }
 
         let selectedSize = CGSize(width: width, height: height)
+        SettingsController.shared.documentSize = selectedSize
         
         dismiss(animated: true) {
             self.delegate?.newDoodleViewControllerDidComplete(with: selectedSize)
