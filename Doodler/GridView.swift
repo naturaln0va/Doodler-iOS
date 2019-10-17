@@ -2,6 +2,22 @@
 import UIKit
 
 class GridView: UIView {
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        initComplete()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        
+        initComplete()
+    }
+    
+    private func initComplete() {
+        layer.needsDisplayOnBoundsChange = true
+    }
 
     override func draw(_ rect: CGRect) {
         UIColor.backgroundColor.setFill()

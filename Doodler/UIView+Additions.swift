@@ -28,5 +28,20 @@ extension UIView {
         layer.borderColor = color.cgColor
         layer.borderWidth = 1
     }
+    
+    /**
+     Creates a new spring animation with predefined values.
+     */
+    class func springAnimate(with duration: TimeInterval, animations: @escaping () -> Void, completion: ((Bool) -> Void)? = nil) {
+        UIView.animate(
+            withDuration: duration,
+            delay: 0,
+            usingSpringWithDamping: 1,
+            initialSpringVelocity: 0.4,
+            options: [],
+            animations: animations,
+            completion: completion
+        )
+    }
 
 }

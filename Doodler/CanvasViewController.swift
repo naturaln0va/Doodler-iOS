@@ -2,8 +2,7 @@
 import UIKit
 
 protocol CanvasViewControllerDelegate: class {
-    func canvasViewControllerShouldDismiss()
-    func canvasViewControllerDidSaveDoodle()
+    func canvasViewControllerShouldDismiss(_ vc: CanvasViewController, didSave: Bool)
 }
 
 class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
@@ -16,8 +15,6 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
     private var lastCanvasZoomScale = 0
     private var pendingPickedColor: UIColor?
     private var toolBarBottomConstraint: NSLayoutConstraint!
-    
-    var canvas: DrawableView!
     
     private lazy var gridView: GridView = {
         let view = GridView()
@@ -148,6 +145,23 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
         action: #selector(shareButtonPressed)
     )
     
+    let canvas: DrawableView
+    
+    init(size: CGSize) {
+        canvas = DrawableView(frame: CGRect(origin: .zero, size: size))
+        canvas.backgroundColor = .white
+        
+        canvas.doodleToEdit = doodleToEdit
+        canvas.isUserInteractionEnabled = true
+        canvas.layer.magnificationFilter = .linear
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     //MARK: - ViewController Delegate -
     override var canBecomeFirstResponder: Bool {
         return true
@@ -159,7 +173,7 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+                
         view.backgroundColor = UIColor.backgroundColor
         SettingsController.shared.disableEraser()
         
@@ -208,6 +222,18 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
         
         colorButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(colorButtonPressed)))
         colorButton.color = SettingsController.shared.strokeColor
+        
+        canvas.addGestureRecognizer(
+            UILongPressGestureRecognizer(target: self, action: #selector(handle(longPress:)))
+        )
+        
+        scrollView.addSubview(canvas)
+        scrollView.contentSize = canvas.bounds.size
+        
+        let canvasTransformValue = view.frame.width / canvas.frame.width
+        canvas.transform = CGAffineTransform(scaleX: canvasTransformValue, y: canvasTransformValue)
+        
+        canvas.center = view.center
                 
         hideToolbar()
         refreshToolbarItems()
@@ -225,37 +251,9 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
         hideToolbar()
     }
     
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        
-        if view.bounds.width > 0 && canvas == nil {
-            let frameSize = view.frame.size
-            
-            canvas = DrawableView(frame: CGRect(origin: .zero, size: frameSize))
-            canvas.backgroundColor = .white
-            
-            canvas.doodleToEdit = doodleToEdit
-            canvas.isUserInteractionEnabled = true
-            canvas.layer.magnificationFilter = .linear
-            canvas.addGestureRecognizer(
-                UILongPressGestureRecognizer(target: self, action: #selector(handle(longPress:)))
-            )
-            
-            scrollView.addSubview(canvas)
-            scrollView.contentSize = canvas.bounds.size
-            
-            let canvasTransformValue = view.frame.width / canvas.frame.width
-            canvas.transform = CGAffineTransform(scaleX: canvasTransformValue, y: canvasTransformValue)
-            
-            centerScrollViewContents()
-        }
-    }
-    
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        
-        gridView.setNeedsDisplay()
-        
+                
         coordinator.animate(alongsideTransition: nil) { context in
             self.centerScrollViewContents()
         }
@@ -271,8 +269,7 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
         
         guard pendingPickedColor != nil else { return }
         
-        UIMenuController.shared.setTargetRect(CGRect(origin: position, size: .zero), in: gestureView)
-        UIMenuController.shared.setMenuVisible(true, animated: true)
+        UIMenuController.shared.showMenu(from: gestureView, rect: CGRect(origin: position, size: .zero))
         UIMenuController.shared.menuItems = [UIMenuItem(title: NSLocalizedString("PICKCOLOR", comment: "Pick Color"), action: #selector(selectColor))]
         
         gestureView.becomeFirstResponder()
@@ -319,11 +316,11 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @objc private func backButtonPressed() {
         guard canvas.history.canReset && canvas.isDirty else {
-            delegate?.canvasViewControllerShouldDismiss()
+            delegate?.canvasViewControllerShouldDismiss(self, didSave: false)
             return
         }
         
-        let activityIndicator = UIActivityIndicatorView(style: .white)
+        let activityIndicator = UIActivityIndicatorView(style: .medium)
         activityIndicator.tintColor = isPresentingWithinMessages ? UIColor(red: 0.52,  green: 0.56,  blue: 0.6, alpha: 1.0) : .white
         activityIndicator.startAnimating()
         
@@ -348,7 +345,7 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
             
             DocumentsController.sharedController.save(doodle: doodle) { success in
                 if success {
-                    self.delegate?.canvasViewControllerDidSaveDoodle()
+                    self.delegate?.canvasViewControllerShouldDismiss(self, didSave: success)
                 }
                 else {
                     self.toolbar.items = previousItems
@@ -467,11 +464,8 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
         else {
             contentsFrame.origin.y = 0.0
         }
-        
-        let minWidth = min(canvas.frame.width, canvas.frame.height)
-        let maxHeight = max(canvas.frame.width, canvas.frame.height)
 
-        canvas.frame = CGRect(origin: contentsFrame.origin, size: CGSize(width: minWidth, height: maxHeight))
+        canvas.frame = CGRect(origin: contentsFrame.origin, size: contentsFrame.size)
     }
     
     //MARK: - Motion Event Delegate -

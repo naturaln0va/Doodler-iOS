@@ -187,7 +187,7 @@ class DoodlesViewController: UIViewController {
         transitionAnimator = DoodleAnimator(duration: 0.35)
         transitionAnimator?.presenting = true
         
-        let vc = CanvasViewController()
+        let vc = CanvasViewController(size: view.bounds.size)
         vc.delegate = self
         vc.transitioningDelegate = self
         vc.modalPresentationStyle = .custom
@@ -258,7 +258,7 @@ extension DoodlesViewController: UICollectionViewDataSource, UICollectionViewDel
                 transitionAnimator?.imageView = cell.imageView
             }
             
-            let vc = CanvasViewController()
+            let vc = CanvasViewController(size: view.bounds.size)
             vc.delegate = self
             vc.transitioningDelegate = self
             vc.modalPresentationStyle = .custom
@@ -288,7 +288,7 @@ extension DoodlesViewController: UICollectionViewDataSource, UICollectionViewDel
 }
 
 extension DoodlesViewController: CanvasViewControllerDelegate {
-
+    
     private func deselectAndDismiss() {
         if let indexPath = collectionView.indexPathsForSelectedItems?.first {
             collectionView.deselectItem(at: indexPath, animated: true)
@@ -296,13 +296,14 @@ extension DoodlesViewController: CanvasViewControllerDelegate {
 
         dismiss(animated: true, completion: nil)
     }
-    
-    func canvasViewControllerShouldDismiss() {
+
+    func canvasViewControllerShouldDismiss(_ vc: CanvasViewController, didSave: Bool) {
         deselectAndDismiss()
-    }
-    
-    func canvasViewControllerDidSaveDoodle() {
-        deselectAndDismiss()
+        
+        guard didSave else {
+            return
+        }
+        
         refreshView()
     }
     

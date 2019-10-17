@@ -37,6 +37,12 @@
 		487905131D75BEF70050E615 /* URL+Addtions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487905111D75BDFF0050E615 /* URL+Addtions.swift */; };
 		48B38C5B1A16C4110040DE29 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B38C541A16C4110040DE29 /* AppDelegate.swift */; };
 		48B38C611A16C4110040DE29 /* CanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B38C5A1A16C4110040DE29 /* CanvasViewController.swift */; };
+		48C1FAAB23579E4200079B72 /* NavigationPresentationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1FAAA23579E4200079B72 /* NavigationPresentationManager.swift */; };
+		48C1FAAD23579FD700079B72 /* CGRect+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1FAAC23579FD700079B72 /* CGRect+Additions.swift */; };
+		48C1FAAE23579FD900079B72 /* CGRect+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1FAAC23579FD700079B72 /* CGRect+Additions.swift */; };
+		48C1FAB12357A0B600079B72 /* NewDoodleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1FAAF2357A0B600079B72 /* NewDoodleViewController.swift */; };
+		48C1FAB22357A0B600079B72 /* NewDoodleViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 48C1FAB02357A0B600079B72 /* NewDoodleViewController.xib */; };
+		48C1FAB42357A62400079B72 /* AspectPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C1FAB32357A62400079B72 /* AspectPreviewView.swift */; };
 		6903EA971B56AA3B001BEAEC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6903EA961B56AA3B001BEAEC /* Images.xcassets */; };
 		6903EA9C1B56AA6C001BEAEC /* UIColor+Addtions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6903EA9A1B56AA6C001BEAEC /* UIColor+Addtions.swift */; };
 		6903EA9D1B56AA6C001BEAEC /* UIView+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6903EA9B1B56AA6C001BEAEC /* UIView+Additions.swift */; };
@@ -71,7 +77,7 @@
 		69D380781D6B208700BED7E1 /* UIColor+Addtions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6903EA9A1B56AA6C001BEAEC /* UIColor+Addtions.swift */; };
 		69D380791D6B20B800BED7E1 /* Serializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697DD4D81D6162C50032ACA5 /* Serializable.swift */; };
 		69E9E0391BE004C50065DE51 /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E9E0381BE004C50065DE51 /* AppController.swift */; };
-		69E9E03F1BE004F30065DE51 /* StyledNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E9E03E1BE004F30065DE51 /* StyledNavigationController.swift */; };
+		69E9E03F1BE004F30065DE51 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E9E03E1BE004F30065DE51 /* NavigationController.swift */; };
 		69E9E0451BE005230065DE51 /* ColorPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E9E0441BE005230065DE51 /* ColorPickerViewController.swift */; };
 		69E9E04B1BE005490065DE51 /* ColorPreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E9E04A1BE005490065DE51 /* ColorPreView.swift */; };
 		69E9E04D1BE005540065DE51 /* ColorPreviewButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E9E04C1BE005540065DE51 /* ColorPreviewButton.swift */; };
@@ -118,6 +124,11 @@
 		487905111D75BDFF0050E615 /* URL+Addtions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URL+Addtions.swift"; sourceTree = SOURCE_ROOT; };
 		48B38C541A16C4110040DE29 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Doodler/AppDelegate.swift; sourceTree = SOURCE_ROOT; };
 		48B38C5A1A16C4110040DE29 /* CanvasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CanvasViewController.swift; path = Doodler/CanvasViewController.swift; sourceTree = SOURCE_ROOT; };
+		48C1FAAA23579E4200079B72 /* NavigationPresentationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationPresentationManager.swift; sourceTree = SOURCE_ROOT; };
+		48C1FAAC23579FD700079B72 /* CGRect+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGRect+Additions.swift"; sourceTree = "<group>"; };
+		48C1FAAF2357A0B600079B72 /* NewDoodleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewDoodleViewController.swift; sourceTree = SOURCE_ROOT; };
+		48C1FAB02357A0B600079B72 /* NewDoodleViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewDoodleViewController.xib; sourceTree = SOURCE_ROOT; };
+		48C1FAB32357A62400079B72 /* AspectPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspectPreviewView.swift; sourceTree = SOURCE_ROOT; };
 		48FA2ECA1A0C100F002CE8B9 /* Doodler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Doodler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6903EA961B56AA3B001BEAEC /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Assets/Images.xcassets; sourceTree = SOURCE_ROOT; };
 		6903EA9A1B56AA6C001BEAEC /* UIColor+Addtions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIColor+Addtions.swift"; path = "Doodler/UIColor+Addtions.swift"; sourceTree = SOURCE_ROOT; };
@@ -164,7 +175,7 @@
 		69D3807B1D6B22D000BED7E1 /* Sticker Doodler.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Sticker Doodler.entitlements"; sourceTree = "<group>"; };
 		69D3807C1D6B234100BED7E1 /* Doodler.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; name = Doodler.entitlements; path = Doodler/Doodler.entitlements; sourceTree = SOURCE_ROOT; };
 		69E9E0381BE004C50065DE51 /* AppController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppController.swift; path = Doodler/AppController.swift; sourceTree = SOURCE_ROOT; };
-		69E9E03E1BE004F30065DE51 /* StyledNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StyledNavigationController.swift; path = Doodler/StyledNavigationController.swift; sourceTree = SOURCE_ROOT; };
+		69E9E03E1BE004F30065DE51 /* NavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NavigationController.swift; path = Doodler/NavigationController.swift; sourceTree = SOURCE_ROOT; };
 		69E9E0441BE005230065DE51 /* ColorPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ColorPickerViewController.swift; path = Doodler/ColorPickerViewController.swift; sourceTree = SOURCE_ROOT; };
 		69E9E04A1BE005490065DE51 /* ColorPreView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ColorPreView.swift; path = Doodler/ColorPreView.swift; sourceTree = SOURCE_ROOT; };
 		69E9E04C1BE005540065DE51 /* ColorPreviewButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ColorPreviewButton.swift; path = Doodler/ColorPreviewButton.swift; sourceTree = SOURCE_ROOT; };
@@ -229,6 +240,7 @@
 			isa = PBXGroup;
 			children = (
 				69C3F2CA1D6642A6000D2501 /* CGImage+Addtions.swift */,
+				48C1FAAC23579FD700079B72 /* CGRect+Additions.swift */,
 				69749C151D64B69D00D1CF0B /* NSLayoutConstraint+Addtions.swift */,
 				6903EA9A1B56AA6C001BEAEC /* UIColor+Addtions.swift */,
 				487904ED1D745DCC0050E615 /* UIImage+Addtions.swift */,
@@ -314,6 +326,7 @@
 		4880D46A1A4F74620077E68B /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				48C1FAB32357A62400079B72 /* AspectPreviewView.swift */,
 				695A98671D61E5010049AE0A /* CollectionView Cells */,
 			);
 			name = Views;
@@ -323,7 +336,9 @@
 			isa = PBXGroup;
 			children = (
 				695A98651D61E3900049AE0A /* DoodlesViewController.swift */,
-				69E9E03E1BE004F30065DE51 /* StyledNavigationController.swift */,
+				69E9E03E1BE004F30065DE51 /* NavigationController.swift */,
+				48C1FAAF2357A0B600079B72 /* NewDoodleViewController.swift */,
+				48C1FAB02357A0B600079B72 /* NewDoodleViewController.xib */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -342,6 +357,7 @@
 			children = (
 				69E9E0381BE004C50065DE51 /* AppController.swift */,
 				48B38C541A16C4110040DE29 /* AppDelegate.swift */,
+				48C1FAAA23579E4200079B72 /* NavigationPresentationManager.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -586,6 +602,7 @@
 				6903EA971B56AA3B001BEAEC /* Images.xcassets in Resources */,
 				69AB97B31D80DCAE006D8E1D /* Localizable.strings in Resources */,
 				69E9E0651BE0083C0065DE51 /* ColorPickerViewController.xib in Resources */,
+				48C1FAB22357A0B600079B72 /* NewDoodleViewController.xib in Resources */,
 				6950BA0E1D63312600887096 /* LaunchScreen.storyboard in Resources */,
 				695A986B1D61E5200049AE0A /* DoodleCell.xib in Resources */,
 				48631EB42356033D0066B4CB /* Settings.bundle in Resources */,
@@ -621,13 +638,16 @@
 				69E9E0451BE005230065DE51 /* ColorPickerViewController.swift in Sources */,
 				69E9E04D1BE005540065DE51 /* ColorPreviewButton.swift in Sources */,
 				695A986A1D61E5200049AE0A /* DoodleCell.swift in Sources */,
+				48C1FAB12357A0B600079B72 /* NewDoodleViewController.swift in Sources */,
 				695A986D1D61E7B40049AE0A /* DocumentsController.swift in Sources */,
 				6903EA9D1B56AA6C001BEAEC /* UIView+Additions.swift in Sources */,
 				69749C161D64B69D00D1CF0B /* NSLayoutConstraint+Addtions.swift in Sources */,
 				6903EAB31B56AB31001BEAEC /* SettingsController.swift in Sources */,
+				48C1FAB42357A62400079B72 /* AspectPreviewView.swift in Sources */,
 				69BEF2A01D649156007BFAF6 /* Date+Relative.swift in Sources */,
 				6903EAB11B56AB06001BEAEC /* GridView.swift in Sources */,
 				487905131D75BEF70050E615 /* URL+Addtions.swift in Sources */,
+				48C1FAAD23579FD700079B72 /* CGRect+Additions.swift in Sources */,
 				69E9E0571BE007D80065DE51 /* StrokeSizeView.swift in Sources */,
 				6977CC731D652798006FD1E1 /* DoodleAnimator.swift in Sources */,
 				697DD4D01D60DA600032ACA5 /* UIViewController+Addtions.swift in Sources */,
@@ -636,7 +656,8 @@
 				697DD4D41D61011E0032ACA5 /* History.swift in Sources */,
 				69E9E05C1BE007ED0065DE51 /* UIKitExtensions.swift in Sources */,
 				69E9E0511BE005630065DE51 /* SaturationBrightnessPickerView.swift in Sources */,
-				69E9E03F1BE004F30065DE51 /* StyledNavigationController.swift in Sources */,
+				69E9E03F1BE004F30065DE51 /* NavigationController.swift in Sources */,
+				48C1FAAB23579E4200079B72 /* NavigationPresentationManager.swift in Sources */,
 				487904EE1D745DCC0050E615 /* UIImage+Addtions.swift in Sources */,
 				695A98661D61E3900049AE0A /* DoodlesViewController.swift in Sources */,
 				6903EAB01B56AB06001BEAEC /* DrawableView.swift in Sources */,
@@ -650,6 +671,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				48C1FAAE23579FD900079B72 /* CGRect+Additions.swift in Sources */,
 				480BC7691D790C13007245F1 /* ColorPreView.swift in Sources */,
 				480BC7681D790A73007245F1 /* ColorPickerViewController.swift in Sources */,
 				487905101D74C35B0050E615 /* SettingsController.swift in Sources */,

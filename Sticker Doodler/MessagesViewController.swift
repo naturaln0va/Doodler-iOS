@@ -20,7 +20,7 @@ class MessagesViewController: MSMessagesAppViewController {
         let controller: UIViewController
         
         if presentationStyle == .expanded {
-            let vc = CanvasViewController()
+            let vc = CanvasViewController(size: view.bounds.size)
             vc.delegate = self
             vc.isPresentingWithinMessages = true
             controller = vc
@@ -50,11 +50,7 @@ class MessagesViewController: MSMessagesAppViewController {
 
 extension MessagesViewController: CanvasViewControllerDelegate {
     
-    func canvasViewControllerDidSaveDoodle() {
-        requestPresentationStyle(.compact)
-    }
-    
-    func canvasViewControllerShouldDismiss() {
+    func canvasViewControllerShouldDismiss(_ vc: CanvasViewController, didSave: Bool) {
         requestPresentationStyle(.compact)
     }
     
