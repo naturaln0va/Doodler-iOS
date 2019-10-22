@@ -235,6 +235,7 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
         canvas.transform = CGAffineTransform(scaleX: canvasTransformValue, y: canvasTransformValue)
         
         canvas.center = view.center
+        canvas.doodleToEdit = doodleToEdit
                 
         hideToolbar()
         refreshToolbarItems()
