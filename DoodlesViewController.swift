@@ -13,6 +13,7 @@ class DoodlesViewController: UIViewController {
     private var collectionView: UICollectionView!
     private var transitionAnimator: DoodleAnimator?
     private var shouldAutoPresentDoodle = true
+    private var presentationManager: NavigationPresentationManager?
     
     private var sortedDoodles: [Doodle] {
         return doodles.sorted(by: { first, second in
@@ -128,7 +129,36 @@ class DoodlesViewController: UIViewController {
     // MARK: - Actions
     
     @objc private func addButtonPressed() {
-        startNewDoodle()
+        let ac = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        ac.addAction(
+            UIAlertAction(title: NSLocalizedString("NEWDOODLE", comment: "New Doodle"), style: .default, handler: { [weak self] _ in
+                guard let strongSelf = self else {
+                    return
+                }
+                
+                let vc = NewDoodleViewController()
+                vc.delegate = strongSelf
+                                
+                strongSelf.presentationManager = NavigationPresentationManager(viewController: vc)
+                strongSelf.presentationManager?.present(from: strongSelf)
+            })
+        )
+        ac.addAction(
+            UIAlertAction(title: NSLocalizedString("IMPORT.FILES", comment: "Import From Files"), style: .default, handler: { [weak self] _ in
+                guard let strongSelf = self else {
+                    return
+                }
+
+                let vc = UIDocumentPickerViewController(documentTypes: ["public.image"], in: .import)
+                vc.allowsMultipleSelection = false
+                vc.shouldShowFileExtensions = true
+                vc.delegate = strongSelf
+                
+                strongSelf.present(vc, animated: true, completion: nil)
+            })
+        )
+        ac.addAction(UIAlertAction(title: NSLocalizedString("CANCEL", comment: "Cancel"), style: .cancel, handler: nil))
+        present(ac, animated: true, completion: nil)
     }
     
     @objc private func deleteButtonPressed() {
@@ -318,6 +348,34 @@ extension DoodlesViewController: UIViewControllerTransitioningDelegate {
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         transitionAnimator?.presenting = false
         return transitionAnimator
+    }
+    
+}
+
+extension DoodlesViewController: NewDoodleViewControllerDelegate {
+    
+    func newDoodleViewControllerDidComplete(with size: CGSize) {
+        let vc = CanvasViewController(size: size)
+        
+        vc.delegate = self
+        vc.transitioningDelegate = self
+        vc.modalPresentationStyle = .custom
+
+        present(vc, animated: true, completion: nil)
+    }
+    
+}
+
+extension DoodlesViewController: UIDocumentPickerDelegate {
+    
+    func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+        controller.dismiss(animated: true, completion: nil)
+    }
+    
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        for url in urls {
+            print("URL: \(url.absoluteString)")
+        }
     }
     
 }

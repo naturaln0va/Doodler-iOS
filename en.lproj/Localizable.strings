@@ -8,6 +8,8 @@
 "DRAW" = "Draw";
 "ERASE" = "Erase";
 "ERRORSAVING" = "Error saving doodle.";
+"IMPORT.FILES" = "Import From Files";
+"NEWDOODLE" = "New Doodle";
 "OPENSETTINGS" = "Open Settings";
 "PICKCOLOR" = "Pick Color";
 "REDO" = "Redo";
