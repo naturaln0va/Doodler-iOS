@@ -24,6 +24,10 @@ struct Doodle {
         return baseFileName + ".png"
     }
     
+    var size: CGSize {
+        return previewImage.size
+    }
+    
 }
 
 extension Doodle: Equatable {

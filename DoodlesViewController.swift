@@ -288,11 +288,13 @@ extension DoodlesViewController: UICollectionViewDataSource, UICollectionViewDel
                 transitionAnimator?.imageView = cell.imageView
             }
             
-            let vc = CanvasViewController(size: view.bounds.size)
+            let doodle = sortedDoodles[indexPath.item]
+            
+            let vc = CanvasViewController(size: doodle.size)
             vc.delegate = self
             vc.transitioningDelegate = self
             vc.modalPresentationStyle = .custom
-            vc.doodleToEdit = sortedDoodles[indexPath.item]
+            vc.doodleToEdit = doodle
             present(vc, animated: true, completion: nil)
         }
     }
