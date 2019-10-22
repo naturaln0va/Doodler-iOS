@@ -857,7 +857,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Doodler/Doodler.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = WK4Y48HVH2;
 				INFOPLIST_FILE = "$(SRCROOT)/Doodler/Project/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -880,7 +880,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Doodler/Doodler.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = WK4Y48HVH2;
 				INFOPLIST_FILE = "$(SRCROOT)/Doodler/Project/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -904,7 +904,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CODE_SIGN_ENTITLEMENTS = "Sticker Doodler/Sticker Doodler.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = WK4Y48HVH2;
 				INFOPLIST_FILE = "Sticker Doodler/Info.plist";
@@ -930,7 +930,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Sticker Doodler/Sticker Doodler.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = WK4Y48HVH2;
 				INFOPLIST_FILE = "Sticker Doodler/Info.plist";
