@@ -7,7 +7,3 @@ func delay(_ delay: Double, closure: @escaping ()->()) {
         execute: closure
     )
 }
-
-func isIPad() -> Bool {
-    return UIDevice.current.userInterfaceIdiom == .pad
-}

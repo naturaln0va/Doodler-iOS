@@ -12,7 +12,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         
         if let window = window {
-            AppController.sharedController.showInWindow(window)
+            AppController.shared.showInWindow(window)
         }
         
         return true
