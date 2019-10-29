@@ -65,6 +65,8 @@ extension DoodleAnimator: UIViewControllerAnimatedTransitioning {
                 )
             }
             
+            print("Final canvas frame: \(finalVC.canvas.frame)")
+            
             UIView.animate(
                 withDuration: transitionDuration(using: transitionContext),
                 animations: {
@@ -91,7 +93,7 @@ extension DoodleAnimator: UIViewControllerAnimatedTransitioning {
                     finalVC.view.alpha = 0.0
                     finalVC.canvas.frame = CGRect(
                         x: -finalVC.canvas.bounds.width,
-                        y: 0,
+                        y: finalVC.canvas.frame.origin.y,
                         width: finalVC.canvas.bounds.width,
                         height: finalVC.canvas.bounds.height
                     )

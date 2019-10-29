@@ -15,6 +15,7 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
     private var lastCanvasZoomScale = 0
     private var pendingPickedColor: UIColor?
     private var toolBarBottomConstraint: NSLayoutConstraint!
+    private var canvasNeedsLayout = true
     
     private lazy var gridView: GridView = {
         let view = GridView()
@@ -101,7 +102,6 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
         let view = UIScrollView()
         
         view.delegate = self
-        view.minimumZoomScale = 0.25
         view.maximumZoomScale = 12.5
         view.panGestureRecognizer.minimumNumberOfTouches = 2
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -152,7 +152,6 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
         canvas = DrawableView(frame: CGRect(origin: .zero, size: size))
         canvas.backgroundColor = .white
         
-        canvas.doodleToEdit = doodleToEdit
         canvas.isUserInteractionEnabled = true
         canvas.layer.magnificationFilter = .linear
         
@@ -224,19 +223,6 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
         colorButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(colorButtonPressed)))
         colorButton.color = SettingsController.shared.strokeColor
         
-        canvas.addGestureRecognizer(
-            UILongPressGestureRecognizer(target: self, action: #selector(handle(longPress:)))
-        )
-        
-        scrollView.addSubview(canvas)
-        scrollView.contentSize = canvas.bounds.size
-        
-        let canvasTransformValue = view.frame.width / canvas.frame.width
-        canvas.transform = CGAffineTransform(scaleX: canvasTransformValue, y: canvasTransformValue)
-        
-        canvas.center = view.center
-        canvas.doodleToEdit = doodleToEdit
-                
         hideToolbar()
         refreshToolbarItems()
     }
@@ -259,6 +245,27 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
         coordinator.animate(alongsideTransition: nil) { context in
             self.centerScrollViewContents()
         }
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        guard canvasNeedsLayout && view.bounds.width > 0 else {
+            return
+        }
+        
+        canvasNeedsLayout = false
+        scrollView.addSubview(canvas)
+
+        let canvasTransformValue = (view.frame.width - 40) / canvas.frame.width
+        scrollView.minimumZoomScale = canvasTransformValue / 2.5
+        scrollView.contentSize = canvas.bounds.size
+        
+        canvas.transform = CGAffineTransform(scaleX: canvasTransformValue, y: canvasTransformValue)
+        canvas.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(handle(longPress:))))
+
+        canvas.doodleToEdit = doodleToEdit
+        centerScrollViewContents()
     }
     
     //MARK: - Actions -
@@ -467,7 +474,10 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
             contentsFrame.origin.y = 0.0
         }
 
-        canvas.frame = CGRect(origin: contentsFrame.origin, size: contentsFrame.size)
+        let centeredFrame = CGRect(origin: contentsFrame.origin, size: contentsFrame.size)
+        
+        print("Centered to: \(centeredFrame)")
+        canvas.frame = centeredFrame
     }
     
     //MARK: - Motion Event Delegate -

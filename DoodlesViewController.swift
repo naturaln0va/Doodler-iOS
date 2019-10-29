@@ -282,19 +282,20 @@ extension DoodlesViewController: UICollectionViewDataSource, UICollectionViewDel
         }
         else {
             if let cell = collectionView.cellForItem(at: indexPath) as? DoodleCell {
-                let frame = cell.convert(cell.imageView.frame, to: collectionView)
+                let frame = cell.convert(cell.imageView.frame, to: navigationController?.view)
                 transitionAnimator = DoodleAnimator(duration: 0.35, originatingFrame: frame)
-                transitionAnimator?.presenting = true
                 transitionAnimator?.imageView = cell.imageView
             }
             
             let doodle = sortedDoodles[indexPath.item]
             
             let vc = CanvasViewController(size: doodle.size)
+            transitionAnimator?.presenting = true
+
             vc.delegate = self
+            vc.doodleToEdit = doodle
             vc.transitioningDelegate = self
             vc.modalPresentationStyle = .custom
-            vc.doodleToEdit = doodle
             present(vc, animated: true, completion: nil)
         }
     }
