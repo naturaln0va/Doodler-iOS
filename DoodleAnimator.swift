@@ -35,6 +35,7 @@ extension DoodleAnimator: UIViewControllerAnimatedTransitioning {
         
         guard let finalVC = viewToFade as? CanvasViewController else {
             print("viewToFade was not of type: 'CanvasViewController'.")
+            transitionContext.completeTransition(false)
             return
         }
         
@@ -59,13 +60,11 @@ extension DoodleAnimator: UIViewControllerAnimatedTransitioning {
             else {
                 finalVC.canvas.frame = CGRect(
                     x: finalVC.canvas.bounds.width * 2,
-                    y: 0,
+                    y: finalCanvasFrame.origin.y,
                     width: finalVC.canvas.bounds.width,
                     height: finalVC.canvas.bounds.height
                 )
             }
-            
-            print("Final canvas frame: \(finalVC.canvas.frame)")
             
             UIView.animate(
                 withDuration: transitionDuration(using: transitionContext),
@@ -74,10 +73,7 @@ extension DoodleAnimator: UIViewControllerAnimatedTransitioning {
                     finalVC.strokeSlider.alpha = 1
 
                     animatingImageView?.frame = finalCanvasFrame
-                    
-                    if animatingImageView == nil {
-                        finalVC.canvas.frame = finalVC.view.frame
-                    }
+                    finalVC.canvas.frame = finalCanvasFrame
                 }, completion: { _ in
                     finalVC.canvas.alpha = 1
                     animatingImageView?.removeFromSuperview()

@@ -257,7 +257,7 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
         canvasNeedsLayout = false
         scrollView.addSubview(canvas)
 
-        let canvasTransformValue = (view.frame.width - 40) / canvas.frame.width
+        let canvasTransformValue = view.frame.width / canvas.frame.width
         scrollView.minimumZoomScale = canvasTransformValue / 2.5
         scrollView.contentSize = canvas.bounds.size
         
@@ -475,8 +475,6 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
         }
 
         let centeredFrame = CGRect(origin: contentsFrame.origin, size: contentsFrame.size)
-        
-        print("Centered to: \(centeredFrame)")
         canvas.frame = centeredFrame
     }
     
