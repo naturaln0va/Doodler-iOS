@@ -121,9 +121,9 @@ class DrawableView: UIView {
     
     private func renderBufferInContext() {
         let ctx = bufferContext
-        
+        ctx?.clear(bounds)
+
         if let image = bufferImage {
-            ctx?.clear(bounds)
             ctx?.draw(image, in: bounds)
         }
         

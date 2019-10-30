@@ -12,11 +12,11 @@ struct History {
     }
     
     var canUndo: Bool {
-        return undoList.count > 0
+        return !undoList.isEmpty
     }
     
     var canRedo: Bool {
-        return redoList.count > 0
+        return !redoList.isEmpty
     }
     
     var canReset: Bool {
@@ -59,17 +59,21 @@ struct History {
     }
     
     mutating func undo() {
-        if let last = undoList.last {
-            appendRedo(image: last)
-            undoList.removeLast()
+        guard canUndo else {
+            return
         }
+        
+        let last = undoList.removeLast()
+        appendRedo(image: last)
     }
     
     mutating func redo() {
-        if let last = redoList.last {
-            appendUndo(image: last)
-            redoList.removeLast()
+        guard canRedo else {
+            return
         }
+        
+        let last = redoList.removeLast()
+        appendUndo(image: last)
     }
     
     mutating func clear() {
