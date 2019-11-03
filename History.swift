@@ -3,9 +3,31 @@ import UIKit
 
 struct History {
     
-    private let sizeLimit = 25
+    private let oneMegaByte = 1000000
+    private let sizeLimitInMegaBytes = 50
+    
+    private var sizeLimit: Int {
+        return oneMegaByte * sizeLimitInMegaBytes
+    }
+    
     private var undoList = [CGImage]()
     private var redoList = [CGImage]()
+    
+    private var approximateFileSizeRaw: Int64 {
+        let undoSize = undoList.reduce(0) { total, image in
+            return total + image.approximateFileSize
+        }
+        let redoSize = redoList.reduce(0) { total, image in
+            return total + image.approximateFileSize
+        }
+        return undoSize + redoSize
+    }
+    
+    var approximateFileSize: String {
+        let formatter = ByteCountFormatter()
+        formatter.countStyle = .file
+        return formatter.string(fromByteCount: approximateFileSizeRaw)
+    }
     
     var lastImage: CGImage? {
         return undoList.last
@@ -27,7 +49,7 @@ struct History {
     private mutating func appendUndo(image: CGImage?) {
         guard let image = image else { return }
         
-        if undoList.count >= sizeLimit {
+        if approximateFileSizeRaw >= sizeLimit {
             undoList.removeFirst()
         }
         
@@ -36,10 +58,6 @@ struct History {
     
     private mutating func appendRedo(image: CGImage?) {
         guard let image = image else { return }
-        
-        if redoList.count >= sizeLimit {
-            redoList.removeFirst()
-        }
         
         redoList.append(image)
     }

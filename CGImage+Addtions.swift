@@ -2,6 +2,10 @@
 import UIKit
 
 extension CGImage {
+    
+    var approximateFileSize: Int64 {
+        return Int64(height * bytesPerRow)
+    }
         
     var autoCroppedImage: UIImage? {
         var minX = 0
