@@ -14,11 +14,45 @@ class NewDoodleViewController: UIViewController {
     @IBOutlet var aspectSwitch: UISwitch!
     
     weak var delegate: NewDoodleViewControllerDelegate?
+    
+    private let maxSideLength: Int = 15000
+    
+    private var inputSize: (width: Int, height: Int) {
+        let width = Int(widthTextField.text ?? "0") ?? 0
+        let height = Int(heightTextField.text ?? "0") ?? 0
+        return (width, height)
+    }
+    
+    private var maxWidth: Int {
+        let aspectRatio = aspectView.aspectRatio
+        if aspectSwitch.isOn {
+            if aspectRatio > 1 {
+                return maxSideLength
+            }
+            else {
+                return Int(CGFloat(maxSideLength) * aspectRatio)
+            }
+        }
+        return maxSideLength
+    }
+    
+    private var maxHeight: Int {
+        let aspectRatio = aspectView.aspectRatio
+        if aspectSwitch.isOn {
+            if aspectRatio > 1 {
+                return Int(CGFloat(maxSideLength) / aspectRatio)
+            }
+            else {
+                return maxSideLength
+            }
+        }
+        return maxSideLength
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "New Doodle"
+        title = NSLocalizedString("NEWDOODLE", comment: "New Doodle")
         view.backgroundColor = .systemBackground
         navigationItem.largeTitleDisplayMode = .never
         
@@ -86,12 +120,7 @@ class NewDoodleViewController: UIViewController {
     }
     
     @objc private func textFieldDidChange(_ textField: UITextField) {
-        guard let widthText = widthTextField.text, let width = Double(widthText) else {
-            navigationItem.rightBarButtonItem?.isEnabled = false
-            return
-        }
-        
-        guard let heightText = heightTextField.text, let height = Double(heightText) else {
+        guard inputSize.width > 0 && inputSize.height > 0 else {
             navigationItem.rightBarButtonItem?.isEnabled = false
             return
         }
@@ -99,17 +128,25 @@ class NewDoodleViewController: UIViewController {
         if navigationItem.rightBarButtonItem?.isEnabled == false {
             navigationItem.rightBarButtonItem?.isEnabled = true
         }
-                
+                        
         guard aspectSwitch.isOn else {
-            aspectView.aspectRatio = CGFloat(width / height)
+            aspectView.aspectRatio = CGFloat(inputSize.width) / CGFloat(inputSize.height)
             return
         }
         
         if textField == widthTextField {
-            heightTextField.text = String(Int(round(CGFloat(width) / aspectView.aspectRatio)))
+            heightTextField.text = String(Int(round(CGFloat(inputSize.width) / aspectView.aspectRatio)))
         }
         else {
-            widthTextField.text = String(Int(round(CGFloat(height) * aspectView.aspectRatio)))
+            widthTextField.text = String(Int(round(CGFloat(inputSize.height) * aspectView.aspectRatio)))
+        }
+        
+        if inputSize.width > maxWidth {
+            widthTextField.text = String(maxWidth)
+        }
+        
+        if inputSize.height > maxHeight {
+            heightTextField.text = String(maxHeight)
         }
     }
     
