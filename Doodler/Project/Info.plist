@@ -24,7 +24,7 @@
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSPhotoLibraryUsageDescription</key>
+	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Allow access so you can save your Doodles.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

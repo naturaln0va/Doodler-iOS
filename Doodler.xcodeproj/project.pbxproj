@@ -17,6 +17,8 @@
 		480A64921D79031600E98622 /* StrokeSizeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E9E0561BE007D80065DE51 /* StrokeSizeView.swift */; };
 		480BC7681D790A73007245F1 /* ColorPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E9E0441BE005230065DE51 /* ColorPickerViewController.swift */; };
 		480BC7691D790C13007245F1 /* ColorPreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E9E04A1BE005490065DE51 /* ColorPreView.swift */; };
+		480F1F0D236F7C710070C061 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 480F1F10236F7C710070C061 /* InfoPlist.strings */; };
+		480F1F0E236F7C710070C061 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 480F1F10236F7C710070C061 /* InfoPlist.strings */; };
 		4814280C1D80372000D94A45 /* ActionMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4814280B1D80372000D94A45 /* ActionMenuViewController.swift */; };
 		4814280D1D80372500D94A45 /* ActionMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4814280B1D80372000D94A45 /* ActionMenuViewController.swift */; };
 		4864FADB1D798C3300746A05 /* UIViewController+Addtions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697DD4CF1D60DA600032ACA5 /* UIViewController+Addtions.swift */; };
@@ -113,6 +115,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		480F1F0F236F7C710070C061 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		480F1F11236F7C740070C061 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		4814280B1D80372000D94A45 /* ActionMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionMenuViewController.swift; sourceTree = "<group>"; };
 		4864FADD1D799CBC00746A05 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		487904ED1D745DCC0050E615 /* UIImage+Addtions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Addtions.swift"; sourceTree = SOURCE_ROOT; };
@@ -242,6 +246,7 @@
 			children = (
 				4864FADD1D799CBC00746A05 /* Images.xcassets */,
 				69AB97B61D80DCAE006D8E1D /* Localizable.strings */,
+				480F1F10236F7C710070C061 /* InfoPlist.strings */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -578,6 +583,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4864FAE31D79AB2900746A05 /* Images.xcassets in Resources */,
+				480F1F0D236F7C710070C061 /* InfoPlist.strings in Resources */,
 				6903EA971B56AA3B001BEAEC /* Images.xcassets in Resources */,
 				69AB97B31D80DCAE006D8E1D /* Localizable.strings in Resources */,
 				69E9E0651BE0083C0065DE51 /* ColorPickerViewController.xib in Resources */,
@@ -592,6 +598,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				69AB97B41D80DCAE006D8E1D /* Localizable.strings in Resources */,
+				480F1F0E236F7C710070C061 /* InfoPlist.strings in Resources */,
 				4864FADE1D799CBC00746A05 /* Images.xcassets in Resources */,
 				69D380671D6A981E00BED7E1 /* Assets.xcassets in Resources */,
 				4864FADF1D799D4000746A05 /* ColorPickerViewController.xib in Resources */,
@@ -692,6 +699,15 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		480F1F10236F7C710070C061 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				480F1F0F236F7C710070C061 /* en */,
+				480F1F11236F7C740070C061 /* de */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		69AB97B61D80DCAE006D8E1D /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
