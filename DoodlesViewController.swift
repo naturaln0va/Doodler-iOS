@@ -61,7 +61,7 @@ class DoodlesViewController: UIViewController {
             action: #selector(settingsButtonPressed)
         )
         
-        doodles = DocumentsController.sharedController.doodles()
+        doodles = DocumentsController.sharedController.doodles
         view.backgroundColor = UIColor.backgroundColor
         
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: DoodleLayout())
@@ -201,7 +201,7 @@ class DoodlesViewController: UIViewController {
     
     private func refreshView() {
         let prevDoodles = doodles
-        doodles = DocumentsController.sharedController.doodles()
+        doodles = DocumentsController.sharedController.doodles
         
         if doodles.count > prevDoodles.count {
             if collectionView.numberOfSections == 0 {

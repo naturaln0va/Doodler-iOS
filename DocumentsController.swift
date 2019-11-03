@@ -60,7 +60,7 @@ class DocumentsController {
         return wholeURL
     }()
     
-    func doodles() -> [Doodle] {
+    var doodles: [Doodle] {
         guard let filePath = doodleSavePath else { return [] }
         
         var doodles = [Doodle]()
@@ -80,7 +80,7 @@ class DocumentsController {
         return doodles
     }
     
-    func stickerURLs() -> [URL] {
+    var stickerURLs: [URL] {
         guard let filePath = stickerSavePath else { return [] }
         
         var urls = [URL]()

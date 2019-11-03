@@ -38,7 +38,7 @@ class DoodleBrowserViewController: UICollectionViewController {
     
     private func loadStickers() {
         stickers.removeAll()
-        for url in DocumentsController.sharedController.stickerURLs() where url.pathExtension.lowercased() == "png" {
+        for url in DocumentsController.sharedController.stickerURLs where url.pathExtension.lowercased() == "png" {
             do {
                 let sticker = try MSSticker(
                     contentsOfFileURL: url,
