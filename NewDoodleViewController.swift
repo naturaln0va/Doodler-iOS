@@ -12,7 +12,8 @@ class NewDoodleViewController: UIViewController {
     @IBOutlet var heightTextField: UITextField!
     @IBOutlet var formContainerView: UIView!
     @IBOutlet var aspectSwitch: UISwitch!
-    
+    @IBOutlet var screenSizeButton: UIButton!
+
     weak var delegate: NewDoodleViewControllerDelegate?
     
     private let maxSideLength: Int = 15000
@@ -84,7 +85,11 @@ class NewDoodleViewController: UIViewController {
         aspectSwitch.onTintColor = .doodlerRed
         widthTextField.tintColor = .doodlerRed
         heightTextField.tintColor = .doodlerRed
+        screenSizeButton.tintColor = .doodlerRed
         formContainerView.layer.cornerRadius = 5
+        
+        screenSizeButton.setTitle(NSLocalizedString("USESCREENSIZE", comment: "Use Screen Size"), for: .normal)
+        screenSizeButton.addTarget(self, action: #selector(screenSizeButtonPressed), for: .primaryActionTriggered)
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             title: NSLocalizedString("CANCEL", comment: "Cancel"),
@@ -144,6 +149,12 @@ class NewDoodleViewController: UIViewController {
         }
     }
     
+    @objc private func screenSizeButtonPressed() {
+        dismiss(animated: true) {
+            self.delegate?.newDoodleViewControllerDidComplete(with: UIScreen.main.bounds.size)
+        }
+    }
+    
     @objc private func textFieldDidChange(_ textField: UITextField) {
         defer {
             if inputSize.width > maxWidth {
@@ -191,7 +202,7 @@ class NewDoodleViewController: UIViewController {
 extension NewDoodleViewController: NavigationPresentationConfigurable {
     
     var contentHeight: CGFloat {
-        return 320
+        return 360
     }
     
 }
