@@ -19,7 +19,6 @@
 		480BC7691D790C13007245F1 /* ColorPreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E9E04A1BE005490065DE51 /* ColorPreView.swift */; };
 		4814280C1D80372000D94A45 /* ActionMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4814280B1D80372000D94A45 /* ActionMenuViewController.swift */; };
 		4814280D1D80372500D94A45 /* ActionMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4814280B1D80372000D94A45 /* ActionMenuViewController.swift */; };
-		48631EB42356033D0066B4CB /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 48631EB32356033D0066B4CB /* Settings.bundle */; };
 		4864FADB1D798C3300746A05 /* UIViewController+Addtions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697DD4CF1D60DA600032ACA5 /* UIViewController+Addtions.swift */; };
 		4864FADE1D799CBC00746A05 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4864FADD1D799CBC00746A05 /* Images.xcassets */; };
 		4864FADF1D799D4000746A05 /* ColorPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69E9E0611BE0083C0065DE51 /* ColorPickerViewController.xib */; };
@@ -115,7 +114,6 @@
 
 /* Begin PBXFileReference section */
 		4814280B1D80372000D94A45 /* ActionMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionMenuViewController.swift; sourceTree = "<group>"; };
-		48631EB32356033D0066B4CB /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = SOURCE_ROOT; };
 		4864FADD1D799CBC00746A05 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		487904ED1D745DCC0050E615 /* UIImage+Addtions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Addtions.swift"; sourceTree = SOURCE_ROOT; };
 		487904F21D74A2650050E615 /* StickerLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StickerLayout.swift; sourceTree = "<group>"; };
@@ -318,7 +316,6 @@
 				6950BA0D1D63312600887096 /* LaunchScreen.storyboard */,
 				69E9E05E1BE007FA0065DE51 /* Info.plist */,
 				6903EA961B56AA3B001BEAEC /* Images.xcassets */,
-				48631EB32356033D0066B4CB /* Settings.bundle */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -605,7 +602,6 @@
 				48C1FAB22357A0B600079B72 /* NewDoodleViewController.xib in Resources */,
 				6950BA0E1D63312600887096 /* LaunchScreen.storyboard in Resources */,
 				695A986B1D61E5200049AE0A /* DoodleCell.xib in Resources */,
-				48631EB42356033D0066B4CB /* Settings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

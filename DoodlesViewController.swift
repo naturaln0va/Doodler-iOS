@@ -54,12 +54,13 @@ class DoodlesViewController: UIViewController {
             target: self,
             action: #selector(addButtonPressed)
         )
-        navigationItem.leftBarButtonItem = UIBarButtonItem(
-            image: UIImage(systemName: "gear"),
-            style: .plain,
-            target: self,
-            action: #selector(settingsButtonPressed)
-        )
+        
+//        navigationItem.leftBarButtonItem = UIBarButtonItem(
+//            image: UIImage(systemName: "gear"),
+//            style: .plain,
+//            target: self,
+//            action: #selector(settingsButtonPressed)
+//        )
         
         doodles = DocumentsController.sharedController.doodles
         view.backgroundColor = UIColor.backgroundColor
@@ -177,11 +178,7 @@ class DoodlesViewController: UIViewController {
     }
     
     @objc private func settingsButtonPressed() {
-        guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else {
-            return
-        }
-        
-        UIApplication.shared.open(settingsURL, options: [:])
+        // Use in app settings instead
     }
     
     // MARK: - Helpers
