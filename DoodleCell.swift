@@ -18,6 +18,7 @@ class DoodleCell: UICollectionViewCell {
         
         layer.borderColor = UIColor.doodlerRed.cgColor
         imageView.clipsToBounds = true
+        layer.cornerRadius = 5
     }
     
     override func prepareForReuse() {
