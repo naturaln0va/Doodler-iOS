@@ -5,8 +5,7 @@ class DoodlesViewController: UIViewController {
     
     private var doodles = [Doodle]() {
         didSet {
-            toolbarItems = doodles.isEmpty ? [] : [editButtonItem]
-            navigationController?.setToolbarHidden(doodles.isEmpty, animated: doodles.isEmpty)
+            editButtonItem.isEnabled = !doodles.isEmpty
         }
     }
     
@@ -28,9 +27,9 @@ class DoodlesViewController: UIViewController {
             }
             
             let shouldEnableBarButton = !selectedDoodles.isEmpty
-            navigationItem.rightBarButtonItems?.forEach { item in
-                item.isEnabled = shouldEnableBarButton
-            }
+
+            trashButtonItem.isEnabled = shouldEnableBarButton
+            actionButtonItem.isEnabled = shouldEnableBarButton
         }
     }
     
@@ -44,16 +43,35 @@ class DoodlesViewController: UIViewController {
         return wobble
     }()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        title = NSLocalizedString("DOODLES", comment: "Doodles")
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
+    private lazy var addButtonItem = {
+        return UIBarButtonItem(
             barButtonSystemItem: .add,
             target: self,
             action: #selector(addButtonPressed)
         )
+    }()
+    
+    private lazy var trashButtonItem = {
+        return UIBarButtonItem(
+            barButtonSystemItem: .trash,
+            target: self,
+            action: #selector(deleteButtonPressed)
+        )
+    }()
+    
+    private lazy var actionButtonItem = {
+        return UIBarButtonItem(
+            barButtonSystemItem: .action,
+            target: self,
+            action: #selector(shareButtonPressed)
+        )
+    }()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        title = NSLocalizedString("DOODLES", comment: "Doodles")
+        navigationController?.setToolbarHidden(false, animated: false)
         
 //        navigationItem.leftBarButtonItem = UIBarButtonItem(
 //            image: UIImage(systemName: "gear"),
@@ -78,6 +96,8 @@ class DoodlesViewController: UIViewController {
         
         view.addSubview(collectionView)                
         view.addConstraints(NSLayoutConstraint.constraints(forPinningViewToSuperview: collectionView))
+        
+        refreshToolbarItems()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -96,33 +116,9 @@ class DoodlesViewController: UIViewController {
         
         collectionView.allowsSelection = !editing
         collectionView.allowsMultipleSelection = editing
-        
-        if editing {
-            navigationItem.rightBarButtonItems = [
-                UIBarButtonItem(
-                    barButtonSystemItem: .trash,
-                    target: self,
-                    action: #selector(deleteButtonPressed)
-                ),
-                UIBarButtonItem(
-                    barButtonSystemItem: .action,
-                    target: self, 
-                    action: #selector(shareButtonPressed)
-                )
-            ]
-            navigationItem.rightBarButtonItems?.forEach { item in
-                item.isEnabled = false
-            }
-        }
-        else {
-            navigationItem.rightBarButtonItems = nil
-            navigationItem.rightBarButtonItem = UIBarButtonItem(
-                barButtonSystemItem: .add,
-                target: self,
-                action: #selector(addButtonPressed)
-            )
-            selectedDoodles.removeAll()
-        }
+                
+        refreshToolbarItems()
+        selectedDoodles.removeAll()
         
         collectionView.reloadItems(at: collectionView.indexPathsForVisibleItems)
     }
@@ -183,6 +179,26 @@ class DoodlesViewController: UIViewController {
     
     // MARK: - Helpers
     
+    private func refreshToolbarItems() {
+        var toolbarItems = [UIBarButtonItem]()
+        
+        let flexibleSpaceItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let fixedSpaceItem = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
+        fixedSpaceItem.width = 18
+
+        if isEditing {
+            trashButtonItem.isEnabled = false
+            actionButtonItem.isEnabled = false
+            
+            toolbarItems = [editButtonItem, flexibleSpaceItem, trashButtonItem, fixedSpaceItem, actionButtonItem]
+        }
+        else {
+            toolbarItems = [editButtonItem, flexibleSpaceItem, addButtonItem]
+        }
+        
+        self.toolbarItems = toolbarItems
+    }
+    
     private func startNewDoodle() {
         setEditing(false, animated: true)
         
@@ -208,7 +224,7 @@ class DoodlesViewController: UIViewController {
                 collectionView.insertItems(at: [IndexPath(item: 0, section: 0)])
             }
         }
-        else if doodles.count == 0 {
+        else if doodles.count == 0 && collectionView.numberOfSections > 0 {
             collectionView.deleteSections(IndexSet([0]))
         }
         else if doodles.count < prevDoodles.count {
@@ -217,7 +233,9 @@ class DoodlesViewController: UIViewController {
             }
         }
         
-        collectionView.reloadItems(at: collectionView.indexPathsForVisibleItems)
+        if !doodles.isEmpty {
+            collectionView.reloadItems(at: collectionView.indexPathsForVisibleItems)
+        }
     }
     
 }
