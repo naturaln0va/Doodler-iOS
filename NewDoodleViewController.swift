@@ -16,7 +16,8 @@ class NewDoodleViewController: UIViewController {
     weak var delegate: NewDoodleViewControllerDelegate?
     
     private let maxSideLength: Int = 15000
-    
+    private let minSideLength: Int = 50
+
     private var inputSize: (width: Int, height: Int) {
         let width = Int(widthTextField.text ?? "0") ?? 0
         let height = Int(heightTextField.text ?? "0") ?? 0
@@ -35,7 +36,19 @@ class NewDoodleViewController: UIViewController {
         }
         return maxSideLength
     }
-    
+    private var minWidth: Int {
+        let aspectRatio = aspectView.aspectRatio
+        if aspectSwitch.isOn {
+            if aspectRatio > 1 {
+                return Int(CGFloat(minSideLength) * aspectRatio)
+            }
+            else {
+                return minSideLength
+            }
+        }
+        return minSideLength
+    }
+
     private var maxHeight: Int {
         let aspectRatio = aspectView.aspectRatio
         if aspectSwitch.isOn {
@@ -47,6 +60,18 @@ class NewDoodleViewController: UIViewController {
             }
         }
         return maxSideLength
+    }
+    private var minHeight: Int {
+        let aspectRatio = aspectView.aspectRatio
+        if aspectSwitch.isOn {
+            if aspectRatio > 1 {
+                return minSideLength
+            }
+            else {
+                return Int(CGFloat(minSideLength) / aspectRatio)
+            }
+        }
+        return minSideLength
     }
 
     override func viewDidLoad() {
@@ -120,6 +145,26 @@ class NewDoodleViewController: UIViewController {
     }
     
     @objc private func textFieldDidChange(_ textField: UITextField) {
+        defer {
+            if inputSize.width > maxWidth {
+                widthTextField.text = String(maxWidth)
+            }
+            else if inputSize.width < minWidth {
+                widthTextField.text = String(minWidth)
+            }
+            
+            if inputSize.height > maxHeight {
+                heightTextField.text = String(maxHeight)
+            }
+            else if inputSize.height < minHeight {
+                heightTextField.text = String(minHeight)
+            }
+            
+            if !aspectSwitch.isOn {
+                aspectView.aspectRatio = CGFloat(inputSize.width) / CGFloat(inputSize.height)
+            }
+        }
+        
         guard inputSize.width > 0 && inputSize.height > 0 else {
             navigationItem.rightBarButtonItem?.isEnabled = false
             return
@@ -130,7 +175,6 @@ class NewDoodleViewController: UIViewController {
         }
                         
         guard aspectSwitch.isOn else {
-            aspectView.aspectRatio = CGFloat(inputSize.width) / CGFloat(inputSize.height)
             return
         }
         
@@ -139,14 +183,6 @@ class NewDoodleViewController: UIViewController {
         }
         else {
             widthTextField.text = String(Int(round(CGFloat(inputSize.height) * aspectView.aspectRatio)))
-        }
-        
-        if inputSize.width > maxWidth {
-            widthTextField.text = String(maxWidth)
-        }
-        
-        if inputSize.height > maxHeight {
-            heightTextField.text = String(maxHeight)
         }
     }
     
