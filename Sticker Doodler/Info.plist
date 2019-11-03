@@ -4,8 +4,6 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
-    <key>NSPhotoLibraryAddUsageDescription</key>
-    <string>Allow access so you can save your Doodles.</string>
 	<key>CFBundleDisplayName</key>
 	<string>Doodler</string>
 	<key>CFBundleExecutable</key>
@@ -29,5 +27,7 @@
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.message-payload-provider</string>
 	</dict>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Allow access so you can save your Doodles.</string>
 </dict>
 </plist>
