@@ -158,7 +158,7 @@ class DoodlesViewController: UIViewController {
     @objc private func shareButtonPressed() {
         var items: [Any] = [
             NSLocalizedString("DOODLERSHARE", comment: "Made with Doodler"),
-            URL(string: "https://itunes.apple.com/us/app/doodler-simple-drawing/id948139703?mt=8")!
+            URL(string: "https://apps.apple.com/us/app/doodler-sticker-drawing/id948139703")!
         ]
         
         items.append(contentsOf: selectedDoodles.map { $0.previewImage })
