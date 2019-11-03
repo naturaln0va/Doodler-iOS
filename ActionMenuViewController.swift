@@ -212,18 +212,6 @@ class ActionMenuViewController: UIViewController {
         
         view.addConstraint(
             NSLayoutConstraint(
-                item: undoButton,
-                attribute: .width,
-                relatedBy: .equal,
-                toItem: nil,
-                attribute: .notAnAttribute,
-                multiplier: 1,
-                constant: 90
-            )
-        )
-        
-        view.addConstraint(
-            NSLayoutConstraint(
                 item: redoButton,
                 attribute: .width,
                 relatedBy: .equal,

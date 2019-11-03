@@ -9,12 +9,16 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NewDoodleViewController" customModule="Doodler" customModuleProvider="target">
             <connections>
+                <outlet property="aspectRatioLabel" destination="djv-GO-0kl" id="56B-Wd-uuO"/>
                 <outlet property="aspectSwitch" destination="8a6-fB-x5H" id="Mkm-BT-3Vh"/>
                 <outlet property="aspectView" destination="amB-Ob-ZO1" id="NBg-EX-G8j"/>
+                <outlet property="dimensionsLabel" destination="2XS-rz-RJr" id="eju-UY-UFS"/>
                 <outlet property="formContainerView" destination="0bD-t4-xBC" id="6mf-6f-7g7"/>
+                <outlet property="heightLabel" destination="K7x-Ld-KOc" id="mW2-Xk-Dgd"/>
                 <outlet property="heightTextField" destination="oDb-Ol-3F8" id="Tcj-Wj-xMd"/>
                 <outlet property="screenSizeButton" destination="b2N-Uc-p8P" id="CVN-uF-NwM"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="widthLabel" destination="b13-va-X12" id="0gO-Zv-uE0"/>
                 <outlet property="widthTextField" destination="3Yi-X5-4IL" id="D0f-ZO-boC"/>
             </connections>
         </placeholder>

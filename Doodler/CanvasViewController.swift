@@ -304,6 +304,7 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @objc private func actionButtonPressed() {
         let vc = ActionMenuViewController(isPresentingWithinMessages: isPresentingWithinMessages)
+        vc.loadViewIfNeeded()
         
         vc.delegate = self
         vc.drawableView = canvas

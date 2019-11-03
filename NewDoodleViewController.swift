@@ -10,6 +10,10 @@ class NewDoodleViewController: UIViewController {
     @IBOutlet var aspectView: AspectPreviewView!
     @IBOutlet var widthTextField: UITextField!
     @IBOutlet var heightTextField: UITextField!
+    @IBOutlet var aspectRatioLabel: UILabel!
+    @IBOutlet var dimensionsLabel: UILabel!
+    @IBOutlet var widthLabel: UILabel!
+    @IBOutlet var heightLabel: UILabel!
     @IBOutlet var formContainerView: UIView!
     @IBOutlet var aspectSwitch: UISwitch!
     @IBOutlet var screenSizeButton: UIButton!
@@ -91,6 +95,11 @@ class NewDoodleViewController: UIViewController {
         screenSizeButton.setTitle(NSLocalizedString("USESCREENSIZE", comment: "Use Screen Size"), for: .normal)
         screenSizeButton.addTarget(self, action: #selector(screenSizeButtonPressed), for: .primaryActionTriggered)
         
+        dimensionsLabel.text = NSLocalizedString("CANVASDIMENSIONS", comment: "Canvas Dimensions")
+        aspectRatioLabel.text = NSLocalizedString("MAINTAINASPECTRATIO", comment: "Maintain aspect ratio")
+        widthLabel.text = NSLocalizedString("WIDTH", comment: "Width")
+        heightLabel.text = NSLocalizedString("HEIGHT", comment: "Height")
+
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             title: NSLocalizedString("CANCEL", comment: "Cancel"),
             style: .plain,

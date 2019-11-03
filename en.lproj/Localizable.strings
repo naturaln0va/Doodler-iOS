@@ -1,4 +1,5 @@
 "CANCEL" = "Cancel";
+"CANVASDIMENSIONS" = "Canvas Dimensions";
 "CLEAR" = "Clear";
 "CLEARPROMPT" = "Would you like to clear the screen?";
 "CREATE" = "Create";
@@ -8,9 +9,9 @@
 "DRAW" = "Draw";
 "ERASE" = "Erase";
 "ERRORSAVING" = "Error saving doodle.";
-"IMPORT.FILES" = "Import From Files";
+"HEIGHT" = "Height";
+"MAINTAINASPECTRATIO" = "Maintain aspect ratio";
 "NEWDOODLE" = "New Doodle";
-"OPENSETTINGS" = "Open Settings";
 "PICKCOLOR" = "Pick Color";
 "REDO" = "Redo";
 "SELECT" = "Select";
@@ -20,3 +21,4 @@
 "USESCREENSIZE" = "Use Screen Size";
 "WARNING" = "Warning";
 "WARNINGPROMPT" = "Are you sure you want to delete these doodles?";
+"WIDTH" = "Width";
