@@ -68,7 +68,8 @@ class ActionMenuViewController: UIViewController {
     }
     
     var contentSize: CGSize {
-        return view.systemLayoutSizeFitting(UIView.layoutFittingExpandedSize)
+        let size = view.systemLayoutSizeFitting(UIView.layoutFittingExpandedSize)
+        return CGSize(width: max(175, size.width), height: size.height)
     }
     
     init(isPresentingWithinMessages: Bool) {
