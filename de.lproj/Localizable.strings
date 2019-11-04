@@ -4,14 +4,14 @@
 "CLEARPROMPT" = "Möchten Sie den Bildschirm zu löschen?";
 "CREATE" = "Erstellen";
 "DELETE" = "Löschen";
-"DOODLES" = "Doodles";
+"DOODLES" = "Gekritzels";
 "DOODLERSHARE" = "Hergestellt mit Doodler";
 "DRAW" = "Unentschieden";
 "ERASE" = "Löschen";
-"ERRORSAVING" = "Fehler beim Speichern von doodle.";
+"ERRORSAVING" = "Fehler beim Speichern das Gekritzel.";
 "HEIGHT" = "Höhe";
 "MAINTAINASPECTRATIO" = "Seitenverhältnis beibehalten";
-"NEWDOODLE" = "Neues Doodle";
+"NEWDOODLE" = "Neues Gekritzel";
 "PICKCOLOR" = "Wählen Sie Farbe";
 "REDO" = "Wiederholen";
 "SELECT" = "Wählen";
