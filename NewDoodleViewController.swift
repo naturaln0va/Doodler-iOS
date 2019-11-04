@@ -169,20 +169,16 @@ class NewDoodleViewController: UIViewController {
             if inputSize.width > maxWidth {
                 widthTextField.text = String(maxWidth)
             }
-            else if inputSize.width < minWidth {
-                widthTextField.text = String(minWidth)
-            }
-            
             if inputSize.height > maxHeight {
                 heightTextField.text = String(maxHeight)
-            }
-            else if inputSize.height < minHeight {
-                heightTextField.text = String(minHeight)
             }
             
             if !aspectSwitch.isOn {
                 aspectView.aspectRatio = CGFloat(inputSize.width) / CGFloat(inputSize.height)
             }
+            
+            let isSizeLargeEnough = inputSize.width > minWidth && inputSize.height > minHeight
+            navigationItem.rightBarButtonItem?.isEnabled = isSizeLargeEnough
         }
         
         guard inputSize.width > 0 && inputSize.height > 0 else {
